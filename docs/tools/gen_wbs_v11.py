@@ -458,7 +458,8 @@ xc("XC-FND-02", "XFND", "Monorepo scaffold and local development environment",
    "Create repository per REPOSITORY_STRUCTURE_v1.0 (apps/web, services/api, services/worker, packages/kernel, packages/contracts); docker compose with proxy, web, api, worker, postgres, storage fake; health endpoints.",
    ["VER-20", "NFR-07"], [], ["BL-001", "IF-01", "IF-04"], "M0", "QA_OPS", (2, 3, 5), ["XC-FND-01"],
    "Repository skeleton + compose file + README", "Every later task lands in a fixed structure",
-   "`docker compose up` starts all services; health endpoints return 200; make/just targets documented", "CI smoke job", "CI", "DoD-STD + DoD-C")
+   "`docker compose up` starts all services; health endpoints return 200; make/just targets documented", "CI smoke job", "CI", "DoD-STD + DoD-C",
+   status="Done 2026-11-17 (commit 8176603 on main; CI smoke green)")
 xc("XC-FND-03", "XFND", "CI pipeline with staged quality gates",
    "GitHub Actions stages lint, unit, determinism, integration, oracle, security, e2e, performance (GEOMETRY_TESTING_STRATEGY §7); branch protection; required checks; artefact retention.",
    ["VER-20", "VER-07", "SEC-09"], ["FN-OPS-01", "FN-OPS-02"], ["BL-002"], "M0", "QA_OPS", (2, 4, 6), ["XC-FND-02"],
