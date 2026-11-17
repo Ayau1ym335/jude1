@@ -37,10 +37,11 @@ Next.js UI + three.js viewer → same-origin Caddy proxy → FastAPI domain API 
 7. Human-only tasks (do not do them yourself, prepare drafts and stop): XC-FND-01 (countersign decisions), XC-FND-10 (document updates needing owner sign-off), anything on the EXT-01…07 list (privacy inspection, clinic data, legal review, hardware access).
 8. If a requirement is unclear or conflicts with a decision, stop and ask. Do not invent clinical rules.
 
-## Commands (fill in once XC-FND-02/04 land)
-- Python: `uv sync` · `uv run pytest` · `uv run ruff check` · `uv run mypy`
-- Web: `pnpm install` · `pnpm test` · `pnpm lint`
-- Stack: `docker compose up`
+## Commands (XC-FND-02 landed; lint/type commands complete once XC-FND-04 lands)
+- Stack: `just up` (= `cp .env.example .env` + `docker compose up --build --detach --wait`) · `just smoke` (all health endpoints 200) · `just down` / `just reset`
+- Python: `uv sync --locked` · `uv run pytest` · `uv run ruff check` · `uv run mypy` (last two after XC-FND-04)
+- Web: `pnpm install --frozen-lockfile` · `pnpm build` · `pnpm lint` / `pnpm test` (after XC-FND-04 / web test task)
+- Toolchain: Python 3.12, uv 0.10.6, Node 26.13.1 LTS, pnpm 12.21.0 (Node ≥ 25 has no corepack: `npm i -g pnpm@12.21.0`), just via `uv tool install rust-just`. Images linux/amd64, base images pinned by digest.
 - Geometry regression/golden hashes: see `docs/plan/DEVELOPMENT_TEST_PLAN_v1.1.md`
 
 ## Docs layout

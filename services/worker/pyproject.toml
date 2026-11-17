@@ -1,0 +1,19 @@
+[project]
+name = "jude-worker"
+version = "0.0.0"
+description = "Jude geometry worker: claims jobs from the Postgres queue and runs kernel ops via IF-03."
+requires-python = "==3.12.*"
+dependencies = [
+    "jude-kernel",
+    "psycopg[binary]",
+]
+
+[project.scripts]
+jude-worker = "jude_worker.main:main"
+
+[tool.uv.sources]
+jude-kernel = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.10.6,<0.11"]
+build-backend = "uv_build"

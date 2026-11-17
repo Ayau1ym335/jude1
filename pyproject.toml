@@ -1,0 +1,44 @@
+# Jude monorepo — Python workspace root (uv). Not a package itself.
+# Python 3.12, linux/amd64 images (IDR-09). Lockfile: uv.lock.
+[project]
+name = "jude-workspace"
+version = "0.0.0"
+requires-python = "==3.12.*"
+dependencies = [
+    "jude-kernel",
+    "jude-api",
+    "jude-worker",
+    "jude-storage-fake",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "httpx2",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = [
+    "packages/kernel",
+    "services/api",
+    "services/worker",
+    "tools/storage_fake",
+]
+
+[tool.uv.sources]
+jude-kernel = { workspace = true }
+jude-api = { workspace = true }
+jude-worker = { workspace = true }
+jude-storage-fake = { workspace = true }
+
+[tool.pytest.ini_options]
+testpaths = [
+    "packages/kernel/tests",
+    "services/api/tests",
+    "services/worker/tests",
+    "tools/storage_fake/tests",
+]
+addopts = "-ra --strict-markers --import-mode=importlib"

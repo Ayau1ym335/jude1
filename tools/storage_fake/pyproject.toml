@@ -1,0 +1,13 @@
+[project]
+name = "jude-storage-fake"
+version = "0.0.0"
+description = "Dev/test-only content-addressed blob store standing in for Supabase Storage. Never deployed."
+requires-python = "==3.12.*"
+dependencies = []
+
+[project.scripts]
+jude-storage-fake = "jude_storage_fake.server:main"
+
+[build-system]
+requires = ["uv_build>=0.10.6,<0.11"]
+build-backend = "uv_build"

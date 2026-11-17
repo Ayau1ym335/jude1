@@ -1,0 +1,36 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Node / Next.js
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+.pnpm-store/
+
+# Patient data must never enter the repo (SEC-17). Synthetic fixtures live under tests/ with explicit names.
+*.stl
+*.ply
+*.obj
+!tests/fixtures/**/*.stl
+!tests/fixtures/**/*.ply
+!tests/fixtures/**/*.obj
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

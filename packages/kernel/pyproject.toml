@@ -1,0 +1,10 @@
+[project]
+name = "jude-kernel"
+version = "0.0.0"
+description = "Jude geometry kernel: pure functions, arrays + explicit params in, OpResult out (IF-03)."
+requires-python = "==3.12.*"
+dependencies = []
+
+[build-system]
+requires = ["uv_build>=0.10.6,<0.11"]
+build-backend = "uv_build"

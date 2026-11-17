@@ -1,0 +1,30 @@
+# C0 reverse proxy (IDR-07): one origin, /api/* -> FastAPI, everything else -> Next.js.
+# Local development listens on plain HTTP; TLS >= 1.2 is configured in the deployment Caddyfile (XC-FND-07).
+{
+	admin off
+	auto_https off
+}
+
+:80 {
+	encode zstd gzip
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy no-referrer
+		X-Frame-Options DENY
+		-Server
+	}
+
+	# Liveness of the proxy itself (container healthcheck); does not depend on upstreams.
+	handle /proxy-healthz {
+		respond `{"status":"ok","service":"proxy"}` 200
+	}
+
+	handle /api/* {
+		reverse_proxy api:8000
+	}
+
+	handle {
+		reverse_proxy web:3000
+	}
+}
