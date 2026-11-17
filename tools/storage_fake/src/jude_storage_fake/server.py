@@ -13,8 +13,8 @@ HTTP surface (stdlib only):
   DELETE /blobs/<sha256>   -> 405
 """
 
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import hashlib
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import os
 from pathlib import Path
 import re
@@ -47,7 +47,7 @@ def make_server(host: str, port: int, root: Path) -> ThreadingHTTPServer:
             sha = self.path[len(BLOB_PREFIX) :]
             return sha if SHA256_RE.fullmatch(sha) else None
 
-        def do_GET(self) -> None:  # noqa: N802
+        def do_GET(self) -> None:
             if self.path == "/healthz":
                 self._reply(200, b'{"status":"ok","service":"storage-fake"}', "application/json")
                 return
@@ -61,12 +61,12 @@ def make_server(host: str, port: int, root: Path) -> ThreadingHTTPServer:
                 return
             self._reply(200, path.read_bytes(), "application/octet-stream")
 
-        def do_HEAD(self) -> None:  # noqa: N802
+        def do_HEAD(self) -> None:
             sha = self._key()
             exists = sha is not None and blob_path(root, sha).is_file()
             self._reply(200 if exists else 404)
 
-        def do_PUT(self) -> None:  # noqa: N802
+        def do_PUT(self) -> None:
             try:
                 length = int(self.headers.get("Content-Length", "-1"))
             except ValueError:
@@ -104,13 +104,13 @@ def make_server(host: str, port: int, root: Path) -> ThreadingHTTPServer:
                 os.unlink(tmp)
             self._reply(201)
 
-        def do_DELETE(self) -> None:  # noqa: N802
+        def do_DELETE(self) -> None:
             self.send_response(405)
             self.send_header("Allow", "GET, HEAD, PUT")
             self.send_header("Content-Length", "0")
             self.end_headers()
 
-        def log_message(self, format: str, *args: object) -> None:  # noqa: A002
+        def log_message(self, format: str, *args: object) -> None:
             return
 
     return ThreadingHTTPServer((host, port), Handler)

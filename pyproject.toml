@@ -15,6 +15,10 @@ dependencies = [
 dev = [
     "pytest",
     "httpx2",
+    "ruff>=0.17.5",
+    "mypy>=2.4.1",
+    "import-linter>=2.16",
+    "pre-commit>=4.7.0",
 ]
 
 [tool.uv]
@@ -40,5 +44,94 @@ testpaths = [
     "services/api/tests",
     "services/worker/tests",
     "tools/storage_fake/tests",
+    "tools/lint_selftest/tests",
 ]
-addopts = "-ra --strict-markers --import-mode=importlib"
+# Seeded-violation self-test needs the JS toolchain; run it explicitly: pytest -m lint_selftest
+addopts = "-ra --strict-markers --import-mode=importlib -m 'not lint_selftest'"
+markers = [
+    "lint_selftest: seeded violations must fail each lint gate (XC-FND-04); needs uv + pnpm deps",
+]
+
+# ---------------------------------------------------------------------------
+# Coding-standard tooling (XC-FND-04). Engineering lead decision 2026-11-17:
+# ruff rule set below, line length 100, mypy --strict for every Python package.
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = [
+    "packages/kernel/src",
+    "services/api/src",
+    "services/worker/src",
+    "tools/storage_fake/src",
+]
+# docs/tools holds one-off planning generators, not product code.
+extend-exclude = ["docs"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "S", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**" = ["S101", "S310"]  # assert is the pytest idiom; urlopen on 127.0.0.1 test servers
+"tools/lint_selftest/**" = ["S101", "S603"]  # runs the lint tools as subprocesses with fixed argv
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = ["jude_kernel", "jude_api", "jude_worker", "jude_storage_fake"]
+
+[tool.ruff.format]
+line-ending = "lf"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+files = [
+    "packages/kernel/src",
+    "packages/kernel/tests",
+    "services/api/src",
+    "services/api/tests",
+    "services/worker/src",
+    "services/worker/tests",
+    "tools/storage_fake/src",
+    "tools/storage_fake/tests",
+    "tools/archlint",
+    "tools/lint_selftest/tests",
+]
+
+# Layer rules (TECHNICAL_DESIGN architecture; DEVELOPMENT_STANDARDS §5 kernel purity, IF-03).
+[tool.importlinter]
+root_packages = ["jude_kernel", "jude_api", "jude_worker", "jude_storage_fake"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+id = "kernel-pure"
+name = "Kernel is pure: no file/OS/network I/O, clock, randomness, threads or DB access"
+type = "forbidden"
+source_modules = ["jude_kernel"]
+forbidden_modules = [
+    "os", "pathlib", "shutil", "tempfile", "glob", "socket", "ssl", "http", "urllib",
+    "subprocess", "multiprocessing", "threading", "concurrent", "asyncio", "signal",
+    "time", "datetime", "random", "secrets", "uuid", "sqlite3", "logging", "importlib",
+    "psycopg", "fastapi", "starlette", "httpx", "httpx2",
+]
+
+[[tool.importlinter.contracts]]
+id = "kernel-leaf"
+name = "Kernel does not depend on services or dev tools"
+type = "forbidden"
+source_modules = ["jude_kernel"]
+forbidden_modules = ["jude_api", "jude_worker", "jude_storage_fake"]
+
+[[tool.importlinter.contracts]]
+id = "no-dev-fakes-in-services"
+name = "Shipped services never import the dev-only storage fake"
+type = "forbidden"
+source_modules = ["jude_api", "jude_worker"]
+forbidden_modules = ["jude_storage_fake"]
+
+[[tool.importlinter.contracts]]
+id = "api-worker-independent"
+name = "API and worker talk only through the Postgres job queue, never by import"
+type = "independence"
+modules = ["jude_api", "jude_worker"]

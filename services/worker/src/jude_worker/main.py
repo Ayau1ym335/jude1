@@ -11,8 +11,9 @@ import os
 import signal
 import threading
 
-import jude_kernel
 import psycopg
+
+import jude_kernel
 
 DB_CONNECT_TIMEOUT_S = 2
 HEALTH_PATH = "/healthz"
@@ -30,7 +31,7 @@ def postgres_check() -> None:
 def health_payload(db_check: DbCheck) -> tuple[int, dict[str, object]]:
     try:
         db_check()
-    except Exception:  # noqa: BLE001 — any failure means "not healthy"; details stay out of the response
+    except Exception:  # any failure means "not healthy"; details stay out of the response
         return 503, {"status": "unavailable", "service": "worker", "checks": {"database": "fail"}}
     return 200, {
         "status": "ok",
@@ -42,7 +43,7 @@ def health_payload(db_check: DbCheck) -> tuple[int, dict[str, object]]:
 
 def make_health_server(host: str, port: int, db_check: DbCheck) -> ThreadingHTTPServer:
     class HealthHandler(BaseHTTPRequestHandler):
-        def do_GET(self) -> None:  # noqa: N802 — stdlib naming
+        def do_GET(self) -> None:
             if self.path != HEALTH_PATH:
                 self.send_error(404)
                 return
@@ -54,7 +55,7 @@ def make_health_server(host: str, port: int, db_check: DbCheck) -> ThreadingHTTP
             self.end_headers()
             self.wfile.write(body)
 
-        def log_message(self, format: str, *args: object) -> None:  # noqa: A002
+        def log_message(self, format: str, *args: object) -> None:
             return  # access logs come with XC-FND-11 structured logging
 
     return ThreadingHTTPServer((host, port), HealthHandler)

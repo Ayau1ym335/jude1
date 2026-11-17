@@ -5,6 +5,19 @@ description = "Jude geometry kernel: pure functions, arrays + explicit params in
 requires-python = "==3.12.*"
 dependencies = []
 
+# Kernel-only additions to the root ruff config. import-linter covers module imports;
+# ruff catches submodules of allowed packages; tools/archlint/kernel_builtins.py catches
+# I/O builtins (open, input, exec, ...), which neither of them can see.
+[tool.ruff]
+extend = "../../pyproject.toml"
+
+[tool.ruff.lint]
+extend-select = ["T20", "TID251"]  # no print(); banned APIs below
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"numpy.random".msg = "Kernel is deterministic: no randomness (DEVELOPMENT_STANDARDS §5)."
+"io.open".msg = "Kernel is pure: no file I/O (IF-03)."
+
 [build-system]
 requires = ["uv_build>=0.10.6,<0.11"]
 build-backend = "uv_build"

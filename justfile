@@ -42,6 +42,33 @@ sync:
 test:
     uv run pytest
 
-# Lint/format/type gates arrive with XC-FND-04
-lint:
-    @echo "lint tooling is set up by XC-FND-04 (ruff, mypy, eslint, import-linter)"
+# All coding-standard and architecture gates — same as the CI lint workflow
+lint: lint-py lint-web
+
+# Python: ruff, format check, mypy --strict, import-linter layer contracts, kernel builtins
+lint-py:
+    uv run --frozen ruff check
+    uv run --frozen ruff format --check
+    uv run --frozen mypy
+    uv run --frozen lint-imports --no-cache
+    uv run --frozen python tools/archlint/kernel_builtins.py
+
+# Web: eslint (incl. "UI never imports kernel"), prettier check, tsc --noEmit
+lint-web:
+    pnpm --filter @jude/web lint
+    pnpm --filter @jude/web format:check
+    pnpm --filter @jude/web typecheck
+
+# Apply ruff fixes + formatting and prettier
+fmt:
+    uv run --frozen ruff check --fix
+    uv run --frozen ruff format
+    pnpm --filter @jude/web format
+
+# Prove every gate rejects a seeded violation and accepts its clean counterpart
+lint-selftest:
+    uv run --frozen pytest -m lint_selftest
+
+# Install the pre-commit and commit-msg git hooks
+hooks:
+    uv run --frozen pre-commit install
