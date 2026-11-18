@@ -6,7 +6,7 @@
 | Requirement | SEC-09 |
 | Date | 2026-11-19 |
 | Scope | Python 3.12 · linux/amd64 only (IDR-09 narrowed the original 3.12/3.13 × amd64/arm64 matrix) |
-| Status | **Results complete — recommendation awaits engineering-lead signature (§7)** |
+| Status | **Accepted** — recommendation §6 signed by the engineering lead on 2026-11-19 (§7) |
 
 ## 1. Question
 
@@ -93,7 +93,11 @@ The local host is slower and noisier because Docker Desktop runs in a WSL2 VM sh
 
 | Role | Name | Date | Decision |
 |---|---|---|---|
-| Engineering lead | | | ☐ Accept §6 ☐ Accept with changes ☐ Reject |
+| Engineering lead | Ayau | 2026-11-19 | ☑ Accept §6 ☐ Accept with changes ☐ Reject |
+
+Form of approval: written statement in the implementation session on 2026-11-19, "отчёт X-08 (§7 в docs/experiments/XC-EXP-08.md) подписано". No changes to §6 were requested.
+
+**Effect:** TQ-09 is closed with the set in §6.1. Items §6.2–§6.5 are carried into the production worker image when the worker task that first needs these libraries lands; §6.3 (BLAS kernel path) is decided in X-06 / BM-03. §6.6 (pyphen licence election) still needs legal confirmation outside engineering.
 
 ## 8. Reproduce
 
