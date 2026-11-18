@@ -497,7 +497,8 @@ xc("XC-FND-10", "XFND", "Documentation baseline alignment",
    "Regenerate SRS v0.3 from RTM v0.3 (OQ-FS-34); RTM v0.4 rows for case list/search and synthetic-surface warning (IDR-28); test catalogue v0.4 with T13-T15 and UT IDs; retire BL-112; backlog text fix BL-030/BL-115 (OQ-FS-05).",
    ["FR-004", "FR-021", "VER-20"], [], ["OQ-FS-34", "OQ-FS-05", "OQ-FS-35", "IDR-28"], "M0", "EXT", (2, 3, 5), ["XC-FND-01"],
    "SRS v0.3, RTM v0.4, test catalogue v0.4 in project", "Docs and code share one requirement baseline", "check_docs passes: every MVP requirement has >= 1 task and >= 1 test ID", "DOC-CHK", "Inspection", "DoD-D",
-   owner="Requirements owner + engineering lead", skills=SKILLS["EXT"])
+   owner="Requirements owner + engineering lead", skills=SKILLS["EXT"],
+   status="Done 2026-11-19 (PR #7 merged; DOC-CHK pass)")
 xc("XC-FND-11", "XFND", "Structured logging, correlation IDs and error middleware",
    "JSON logs (no personal data, no mesh data), correlation_id propagated UI->API->job->kernel report, EH-API mapping to DS-24, health/readiness endpoints, basic metrics.",
    ["NFR-07", "NFR-08", "SEC-18"], ["FN-API-02"], ["DS-24", "DEVELOPMENT_STANDARDS §8-9"], "M0", "BACKEND", (1.5, 2.5, 4), ["XC-FND-02"],
