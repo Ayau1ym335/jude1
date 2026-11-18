@@ -505,7 +505,8 @@ xc("XC-FND-11", "XFND", "Structured logging, correlation IDs and error middlewar
 xc("XC-FND-12", "XSHR", "Kernel contracts: MeshArrays, jude-arr/1, OpResult, kernel runner",
    "DS-01 MeshArrays value type, jude-arr/1 canonical container (own header, no pickle/zip timestamps - IDR-15), DS-05 OpResult, IF-03 runner stamping op_version/kernel_version/image digest.",
    ["FR-052", "VER-07", "FR-011"], ["FN-KRP-04", "FN-BLB-01"], ["DS-01", "DS-05", "IF-03", "TQ-25", "TD-19", "TD-21"], "M0", "KERNEL", (2, 3, 5), ["XC-FND-02"],
-   "packages/kernel/src/jude_kernel/core/", "Every kernel op shares one typed contract", "Round-trip of jude-arr/1 bit-exact; −0.0 canonicalised; runner rejects I/O imports (import-linter)", "UT-core; PT-jude-arr", "UT, PT", "DoD-STD + DoD-K", gate="IDR-15")
+   "packages/kernel/src/jude_kernel/core/", "Every kernel op shares one typed contract", "Round-trip of jude-arr/1 bit-exact; −0.0 canonicalised; runner rejects I/O imports (import-linter)", "UT-core; PT-jude-arr", "UT, PT", "DoD-STD + DoD-K", gate="IDR-15",
+   status="Done 2026-11-19 (PR #3 merged; CI green)")
 xc("XC-SHR-01", "XSHR", "Exact geometric predicates (orient2d/orient3d) port",
    "Port of public-domain Shewchuk adaptive predicates (TD-04) with float filter + exact fallback; tested against Python fractions on adversarial set T13.",
    ["FR-171", "FR-080", "FR-173"], ["FN-KVL-05", "FN-KOP-06", "FN-KMS-04"], ["TD-04", "ALG-11", "ALG-25", "LIB-PREDICATES"], "M0", "KERNEL", (3, 5, 8), ["XC-FND-12", "XC-EXP-06"],
