@@ -464,7 +464,8 @@ xc("XC-FND-03", "XFND", "CI pipeline with staged quality gates",
    "GitHub Actions stages lint, unit, determinism, integration, oracle, security, e2e, performance (GEOMETRY_TESTING_STRATEGY §7); branch protection; required checks; artefact retention.",
    ["VER-20", "VER-07", "SEC-09"], ["FN-OPS-01", "FN-OPS-02"], ["BL-002"], "M0", "QA_OPS", (2, 4, 6), ["XC-FND-02"],
    ".github/workflows/*.yml + branch protection settings record", "Merges blocked on failing gates",
-   "A seeded failing test in each stage blocks merge; pipeline time recorded", "CI self-test", "CI", "DoD-STD + DoD-C")
+   "A seeded failing test in each stage blocks merge; pipeline time recorded", "CI self-test", "CI", "DoD-STD + DoD-C",
+   status="Done 2026-11-19 (PR #9 merged; seeded failures block merge, PR #10)")
 xc("XC-FND-04", "XFND", "Coding-standard tooling and architecture lint",
    "ruff (lint+format), mypy --strict for kernel/api, eslint+prettier+tsc strict for web, import-linter layer contracts (kernel has no I/O imports; UI never imports kernel), commitlint, pre-commit.",
    ["VER-20", "NFR-06"], [], ["DEVELOPMENT_STANDARDS §2-4"], "M0", "QA_OPS", (1, 2, 3), ["XC-FND-02"],

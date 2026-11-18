@@ -68,4 +68,48 @@ Before XC-FND-03, the required checks were the job names of the earlier workflow
 
 ## 5. Pipeline time and seeded-failure evidence
 
-Filled in from the first runs after merge (see below).
+### 5.1 Pipeline time
+
+Merge stages, `ci.yml` run 44411616233 on `main` @ 8722e0c (merge of PR #9), 2026-11-18 22:26:36 → 22:27:43 UTC, GitHub-hosted `ubuntu-24.04`. Jobs run in parallel.
+
+| Job | Duration | Target (DEVELOPMENT_TEST_PLAN §5) |
+|---|---|---|
+| lint | 29 s | ≤ 5 min |
+| unit | 21 s | ≤ 10 min |
+| determinism | 22 s | ≤ 10 min (PR) |
+| contract | 15 s | ≤ 2 min |
+| integration | 32 s | ≤ 15 min |
+| smoke | 65 s | — |
+| ci-selftest | 59 s | — |
+| **Whole pipeline (wall clock)** | **67 s** | |
+
+Release and report stages, `nightly.yml` run 44411663717 (manual dispatch on `main`), 2026-11-18 22:26:56 → 22:27:23 UTC, green:
+
+| Job | Duration |
+|---|---|
+| oracle | 21 s |
+| security | 22 s |
+| e2e | 16 s |
+| performance | 21 s |
+
+The release stages hold only their gates so far (§1); their times grow as the owning tasks add content.
+
+### 5.2 A seeded failure in each stage blocks the merge
+
+Demonstration PR #10 (`.github/ci-seed` = `all`), `ci.yml` run 44411699434:
+
+| Stage | Result | Cause seen in the job log |
+|---|---|---|
+| lint | fail | import-linter: `jude_kernel._ci_seed -> os` (contract `kernel-pure` broken) |
+| unit | fail | `seeded failure for CI stage 'unit'` |
+| determinism | fail | `seeded failure for CI stage 'determinism'` |
+| contract | fail | `seeded failure for CI stage 'contract'` |
+| integration | fail | `seeded failure for CI stage 'integration'` |
+| smoke | fail | `FAIL worker` (worker stopped after `compose up`) |
+| ci-selftest | pass | expected: it seeds each stage itself and checks that each one fails |
+
+- GitHub reported `mergeStateStatus = BLOCKED`.
+- `gh pr merge 10 --merge` was refused: "the base branch policy prohibits the merge".
+- PR #10 was closed unmerged and its branch deleted.
+
+The release stages (oracle, security, e2e) and performance are checked on every PR by `ci-selftest`, which runs `scripts/ci/selftest.sh`. Each one exits non-zero on its own seed.
