@@ -1,0 +1,16 @@
+fixture_set,content,oracle,data_class,built_by,v0.4_change
+T1,"Analytic phantoms: icospheres R = 75 mm (s = 4…8), ellipsoids with known CI, asymmetric ellipsoid with known diagonal difference, torus",Analytic + exact-on-mesh oracle,Synthetic,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T2,Open head-like surfaces with varied boundaries for closure,"Plane position, watertightness",Synthetic,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T3,"Defect catalogue: holes of set perimeter, duplicates, flipped faces, non-manifold edge/vertex, self-intersections, ghost layer, extra component, degenerate faces, corrupt/empty/oversize/face-bomb files",Seeded counts,Synthetic,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T4,"Format set: same object in binary/ASCII STL, OBJ (quads, negative indices, textures), PLY ASCII/LE/BE",Equal V/F after import,Synthetic,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T5,Laterality object,Known side,Synthetic,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T6,Sign-convention sphere,+m -> +m,Synthetic,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T7,Metamorphic rigid transforms (exact permutations/power-of-two scalings) and unit scalings,Equality,Synthetic,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T8,"Property-based random zones/magnitudes/offsets (hypothesis, fixed seed database)",Valid or explicit rejection,Synthetic,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T9,"Ten reference designs (incl. a ~20-operation history, CN-2026-11-17 CH-15)",One hash each,Synthetic,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T10,Export round-trip with corruption injection,Detection,Synthetic,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T11,Physical phantom,Calliper/CMM,Physical object,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T12,Real clinic scans >= 3 (only after VER-22),Stable reports,Real data - gated by VER-22 / SEC-17,see DEVELOPMENT_TEST_PLAN_v1.1,registered in v0.4
+T13,"Adversarial predicate set: near-coplanar triangles, 1-ulp offsets, collinear contours, huge/small magnitudes",Rational-arithmetic oracle (Python fractions),Synthetic,XC-SHR-03,new in v0.4
+T14,"Tie fixtures: equidistant faces, planes through vertices/edges",Documented tie rules,Synthetic,XC-SHR-03,new in v0.4
+T15,"Contour set: convex, concave, comb, spiral, near-touching necks",Exact polygon area/simplicity,Synthetic,XC-SHR-03,new in v0.4
