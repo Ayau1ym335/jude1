@@ -474,7 +474,8 @@ xc("XC-FND-05", "XFND", "Database schema baseline, roles and forward-only migrat
    "Five schemas (clinical, geometry, governance, audit, ops), roles app_rw / worker_rw / audit_append (INSERT-only) / admin_ro, Alembic baseline, CHECK constraints (det, enums), migration test on empty DB.",
    ["DATA-01", "DATA-04", "DATA-05", "DATA-09", "DATA-10", "FR-002", "FR-121"], ["FN-AUD-06", "FN-CAS-01", "FN-JOB-01"],
    ["BL-008", "DS-01..DS-25", "TD-13"], "M0", "BACKEND", (3, 5, 8), ["XC-FND-02"],
-   "services/api/migrations/ + schema docs", "Persistent model ready for all services", "Migration up on empty DB passes; audit role cannot UPDATE/DELETE (test)", "TC-DATA-*; IT-schema", "IT", "DoD-STD + DoD-B")
+   "services/api/migrations/ + schema docs", "Persistent model ready for all services", "Migration up on empty DB passes; audit role cannot UPDATE/DELETE (test)", "TC-DATA-*; IT-schema", "IT", "DoD-STD + DoD-B",
+   status="Done 2026-11-19 (PR #6 merged; CI green)")
 xc("XC-FND-06", "XFND", "API contract pipeline (OpenAPI 3.1 -> TypeScript client)",
    "/api/v1 prefix, OpenAPI generated from FastAPI as contract of record, openapi-typescript client generation, contract diff check in CI (additive-only within v1).",
    ["NFR-05", "FR-015"], ["FN-API-02"], ["IF-01", "TD-22"], "M0", "BACKEND", (1.5, 2.5, 4), ["XC-FND-02"],
