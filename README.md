@@ -72,15 +72,13 @@ Without `just`: `cp .env.example .env && docker compose up --build --detach --wa
 
 ## CI
 
-There are three workflows. The staged quality-gate pipeline and branch protection come with XC-FND-03.
+The pipeline is staged (XC-FND-03). Every stage runs `bash scripts/ci/stage.sh <stage>`, the same command you can run locally with `just ci <stage>`.
 
-- `.github/workflows/smoke.yml` checks that `uv.lock` is in sync, runs the unit tests, starts the stack and runs `scripts/smoke.sh`.
-- `.github/workflows/db.yml` runs the migrations on an empty database and the integration tests. The schema is described in [services/api/SCHEMA.md](services/api/SCHEMA.md).
-- `.github/workflows/lint.yml` runs four jobs:
-  - **python:** ruff, format check, `mypy --strict` and import-linter.
-  - **web:** eslint, prettier and `tsc`.
-  - **commits:** commitlint.
-  - **selftest:** checks that seeded violations fail every gate.
+- **`.github/workflows/ci.yml`** runs on every PR and every push to `main`. Its stages block the merge: `lint`, `unit`, `determinism`, `contract`, `integration`, `smoke` and `ci-selftest`. `ci-selftest` checks that every stage fails on a seeded failure.
+- **`.github/workflows/nightly.yml`** runs nightly, on demand and on release tags. `oracle`, `security` and `e2e` block a release; `performance` is report-only.
+- **`main` is protected.** The merge stages are required checks, the branch must be up to date, and the rules apply to administrators too. Every change, including documentation, goes through a PR.
+
+Stages, the tasks that own their content, the seed mechanism, the protection settings and the pipeline timings are recorded in [docs/ops/CI_PIPELINE.md](docs/ops/CI_PIPELINE.md). The database schema is described in [services/api/SCHEMA.md](services/api/SCHEMA.md).
 
 ### Layer rules
 
