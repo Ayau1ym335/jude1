@@ -34,3 +34,9 @@ next-env.d.ts
 Thumbs.db
 .idea/
 .vscode/
+
+# CI / test artefacts (scripts/ci/stage.sh, pytest-cov)
+reports/
+.coverage
+.coverage.*
+coverage.xml
