@@ -1,6 +1,7 @@
 {
   "name": "jude-monorepo",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@12.21.0",
   "engines": {
     "node": ">=26.13.1 <27"
@@ -8,6 +9,13 @@
   "scripts": {
     "build": "pnpm --filter @jude/web build",
     "dev": "pnpm --filter @jude/web dev",
-    "typecheck": "pnpm -r typecheck"
+    "lint": "pnpm -r --if-present lint",
+    "format:check": "pnpm -r --if-present format:check",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "commitlint": "commitlint"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4"
   }
 }

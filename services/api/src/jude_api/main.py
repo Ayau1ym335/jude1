@@ -38,7 +38,7 @@ def create_app(db_check: DbCheck = postgres_check) -> FastAPI:
     def health() -> JSONResponse:
         try:
             db_check()
-        except Exception:  # noqa: BLE001 — any failure means "not healthy"; details stay out of the response
+        except Exception:  # any failure means "not healthy"; details stay out of the response
             return JSONResponse(
                 status_code=503,
                 content={"status": "unavailable", "service": "api", "checks": {"database": "fail"}},

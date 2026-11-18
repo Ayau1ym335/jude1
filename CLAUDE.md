@@ -37,10 +37,13 @@ Next.js UI + three.js viewer → same-origin Caddy proxy → FastAPI domain API 
 7. Human-only tasks (do not do them yourself, prepare drafts and stop): XC-FND-01 (countersign decisions), XC-FND-10 (document updates needing owner sign-off), anything on the EXT-01…07 list (privacy inspection, clinic data, legal review, hardware access).
 8. If a requirement is unclear or conflicts with a decision, stop and ask. Do not invent clinical rules.
 
-## Commands (XC-FND-02 landed; lint/type commands complete once XC-FND-04 lands)
+## Commands
 - Stack: `just up` (= `cp .env.example .env` + `docker compose up --build --detach --wait`) · `just smoke` (all health endpoints 200) · `just down` / `just reset`
-- Python: `uv sync --locked` · `uv run pytest` · `uv run ruff check` · `uv run mypy` (last two after XC-FND-04)
-- Web: `pnpm install --frozen-lockfile` · `pnpm build` · `pnpm lint` / `pnpm test` (after XC-FND-04 / web test task)
+- Python: `uv sync --locked` · `uv run pytest` · `uv run ruff check` · `uv run ruff format --check` · `uv run mypy` (strict, all packages) · `uv run lint-imports` (layer contracts)
+- Web: `pnpm install --frozen-lockfile` · `pnpm build` · `pnpm lint` · `pnpm format:check` · `pnpm typecheck`
+- Database: `jude-migrate upgrade` (forward-only Alembic; the compose `migrate` service runs it) · `just test-int` (integration tests on a throwaway Postgres) · `just migrate-sql` · schema and grants: `services/api/SCHEMA.md`
+- All gates: `just lint` · autofix `just fmt` · seeded-violation self-test `just lint-selftest` · git hooks `just hooks` (pre-commit + commit-msg/commitlint)
+- Lint rules (XC-FND-04, EL decision 2026-11-17 in place of the missing DEVELOPMENT_STANDARDS §2–4): ruff E/F/W/I/B/UP/N/S/RUF, line length 100; kernel also bans print, numpy.random, and (tools/archlint) open/input/exec/eval/compile/__import__. Commit messages: Conventional Commits + exactly one `Task: <ID>` trailer that exists in the WBS.
 - Toolchain: Python 3.12, uv 0.10.6, Node 26.13.1 LTS, pnpm 12.21.0 (Node ≥ 25 has no corepack: `npm i -g pnpm@12.21.0`), just via `uv tool install rust-just`. Images linux/amd64, base images pinned by digest.
 - Geometry regression/golden hashes: see `docs/plan/DEVELOPMENT_TEST_PLAN_v1.1.md`
 
