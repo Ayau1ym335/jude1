@@ -1,0 +1,63 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.3, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\user\Desktop\jude1
+configfile: pyproject.toml
+testpaths: packages/kernel/tests, services/api/tests, services/worker/tests, tools/storage_fake/tests, tools/lint_selftest/tests, tools/ci_selftest/tests
+plugins: anyio-4.16.0, hypothesis-6.170.15, platformdirs-4.14.5, cov-7.1.0
+collected 125 items / 66 deselected / 59 selected
+
+packages\kernel\tests\test_core_jarr.py ....................             [ 33%]
+packages\kernel\tests\test_core_mesh.py .............                    [ 55%]
+packages\kernel\tests\test_core_runner.py ............                   [ 76%]
+packages\kernel\tests\test_kernel_package.py .                           [ 77%]
+services\api\tests\test_api_health.py ...                                [ 83%]
+services\worker\tests\test_worker_health.py ...                          [ 88%]
+tools\storage_fake\tests\test_storage_fake.py ......                     [ 98%]
+tools\ci_selftest\tests\test_seeded_stage_failures.py F                  [100%]
+
+================================== FAILURES ===================================
+__________________________ test_seeded_unit_failure ___________________________
+
+    @pytest.mark.skipif(not seeded("unit"), reason="JUDE_CI_SEED does not name 'unit'")
+    def test_seeded_unit_failure() -> None:
+>       _fail("unit")
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+stage = 'unit'
+
+    def _fail(stage: str) -> None:
+>       pytest.fail(f"seeded failure for CI stage '{stage}' (JUDE_CI_SEED={SEED})")
+E       Failed: seeded failure for CI stage 'unit' (JUDE_CI_SEED=unit)
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:22: Failed
+-- generated xml file: C:\Users\user\Desktop\jude1\reports\selftest\unit.xml --
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.3-final-0 _______________
+
+Name                                                   Stmts   Miss  Cover
+--------------------------------------------------------------------------
+packages\kernel\src\jude_kernel\__init__.py                2      0   100%
+packages\kernel\src\jude_kernel\core\__init__.py           7      0   100%
+packages\kernel\src\jude_kernel\core\errors.py             2      0   100%
+packages\kernel\src\jude_kernel\core\jarr.py             165     28    83%
+packages\kernel\src\jude_kernel\core\mesh.py             101      2    98%
+packages\kernel\src\jude_kernel\core\registry.py          60      4    93%
+packages\kernel\src\jude_kernel\core\result.py            68      3    96%
+packages\kernel\src\jude_kernel\core\runner.py            41      2    95%
+packages\kernel\src\jude_kernel\version.py                 1      0   100%
+services\api\src\jude_api\__init__.py                      0      0   100%
+services\api\src\jude_api\db\__init__.py                   0      0   100%
+services\api\src\jude_api\db\migrate.py                   45     32    29%
+services\api\src\jude_api\main.py                         25      3    88%
+services\worker\src\jude_worker\__init__.py                0      0   100%
+services\worker\src\jude_worker\main.py                   52     16    69%
+tools\storage_fake\src\jude_storage_fake\__init__.py       0      0   100%
+tools\storage_fake\src\jude_storage_fake\server.py        94     19    80%
+--------------------------------------------------------------------------
+TOTAL                                                    663    109    84%
+Coverage XML written to file reports/selftest/coverage.xml
+=========================== short test summary info ===========================
+FAILED tools/ci_selftest/tests/test_seeded_stage_failures.py::test_seeded_unit_failure
+================ 1 failed, 58 passed, 66 deselected in 17.79s =================

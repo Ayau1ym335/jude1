@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="6.091" timestamp="2026-11-19T03:16:29.608859+05:00" hostname="DESKTOP-4I09EOB"><testcase classname="tools.ci_selftest.tests.test_seeded_stage_failures" name="test_seeded_e2e_failure" time="0.001"><failure message="Failed: seeded failure for CI stage 'e2e' (JUDE_CI_SEED=e2e)">@pytest.mark.e2e
+    @pytest.mark.skipif(not seeded("e2e"), reason="JUDE_CI_SEED does not name 'e2e'")
+    def test_seeded_e2e_failure() -&gt; None:
+&gt;       _fail("e2e")
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+stage = 'e2e'
+
+    def _fail(stage: str) -&gt; None:
+&gt;       pytest.fail(f"seeded failure for CI stage '{stage}' (JUDE_CI_SEED={SEED})")
+E       Failed: seeded failure for CI stage 'e2e' (JUDE_CI_SEED=e2e)
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:22: Failed</failure></testcase></testsuite></testsuites>

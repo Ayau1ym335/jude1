@@ -20,6 +20,7 @@ dev = [
     "import-linter>=2.16",
     "pre-commit>=4.7.0",
     "hypothesis>=6.170.15",
+    "pytest-cov>=7.1.0",
 ]
 
 [tool.uv]
@@ -46,6 +47,7 @@ testpaths = [
     "services/worker/tests",
     "tools/storage_fake/tests",
     "tools/lint_selftest/tests",
+    "tools/ci_selftest/tests",
 ]
 # Seeded-violation self-test needs the JS toolchain; run it explicitly: pytest -m lint_selftest
 # Run explicitly: pytest -m integration (needs JUDE_TEST_ADMIN_URL; `just test-int` starts a server)
@@ -53,6 +55,12 @@ addopts = "-ra --strict-markers --import-mode=importlib -m 'not lint_selftest an
 markers = [
     "lint_selftest: seeded violations must fail each lint gate (XC-FND-04); needs uv + pnpm deps",
     "integration: needs a disposable Postgres server via JUDE_TEST_ADMIN_URL (XC-FND-05)",
+    "determinism: golden hashes / bit-exact reproduction; CI stage 'determinism' (XC-FND-03)",
+    "contract: API and schema contract checks; CI stage 'contract' (XC-FND-03, XC-FND-06)",
+    "oracle: comparisons with non-shipped geometry oracles; nightly stage (TSK-OPS-07-C)",
+    "security: security suite; nightly stage (TSK-OPS-02/03/12-C)",
+    "e2e: end-to-end suite; nightly stage (TSK-OPS-08-C)",
+    "performance: benchmark trend, report-only; nightly stage (XC-EXP-BM01)",
 ]
 
 # ---------------------------------------------------------------------------
@@ -76,7 +84,8 @@ select = ["E", "F", "W", "I", "B", "UP", "N", "S", "RUF"]
 
 [tool.ruff.lint.per-file-ignores]
 "**/tests/**" = ["S101", "S310"]  # assert is the pytest idiom; urlopen on 127.0.0.1 test servers
-"tools/lint_selftest/**" = ["S101", "S603"]  # runs the lint tools as subprocesses with fixed argv
+"tools/lint_selftest/**" = ["S101", "S603"]
+"tools/ci_selftest/**" = ["S101"]  # runs the lint tools as subprocesses with fixed argv
 
 [tool.ruff.lint.isort]
 force-sort-within-sections = true
@@ -100,6 +109,7 @@ files = [
     "tools/storage_fake/tests",
     "tools/archlint",
     "tools/lint_selftest/tests",
+    "tools/ci_selftest/tests",
 ]
 
 # Layer rules (TECHNICAL_DESIGN architecture; DEVELOPMENT_STANDARDS §5 kernel purity, IF-03).

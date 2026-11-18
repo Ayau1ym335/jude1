@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="6.005" timestamp="2026-11-19T03:16:20.233435+05:00" hostname="DESKTOP-4I09EOB"><testcase classname="tools.ci_selftest.tests.test_seeded_stage_failures" name="test_seeded_security_failure" time="0.002"><failure message="Failed: seeded failure for CI stage 'security' (JUDE_CI_SEED=security)">@pytest.mark.security
+    @pytest.mark.skipif(not seeded("security"), reason="JUDE_CI_SEED does not name 'security'")
+    def test_seeded_security_failure() -&gt; None:
+&gt;       _fail("security")
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+stage = 'security'
+
+    def _fail(stage: str) -&gt; None:
+&gt;       pytest.fail(f"seeded failure for CI stage '{stage}' (JUDE_CI_SEED={SEED})")
+E       Failed: seeded failure for CI stage 'security' (JUDE_CI_SEED=security)
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:22: Failed</failure></testcase></testsuite></testsuites>

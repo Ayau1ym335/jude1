@@ -1,0 +1,33 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.3, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\user\Desktop\jude1
+configfile: pyproject.toml
+testpaths: packages/kernel/tests, services/api/tests, services/worker/tests, tools/storage_fake/tests, tools/lint_selftest/tests, tools/ci_selftest/tests
+plugins: anyio-4.16.0, hypothesis-6.170.15, platformdirs-4.14.5, cov-7.1.0
+collected 125 items / 119 deselected / 6 selected
+
+packages\kernel\tests\test_core_jarr.py .....                            [ 83%]
+tools\ci_selftest\tests\test_seeded_stage_failures.py F                  [100%]
+
+================================== FAILURES ===================================
+_______________________ test_seeded_determinism_failure _______________________
+
+    @pytest.mark.determinism
+    @pytest.mark.skipif(not seeded("determinism"), reason="JUDE_CI_SEED does not name 'determinism'")
+    def test_seeded_determinism_failure() -> None:
+>       _fail("determinism")
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+stage = 'determinism'
+
+    def _fail(stage: str) -> None:
+>       pytest.fail(f"seeded failure for CI stage '{stage}' (JUDE_CI_SEED={SEED})")
+E       Failed: seeded failure for CI stage 'determinism' (JUDE_CI_SEED=determinism)
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:22: Failed
+- generated xml file: C:\Users\user\Desktop\jude1\reports\selftest\determinism.xml -
+=========================== short test summary info ===========================
+FAILED tools/ci_selftest/tests/test_seeded_stage_failures.py::test_seeded_determinism_failure
+================ 1 failed, 5 passed, 119 deselected in 15.20s =================

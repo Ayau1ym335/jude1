@@ -1,0 +1,35 @@
+All checks passed!
+39 files already formatted
+Success: no issues found in 32 source files
+=============
+Import Linter
+=============
+
+
+---------
+Contracts
+---------
+
+Analyzed 40 files, 73 dependencies.
+-----------------------------------
+
+Kernel is pure: no file/OS/network I/O, clock, randomness, threads or DB accessBROKEN
+Kernel does not depend on services or dev tools KEPT
+Shipped services never import the dev-only storage fake KEPT
+API and worker talk only through the Postgres job queue, never by import KEPT
+
+Contracts: 3 kept, 1 broken.
+
+
+----------------
+Broken contracts
+----------------
+
+Kernel is pure: no file/OS/network I/O, clock, randomness, threads or DB access
+-------------------------------------------------------------------------------
+
+jude_kernel is not allowed to import os:
+
+-   jude_kernel._ci_seed -> os (l.1)
+
+

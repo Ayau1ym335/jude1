@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="6.882" timestamp="2026-11-19T03:16:40.338600+05:00" hostname="DESKTOP-4I09EOB"><testcase classname="tools.ci_selftest.tests.test_seeded_stage_failures" name="test_seeded_performance_failure" time="0.003"><failure message="Failed: seeded failure for CI stage 'performance' (JUDE_CI_SEED=performance)">@pytest.mark.performance
+    @pytest.mark.skipif(not seeded("performance"), reason="JUDE_CI_SEED does not name 'performance'")
+    def test_seeded_performance_failure() -&gt; None:
+&gt;       _fail("performance")
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+stage = 'performance'
+
+    def _fail(stage: str) -&gt; None:
+&gt;       pytest.fail(f"seeded failure for CI stage '{stage}' (JUDE_CI_SEED={SEED})")
+E       Failed: seeded failure for CI stage 'performance' (JUDE_CI_SEED=performance)
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:22: Failed</failure></testcase></testsuite></testsuites>

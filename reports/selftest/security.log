@@ -1,0 +1,32 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.3, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\user\Desktop\jude1
+configfile: pyproject.toml
+testpaths: packages/kernel/tests, services/api/tests, services/worker/tests, tools/storage_fake/tests, tools/lint_selftest/tests, tools/ci_selftest/tests
+plugins: anyio-4.16.0, hypothesis-6.170.15, platformdirs-4.14.5, cov-7.1.0
+collected 125 items / 124 deselected / 1 selected
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py F                  [100%]
+
+================================== FAILURES ===================================
+________________________ test_seeded_security_failure _________________________
+
+    @pytest.mark.security
+    @pytest.mark.skipif(not seeded("security"), reason="JUDE_CI_SEED does not name 'security'")
+    def test_seeded_security_failure() -> None:
+>       _fail("security")
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+stage = 'security'
+
+    def _fail(stage: str) -> None:
+>       pytest.fail(f"seeded failure for CI stage '{stage}' (JUDE_CI_SEED={SEED})")
+E       Failed: seeded failure for CI stage 'security' (JUDE_CI_SEED=security)
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:22: Failed
+- generated xml file: C:\Users\user\Desktop\jude1\reports\selftest\security.xml -
+=========================== short test summary info ===========================
+FAILED tools/ci_selftest/tests/test_seeded_stage_failures.py::test_seeded_security_failure
+====================== 1 failed, 124 deselected in 6.00s ======================

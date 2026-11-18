@@ -1,0 +1,32 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.3, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\user\Desktop\jude1
+configfile: pyproject.toml
+testpaths: packages/kernel/tests, services/api/tests, services/worker/tests, tools/storage_fake/tests, tools/lint_selftest/tests, tools/ci_selftest/tests
+plugins: anyio-4.16.0, hypothesis-6.170.15, platformdirs-4.14.5, cov-7.1.0
+collected 125 items / 124 deselected / 1 selected
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py F                  [100%]
+
+================================== FAILURES ===================================
+_______________________ test_seeded_performance_failure _______________________
+
+    @pytest.mark.performance
+    @pytest.mark.skipif(not seeded("performance"), reason="JUDE_CI_SEED does not name 'performance'")
+    def test_seeded_performance_failure() -> None:
+>       _fail("performance")
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+stage = 'performance'
+
+    def _fail(stage: str) -> None:
+>       pytest.fail(f"seeded failure for CI stage '{stage}' (JUDE_CI_SEED={SEED})")
+E       Failed: seeded failure for CI stage 'performance' (JUDE_CI_SEED=performance)
+
+tools\ci_selftest\tests\test_seeded_stage_failures.py:22: Failed
+- generated xml file: C:\Users\user\Desktop\jude1\reports\selftest\performance.xml -
+=========================== short test summary info ===========================
+FAILED tools/ci_selftest/tests/test_seeded_stage_failures.py::test_seeded_performance_failure
+====================== 1 failed, 124 deselected in 6.86s ======================
