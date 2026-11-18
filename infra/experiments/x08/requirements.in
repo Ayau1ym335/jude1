@@ -1,0 +1,7 @@
+# XC-EXP-08 candidate set (LIBRARY_COMPARISON_v1.0 versions, TQ-09). Compiled with hashes into
+# requirements.txt by: uv pip compile --python-version 3.12 --python-platform x86_64-manylinux_2_28
+numpy==2.5.4
+scipy==1.18.1
+numba==0.68.1
+fast-simplification==0.2.0
+weasyprint==70.0

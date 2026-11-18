@@ -1,0 +1,28 @@
+kind,name,version,licence
+runtime,CPython,3.12.16,PSF-2.0
+python,brotli,1.2.1,MIT
+python,cffi,2.1.1,MIT-0
+python,cssselect2,0.10.1,BSD License
+python,fast_simplification,0.2.0,MIT
+python,fonttools,4.68.0,MIT
+python,llvmlite,0.50.0,BSD-2-Clause AND Apache-2.0 WITH LLVM-exception
+python,numba,0.68.1,BSD License
+python,numpy,2.5.4,BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0
+python,pillow,13.0.0,MIT-CMU
+python,pip,25.0.1,MIT License
+python,pycparser,3.12,BSD-3-Clause
+python,pydyf,0.13.0,BSD License
+python,pyphen,0.18.1,GNU General Public License v2 or later (GPLv2+); GNU Lesser General Public License v2 or later (LGPLv2+); Mozilla Public License 1.1 (MPL 1.1)
+python,scipy,1.18.1,BSD License
+python,tinycss2,1.5.1,BSD License
+python,tinyhtml5,2.1.0,MIT License
+python,weasyprint,70.0,BSD License
+python,webencodings,0.6.1,BSD License
+python,zopfli,0.4.3,Apache Software License
+debian,fonts-dejavu-core,2.37-6,see /usr/share/doc/<pkg>/copyright
+debian,libfontconfig1,2.14.1-4,see /usr/share/doc/<pkg>/copyright
+debian,libfreetype6,2.12.1+dfsg-5+deb12u4,see /usr/share/doc/<pkg>/copyright
+debian,libharfbuzz-subset0,6.0.0+dfsg-3,see /usr/share/doc/<pkg>/copyright
+debian,libharfbuzz0b,6.0.0+dfsg-3,see /usr/share/doc/<pkg>/copyright
+debian,libpango-1.0-0,1.50.12+ds-1,see /usr/share/doc/<pkg>/copyright
+debian,libpangoft2-1.0-0,1.50.12+ds-1,see /usr/share/doc/<pkg>/copyright

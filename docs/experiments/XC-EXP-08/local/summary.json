@@ -1,0 +1,62 @@
+{
+  "env": {
+    "docker_os": "Docker Desktop",
+    "kernel": "6.6.87.2-microsoft-standard-WSL2",
+    "ncpu": 12,
+    "mem_bytes": 7959949312,
+    "server_version": "29.9.2",
+    "arch": "x86_64",
+    "image_id": "sha256:48709ad8a6f331321f2489eed52d31fa5bb7b8ca639dcf15093e6daf6c16d09b",
+    "image_size_bytes": 854951149,
+    "cpu_model": "AMD Ryzen 5 7535HS with Radeon Graphics"
+  },
+  "builds": {
+    "n": 3,
+    "median_s": 151.768,
+    "p95_s": 183.352
+  },
+  "runs": 20,
+  "all_runs_ok": true,
+  "measures": {
+    "container_wall_s": {
+      "median": 9.6715,
+      "p95": 13.06
+    },
+    "fastsimp_s": {
+      "median": 0.001797,
+      "p95": 0.002617
+    },
+    "import_fast_simplification_s": {
+      "median": 0.013519,
+      "p95": 0.028076
+    },
+    "import_numba_s": {
+      "median": 1.023689,
+      "p95": 1.77223
+    },
+    "import_numpy_s": {
+      "median": 0.358718,
+      "p95": 0.513307
+    },
+    "import_scipy_s": {
+      "median": 1.232695,
+      "p95": 3.215088
+    },
+    "import_weasyprint_s": {
+      "median": 2.13215,
+      "p95": 3.934434
+    },
+    "numba_first_call_s": {
+      "median": 0.856193,
+      "p95": 2.474382
+    },
+    "numba_second_call_s": {
+      "median": 4e-06,
+      "p95": 6e-06
+    },
+    "weasyprint_pdf_s": {
+      "median": 0.121233,
+      "p95": 0.17908
+    }
+  }
+}
