@@ -468,7 +468,8 @@ xc("XC-FND-03", "XFND", "CI pipeline with staged quality gates",
 xc("XC-FND-04", "XFND", "Coding-standard tooling and architecture lint",
    "ruff (lint+format), mypy --strict for kernel/api, eslint+prettier+tsc strict for web, import-linter layer contracts (kernel has no I/O imports; UI never imports kernel), commitlint, pre-commit.",
    ["VER-20", "NFR-06"], [], ["DEVELOPMENT_STANDARDS §2-4"], "M0", "QA_OPS", (1, 2, 3), ["XC-FND-02"],
-   "Config files + pre-commit hooks", "Uniform code and enforced layering", "Violations of each rule fail CI (seeded examples)", "CI-lint", "CI", "DoD-STD + DoD-C")
+   "Config files + pre-commit hooks", "Uniform code and enforced layering", "Violations of each rule fail CI (seeded examples)", "CI-lint", "CI", "DoD-STD + DoD-C",
+   status="Done 2026-11-19 (PR #2 merged; CI green)")
 xc("XC-FND-05", "XFND", "Database schema baseline, roles and forward-only migrations",
    "Five schemas (clinical, geometry, governance, audit, ops), roles app_rw / worker_rw / audit_append (INSERT-only) / admin_ro, Alembic baseline, CHECK constraints (det, enums), migration test on empty DB.",
    ["DATA-01", "DATA-04", "DATA-05", "DATA-09", "DATA-10", "FR-002", "FR-121"], ["FN-AUD-06", "FN-CAS-01", "FN-JOB-01"],
