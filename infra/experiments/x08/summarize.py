@@ -15,7 +15,8 @@ def p95(values: list[float]) -> float:
 
 def main(out: Path) -> None:
     builds = [float(r["seconds"]) for r in csv.DictReader((out / "builds.csv").open())]
-    rows = [json.loads(line) for line in (out / "smoke.jsonl").read_text(encoding="utf-8").splitlines()]
+    lines = (out / "smoke.jsonl").read_text(encoding="utf-8").splitlines()
+    rows = [json.loads(line) for line in lines]
     measures = sorted({k for r in rows for k, v in r.items() if k.endswith("_s")})
     summary = {
         "env": json.loads((out / "env.json").read_text()),

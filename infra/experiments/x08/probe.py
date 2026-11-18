@@ -67,7 +67,7 @@ def smoke() -> dict[str, object]:
     q = np.stack([idx[:-1, :-1], idx[:-1, 1:], idx[1:, 1:], idx[1:, :-1]], -1).reshape(-1, 4)
     tris = np.concatenate([q[:, [0, 1, 2]], q[:, [0, 2, 3]]]).astype(np.int32)
     t0 = time.perf_counter()
-    p2, f2 = fast_simplification.simplify(pts, tris, target_reduction=0.5)
+    _, f2 = fast_simplification.simplify(pts, tris, target_reduction=0.5)
     out["fastsimp_s"] = round(time.perf_counter() - t0, 6)
     out["fastsimp_ok"] = 0 < len(f2) < len(tris)
 
@@ -86,7 +86,9 @@ def _licence(dist: md.Distribution) -> str:
     expr = meta.get("License-Expression")
     if expr:
         return expr
-    classifiers = [c.split(" :: ")[-1] for c in meta.get_all("Classifier") or [] if c.startswith("License ::")]
+    classifiers = [
+        c.split(" :: ")[-1] for c in meta.get_all("Classifier") or [] if c.startswith("License ::")
+    ]
     if classifiers:
         return "; ".join(classifiers)
     lic = (meta.get("License") or "").strip().splitlines()
@@ -97,11 +99,22 @@ def soup() -> dict[str, object]:
     import numpy as np
 
     dists = sorted(md.distributions(), key=lambda d: d.metadata["Name"].lower())
-    deb = subprocess.run(  # noqa: S603 — fixed argv, experiment image only
-        ["dpkg-query", "-W", "-f=${Package}\t${Version}\n",
-         "libpango-1.0-0", "libpangoft2-1.0-0", "libharfbuzz-subset0", "libharfbuzz0b",
-         "libfontconfig1", "libfreetype6", "fonts-dejavu-core"],
-        capture_output=True, text=True, check=False,
+    deb = subprocess.run(  # fixed argv, absolute path; experiment image only
+        [
+            "/usr/bin/dpkg-query",
+            "-W",
+            "-f=${Package}\t${Version}\n",
+            "libpango-1.0-0",
+            "libpangoft2-1.0-0",
+            "libharfbuzz-subset0",
+            "libharfbuzz0b",
+            "libfontconfig1",
+            "libfreetype6",
+            "fonts-dejavu-core",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
     ).stdout
     blas = np.show_config(mode="dicts").get("Build Dependencies", {}).get("blas", {})
     return {
