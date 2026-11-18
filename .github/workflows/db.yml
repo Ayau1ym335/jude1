@@ -1,0 +1,45 @@
+# IT-schema (XC-FND-05): forward-only migrations on an empty database, role grants,
+# audit immutability and CHECK constraints, against a throwaway Postgres service.
+# XC-FND-03 folds this into the "integration" stage of the staged pipeline.
+name: db
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: db-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  migrations:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17.12-alpine@sha256:a77aa70e641402a21411b92b721c58d10f23b50ae5fdd2333efd22d166e1e5f7
+        env:
+          POSTGRES_PASSWORD: jude_it_only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 30
+    env:
+      JUDE_TEST_ADMIN_URL: postgresql://postgres:jude_it_only@127.0.0.1:5432/postgres
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.10.6"
+      - run: uv sync --locked
+      - name: pytest -m integration
+        run: uv run --frozen pytest -m integration -v

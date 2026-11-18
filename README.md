@@ -50,6 +50,8 @@ Only the proxy is published on the host, at `127.0.0.1:8080`. Everything else is
 | `just logs [service]` | Follows the logs. |
 | `just sync` | Installs Python and JS dependencies from the lockfiles. |
 | `just test` | Runs the Python unit tests (`uv run pytest`). |
+| `just test-int` | Runs the integration tests (migrations, roles, grants) against a throwaway Postgres. |
+| `just migrate-sql` | Prints the migration SQL without running it. |
 | `just lint` | Runs every coding-standard and architecture gate, the same as CI. |
 | `just fmt` | Applies the ruff fixes and formatting, and prettier. |
 | `just lint-selftest` | Checks that every gate rejects a seeded violation and accepts its clean counterpart. |
@@ -70,9 +72,10 @@ Without `just`: `cp .env.example .env && docker compose up --build --detach --wa
 
 ## CI
 
-There are two workflows. The staged quality-gate pipeline and branch protection come with XC-FND-03.
+There are three workflows. The staged quality-gate pipeline and branch protection come with XC-FND-03.
 
 - `.github/workflows/smoke.yml` checks that `uv.lock` is in sync, runs the unit tests, starts the stack and runs `scripts/smoke.sh`.
+- `.github/workflows/db.yml` runs the migrations on an empty database and the integration tests. The schema is described in [services/api/SCHEMA.md](services/api/SCHEMA.md).
 - `.github/workflows/lint.yml` runs four jobs:
   - **python:** ruff, format check, `mypy --strict` and import-linter.
   - **web:** eslint, prettier and `tsc`.

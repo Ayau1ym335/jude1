@@ -47,9 +47,11 @@ testpaths = [
     "tools/lint_selftest/tests",
 ]
 # Seeded-violation self-test needs the JS toolchain; run it explicitly: pytest -m lint_selftest
-addopts = "-ra --strict-markers --import-mode=importlib -m 'not lint_selftest'"
+# Run explicitly: pytest -m integration (needs JUDE_TEST_ADMIN_URL; `just test-int` starts a server)
+addopts = "-ra --strict-markers --import-mode=importlib -m 'not lint_selftest and not integration'"
 markers = [
     "lint_selftest: seeded violations must fail each lint gate (XC-FND-04); needs uv + pnpm deps",
+    "integration: needs a disposable Postgres server via JUDE_TEST_ADMIN_URL (XC-FND-05)",
 ]
 
 # ---------------------------------------------------------------------------

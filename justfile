@@ -42,6 +42,26 @@ sync:
 test:
     uv run pytest
 
+# Integration tests (migrations, roles, grants) against a throwaway Postgres on 127.0.0.1:55432
+test-int:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    image="postgres:17.12-alpine@sha256:a77aa70e641402a21411b92b721c58d10f23b50ae5fdd2333efd22d166e1e5f7"
+    docker rm -f jude-it-pg >/dev/null 2>&1 || true
+    docker run -d --rm --name jude-it-pg --platform linux/amd64 \
+      -e POSTGRES_PASSWORD=jude_it_only -p 127.0.0.1:55432:5432 "$image" >/dev/null
+    trap 'docker stop jude-it-pg >/dev/null' EXIT
+    for _ in $(seq 60); do
+      docker exec jude-it-pg pg_isready -U postgres -h 127.0.0.1 -q && break
+      sleep 1
+    done
+    JUDE_TEST_ADMIN_URL=postgresql://postgres:jude_it_only@127.0.0.1:55432/postgres \
+      uv run --frozen pytest -m integration
+
+# Print the SQL of all migrations without running them (review before a Supabase apply)
+migrate-sql:
+    uv run --frozen jude-migrate sql
+
 # All coding-standard and architecture gates — same as the CI lint workflow
 lint: lint-py lint-web
 
