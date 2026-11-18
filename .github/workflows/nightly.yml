@@ -1,0 +1,46 @@
+# Release-blocking and report-only stages (XC-FND-03; DEVELOPMENT_TEST_PLAN §5).
+# Nightly, on demand, and on release tags. A release (XC-REL-01) requires the last run of
+# this workflow on the tagged commit to be green for oracle, security and e2e.
+# performance is report-only until XC-PLT-03 sets budgets.
+name: nightly
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+env:
+  UV_VERSION: "0.10.6"
+  JUDE_CI_REPORTS: reports
+
+jobs:
+  stage:
+    name: ${{ matrix.stage }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    continue-on-error: ${{ matrix.stage == 'performance' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        stage: [oracle, security, e2e, performance]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: ${{ env.UV_VERSION }}
+      - run: uv sync --locked
+      - name: Stage ${{ matrix.stage }}
+        run: bash scripts/ci/stage.sh ${{ matrix.stage }}
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: nightly-${{ matrix.stage }}-reports
+          path: reports/
+          retention-days: 90

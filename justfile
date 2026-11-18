@@ -85,6 +85,15 @@ fmt:
     uv run --frozen ruff format
     pnpm --filter @jude/web format
 
+# Run one CI stage exactly as CI does: lint unit determinism contract integration smoke
+# oracle security e2e performance  (seed a failure with JUDE_CI_SEED=<stage>)
+ci stage:
+    bash scripts/ci/stage.sh {{stage}}
+
+# Every CI stage must fail on its seeded failure (integration needs `just test-int` server)
+ci-selftest:
+    bash scripts/ci/selftest.sh
+
 # Prove every gate rejects a seeded violation and accepts its clean counterpart
 lint-selftest:
     uv run --frozen pytest -m lint_selftest

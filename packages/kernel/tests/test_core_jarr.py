@@ -40,10 +40,12 @@ def tet() -> MeshArrays:
     )
 
 
+@pytest.mark.determinism
 def test_golden_bytes() -> None:
     assert hashlib.sha256(encode_mesh(tet())).hexdigest() == GOLDEN_TET_SHA256
 
 
+@pytest.mark.determinism
 def test_mesh_round_trip_bit_exact() -> None:
     data = encode_mesh(tet())
     back = decode_mesh(data)
@@ -182,6 +184,7 @@ META = st.dictionaries(
 )
 
 
+@pytest.mark.determinism
 @settings(max_examples=300, suppress_health_check=[HealthCheck.too_slow])
 @given(array_sets(), META)
 def test_pt_round_trip_bit_exact(arrays: dict[str, Arr], meta: MetaD) -> None:
@@ -199,6 +202,7 @@ def test_pt_round_trip_bit_exact(arrays: dict[str, Arr], meta: MetaD) -> None:
         )
 
 
+@pytest.mark.determinism
 @settings(max_examples=300, suppress_health_check=[HealthCheck.too_slow])
 @given(array_sets(), META, st.data())
 def test_pt_any_accepted_bytes_are_canonical(
@@ -217,6 +221,7 @@ def test_pt_any_accepted_bytes_are_canonical(
     assert encode(back, back_meta) == mutated
 
 
+@pytest.mark.determinism
 @settings(max_examples=100)
 @given(st.integers(1, 30), st.integers(0, 30), st.data())
 def test_pt_mesh_round_trip(n: int, m: int, data: st.DataObject) -> None:
