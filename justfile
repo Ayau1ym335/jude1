@@ -42,6 +42,53 @@ sync:
 test:
     uv run pytest
 
-# Lint/format/type gates arrive with XC-FND-04
-lint:
-    @echo "lint tooling is set up by XC-FND-04 (ruff, mypy, eslint, import-linter)"
+# Integration tests (migrations, roles, grants) against a throwaway Postgres on 127.0.0.1:55432
+test-int:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    image="postgres:17.12-alpine@sha256:a77aa70e641402a21411b92b721c58d10f23b50ae5fdd2333efd22d166e1e5f7"
+    docker rm -f jude-it-pg >/dev/null 2>&1 || true
+    docker run -d --rm --name jude-it-pg --platform linux/amd64 \
+      -e POSTGRES_PASSWORD=jude_it_only -p 127.0.0.1:55432:5432 "$image" >/dev/null
+    trap 'docker stop jude-it-pg >/dev/null' EXIT
+    for _ in $(seq 60); do
+      docker exec jude-it-pg pg_isready -U postgres -h 127.0.0.1 -q && break
+      sleep 1
+    done
+    JUDE_TEST_ADMIN_URL=postgresql://postgres:jude_it_only@127.0.0.1:55432/postgres \
+      uv run --frozen pytest -m integration
+
+# Print the SQL of all migrations without running them (review before a Supabase apply)
+migrate-sql:
+    uv run --frozen jude-migrate sql
+
+# All coding-standard and architecture gates — same as the CI lint workflow
+lint: lint-py lint-web
+
+# Python: ruff, format check, mypy --strict, import-linter layer contracts, kernel builtins
+lint-py:
+    uv run --frozen ruff check
+    uv run --frozen ruff format --check
+    uv run --frozen mypy
+    uv run --frozen lint-imports --no-cache
+    uv run --frozen python tools/archlint/kernel_builtins.py
+
+# Web: eslint (incl. "UI never imports kernel"), prettier check, tsc --noEmit
+lint-web:
+    pnpm --filter @jude/web lint
+    pnpm --filter @jude/web format:check
+    pnpm --filter @jude/web typecheck
+
+# Apply ruff fixes + formatting and prettier
+fmt:
+    uv run --frozen ruff check --fix
+    uv run --frozen ruff format
+    pnpm --filter @jude/web format
+
+# Prove every gate rejects a seeded violation and accepts its clean counterpart
+lint-selftest:
+    uv run --frozen pytest -m lint_selftest
+
+# Install the pre-commit and commit-msg git hooks
+hooks:
+    uv run --frozen pre-commit install

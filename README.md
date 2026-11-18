@@ -50,6 +50,12 @@ Only the proxy is published on the host, at `127.0.0.1:8080`. Everything else is
 | `just logs [service]` | Follows the logs. |
 | `just sync` | Installs Python and JS dependencies from the lockfiles. |
 | `just test` | Runs the Python unit tests (`uv run pytest`). |
+| `just test-int` | Runs the integration tests (migrations, roles, grants) against a throwaway Postgres. |
+| `just migrate-sql` | Prints the migration SQL without running it. |
+| `just lint` | Runs every coding-standard and architecture gate, the same as CI. |
+| `just fmt` | Applies the ruff fixes and formatting, and prettier. |
+| `just lint-selftest` | Checks that every gate rejects a seeded violation and accepts its clean counterpart. |
+| `just hooks` | Installs the git hooks: pre-commit runs the lint gates, commit-msg runs commitlint. |
 
 Without `just`: `cp .env.example .env && docker compose up --build --detach --wait`, then `bash scripts/smoke.sh`.
 
@@ -66,7 +72,27 @@ Without `just`: `cp .env.example .env && docker compose up --build --detach --wa
 
 ## CI
 
-`.github/workflows/smoke.yml` checks that `uv.lock` is in sync, runs the unit tests, starts the stack and runs `scripts/smoke.sh`. The staged quality gates come with XC-FND-03, and the lint and architecture rules with XC-FND-04.
+There are three workflows. The staged quality-gate pipeline and branch protection come with XC-FND-03.
+
+- `.github/workflows/smoke.yml` checks that `uv.lock` is in sync, runs the unit tests, starts the stack and runs `scripts/smoke.sh`.
+- `.github/workflows/db.yml` runs the migrations on an empty database and the integration tests. The schema is described in [services/api/SCHEMA.md](services/api/SCHEMA.md).
+- `.github/workflows/lint.yml` runs four jobs:
+  - **python:** ruff, format check, `mypy --strict` and import-linter.
+  - **web:** eslint, prettier and `tsc`.
+  - **commits:** commitlint.
+  - **selftest:** checks that seeded violations fail every gate.
+
+### Layer rules
+
+These are enforced by import-linter, ruff, `tools/archlint` and eslint:
+
+| Rule | Enforced by |
+|---|---|
+| The kernel (`jude_kernel`) does no file, OS or network I/O, reads no clock, uses no randomness, starts no threads and accesses no DB. It does not use `print`, `open`, `exec`, `eval`, `__import__` or `numpy.random`. | import-linter `kernel-pure`, ruff TID251/T201, `tools/archlint/kernel_builtins.py` |
+| The kernel does not import api, worker or storage-fake. | `kernel-leaf` |
+| api and worker never import the dev-only storage fake. | `no-dev-fakes-in-services` |
+| api and worker do not import each other. They communicate through the Postgres job queue. | `api-worker-independent` |
+| The web UI never imports the kernel. It uses the `/api/v1` contract. | eslint `no-restricted-imports` |
 
 ## Working rules
 
