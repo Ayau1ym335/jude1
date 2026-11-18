@@ -3,7 +3,9 @@ name = "jude-kernel"
 version = "0.0.0"
 description = "Jude geometry kernel: pure functions, arrays + explicit params in, OpResult out (IF-03)."
 requires-python = "==3.12.*"
-dependencies = []
+dependencies = [
+    "numpy==2.5.4",
+]
 
 # Kernel-only additions to the root ruff config. import-linter covers module imports;
 # ruff catches submodules of allowed packages; tools/archlint/kernel_builtins.py catches
