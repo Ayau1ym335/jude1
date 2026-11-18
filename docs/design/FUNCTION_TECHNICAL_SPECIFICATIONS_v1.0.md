@@ -4495,7 +4495,7 @@ Module baseline (applies to every function below where a field says "module base
 | Technical Purpose | Byte-exact identity of geometry for approval binding (ADR-010). SHA-256 over a canonical binary layout. |
 | Input Data | V float64[N,3], F int32[M,3] · Preconditions: Finite arrays. |
 | Input Data Structures | Arrays · module baseline DS |
-| Processing Algorithm | 1. Canonicalise −0.0 → +0.0.<br>2. Bytes = 'JGEO1' ‖ uint32LE(N) ‖ uint32LE(M) ‖ V float64 LE row-major ‖ F int32 LE row-major.<br>3. SHA-256.<br>Algorithms: ALG-54 Canonical geometry hash |
+| Processing Algorithm | 1. Canonicalise −0.0 → +0.0.<br>2. Bytes = 'JGEO1' ‖ uint64LE(N) ‖ uint64LE(M) ‖ V float64 LE row-major ‖ F int32 LE row-major (ADR-016).<br>3. SHA-256.<br>Algorithms: ALG-54 Canonical geometry hash |
 | Mathematical Model | ALG-54: geometry_sha256 = SHA-256("JGEO1" ‖ nV (u64 LE) ‖ nF (u64 LE) ‖ V float64 LE row-major with −0.0 → +0.0 ‖ F int32 LE row-major) (ADR-010). |
 | Geometry Operations | ALG-54 Canonical geometry hash [design versions / approval binding] |
 | Output Data | geometry_sha. |
