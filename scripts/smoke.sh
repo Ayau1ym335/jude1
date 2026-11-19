@@ -34,6 +34,18 @@ check_http proxy "${BASE}/proxy-healthz"
 check_http web "${BASE}/healthz"
 check_http api "${BASE}/api/v1/health"
 check_internal worker "http://127.0.0.1:8001/healthz"
+
+# Internal probes must not be reachable through the same-origin proxy (XC-FND-11).
+for path in /metrics /readyz /livez; do
+  body="$(curl -s --max-time 5 "${BASE}${path}" || true)"
+  if grep -qE 'jude_http_requests_total|"checks"|"service":"api"' <<<"$body"; then
+    printf 'FAIL  %-13s %s exposed through the proxy\n' proxy "$path"
+    fail=1
+  else
+    printf 'ok    %-13s %s not exposed through the proxy\n' proxy "$path"
+  fi
+done
+check_internal api "http://127.0.0.1:8000/readyz"
 check_internal storage-fake "http://127.0.0.1:9000/healthz"
 
 if docker compose exec -T postgres pg_isready -U jude -d jude >/dev/null 2>&1; then

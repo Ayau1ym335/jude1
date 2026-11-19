@@ -7,6 +7,7 @@ XC-FND-02 scope: process lifecycle + health endpoint only. The job loop
 from collections.abc import Callable
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
+import logging
 import os
 import signal
 import threading
@@ -14,6 +15,9 @@ import threading
 import psycopg
 
 import jude_kernel
+from jude_platform.logs import configure_logging
+
+log = logging.getLogger("jude_worker")
 
 DB_CONNECT_TIMEOUT_S = 2
 HEALTH_PATH = "/healthz"
@@ -62,6 +66,7 @@ def make_health_server(host: str, port: int, db_check: DbCheck) -> ThreadingHTTP
 
 
 def main() -> None:
+    configure_logging("worker", distribution="jude-worker")
     port = int(os.environ.get("JUDE_WORKER_HEALTH_PORT", "8001"))
     server = make_health_server("0.0.0.0", port, postgres_check)  # noqa: S104 — container-internal port
     stop = threading.Event()
@@ -74,7 +79,7 @@ def main() -> None:
 
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
-    print(f"jude-worker: idle (no job handlers yet), health on :{port}{HEALTH_PATH}", flush=True)
+    log.info("worker.started", extra={"port": port, "component": "idle (no job handlers yet)"})
     stop.wait()
     server.shutdown()
 

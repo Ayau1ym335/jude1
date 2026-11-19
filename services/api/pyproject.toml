@@ -7,12 +7,16 @@ dependencies = [
     "fastapi",
     "uvicorn",
     "psycopg[binary]",
+    "jude-platform",
     "alembic>=1.20.1",
     "sqlalchemy>=2.1.9",
 ]
 
 [project.scripts]
 jude-migrate = "jude_api.db.migrate:main"
+
+[tool.uv.sources]
+jude-platform = { workspace = true }
 
 [build-system]
 requires = ["uv_build>=0.10.6,<0.11"]
