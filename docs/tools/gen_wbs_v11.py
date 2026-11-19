@@ -503,7 +503,8 @@ xc("XC-FND-10", "XFND", "Documentation baseline alignment",
 xc("XC-FND-11", "XFND", "Structured logging, correlation IDs and error middleware",
    "JSON logs (no personal data, no mesh data), correlation_id propagated UI->API->job->kernel report, EH-API mapping to DS-24, health/readiness endpoints, basic metrics.",
    ["NFR-07", "NFR-08", "SEC-18"], ["FN-API-02"], ["DS-24", "DEVELOPMENT_STANDARDS §8-9"], "M0", "BACKEND", (1.5, 2.5, 4), ["XC-FND-02"],
-   "platform/logging + middleware + log schema", "Every request and job traceable by correlation_id", "Log-scrubbing test: seeded identifiers never appear in logs", "UT-logging; IT-correlation", "UT, IT", "DoD-STD + DoD-B")
+   "platform/logging + middleware + log schema", "Every request and job traceable by correlation_id", "Log-scrubbing test: seeded identifiers never appear in logs", "UT-logging; IT-correlation", "UT, IT", "DoD-STD + DoD-B",
+   status="Done 2026-11-19 (PR #12 merged; log-scrubbing test green)")
 xc("XC-FND-12", "XSHR", "Kernel contracts: MeshArrays, jude-arr/1, OpResult, kernel runner",
    "DS-01 MeshArrays value type, jude-arr/1 canonical container (own header, no pickle/zip timestamps - IDR-15), DS-05 OpResult, IF-03 runner stamping op_version/kernel_version/image digest.",
    ["FR-052", "VER-07", "FR-011"], ["FN-KRP-04", "FN-BLB-01"], ["DS-01", "DS-05", "IF-03", "TQ-25", "TD-19", "TD-21"], "M0", "KERNEL", (2, 3, 5), ["XC-FND-02"],
