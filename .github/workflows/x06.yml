@@ -1,0 +1,53 @@
+# XC-EXP-06 (X-06, TD-02, TQ-11): numba determinism and JIT warm-up.
+# Builds the experiment image once, saves it as an artifact (the second host loads the very
+# same image), and runs 100 fresh processes per series {host, generic} x {cold, warm}
+# on a GitHub-hosted runner. Manual, or on PRs that touch the experiment.
+name: x06-numba-determinism
+
+on:
+  pull_request:
+    paths:
+      - "infra/experiments/x06/**"
+      - ".github/workflows/x06.yml"
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: "Fresh processes per series"
+        default: "100"
+
+permissions:
+  contents: read
+
+jobs:
+  x06:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build experiment image
+        run: docker build --platform linux/amd64 -t jude-x06:exp infra/experiments/x06
+      - name: Save image (for the second host)
+        run: |
+          mkdir -p out
+          docker save jude-x06:exp | gzip -1 > out/x06-image.tar.gz
+          docker image inspect --format '{{.Id}}' jude-x06:exp > out/x06-image-id.txt
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: x06-image
+          path: |
+            out/x06-image.tar.gz
+            out/x06-image-id.txt
+          retention-days: 30
+          compression-level: 0
+      - name: Run X-06 series
+        env:
+          RUNS: ${{ inputs.runs || '100' }}
+        run: bash infra/experiments/x06/run.sh jude-x06:exp out/ci "$RUNS"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: x06-ci
+          path: out/ci
+          retention-days: 90
