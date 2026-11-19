@@ -6,6 +6,7 @@ version = "0.0.0"
 requires-python = "==3.12.*"
 dependencies = [
     "jude-kernel",
+    "jude-platform",
     "jude-api",
     "jude-worker",
     "jude-storage-fake",
@@ -21,6 +22,8 @@ dev = [
     "pre-commit>=4.7.0",
     "hypothesis>=6.170.15",
     "pytest-cov>=7.1.0",
+    "jsonschema>=4.26.0",
+    "types-jsonschema>=4.26.0.20261006",
 ]
 
 [tool.uv]
@@ -29,6 +32,7 @@ package = false
 [tool.uv.workspace]
 members = [
     "packages/kernel",
+    "packages/platform",
     "services/api",
     "services/worker",
     "tools/storage_fake",
@@ -36,6 +40,7 @@ members = [
 
 [tool.uv.sources]
 jude-kernel = { workspace = true }
+jude-platform = { workspace = true }
 jude-api = { workspace = true }
 jude-worker = { workspace = true }
 jude-storage-fake = { workspace = true }
@@ -43,6 +48,7 @@ jude-storage-fake = { workspace = true }
 [tool.pytest.ini_options]
 testpaths = [
     "packages/kernel/tests",
+    "packages/platform/tests",
     "services/api/tests",
     "services/worker/tests",
     "tools/storage_fake/tests",
@@ -72,6 +78,7 @@ line-length = 100
 target-version = "py312"
 src = [
     "packages/kernel/src",
+    "packages/platform/src",
     "services/api/src",
     "services/worker/src",
     "tools/storage_fake/src",
@@ -89,7 +96,7 @@ select = ["E", "F", "W", "I", "B", "UP", "N", "S", "RUF"]
 
 [tool.ruff.lint.isort]
 force-sort-within-sections = true
-known-first-party = ["jude_kernel", "jude_api", "jude_worker", "jude_storage_fake"]
+known-first-party = ["jude_kernel", "jude_platform", "jude_api", "jude_worker", "jude_storage_fake"]
 
 [tool.ruff.format]
 line-ending = "lf"
@@ -101,6 +108,8 @@ warn_unreachable = true
 files = [
     "packages/kernel/src",
     "packages/kernel/tests",
+    "packages/platform/src",
+    "packages/platform/tests",
     "services/api/src",
     "services/api/tests",
     "services/worker/src",
@@ -114,7 +123,7 @@ files = [
 
 # Layer rules (TECHNICAL_DESIGN architecture; DEVELOPMENT_STANDARDS §5 kernel purity, IF-03).
 [tool.importlinter]
-root_packages = ["jude_kernel", "jude_api", "jude_worker", "jude_storage_fake"]
+root_packages = ["jude_kernel", "jude_platform", "jude_api", "jude_worker", "jude_storage_fake"]
 include_external_packages = true
 
 [[tool.importlinter.contracts]]
@@ -134,7 +143,7 @@ id = "kernel-leaf"
 name = "Kernel does not depend on services or dev tools"
 type = "forbidden"
 source_modules = ["jude_kernel"]
-forbidden_modules = ["jude_api", "jude_worker", "jude_storage_fake"]
+forbidden_modules = ["jude_platform", "jude_api", "jude_worker", "jude_storage_fake"]
 
 [[tool.importlinter.contracts]]
 id = "no-dev-fakes-in-services"

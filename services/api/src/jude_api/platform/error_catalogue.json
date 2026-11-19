@@ -1,0 +1,10 @@
+{
+  "schema": "error/1-draft",
+  "note": "XC-FND-11 seeds the entries the error middleware needs. TSK-API-02-A completes and freezes the catalogue (IDR-05, OQ-FS-06): RTM v0.3 codes plus every code used by the function specifications. 'proposed' entries are not in the RTM v0.3 catalogue yet.",
+  "codes": {
+    "INTERNAL": { "http_status": 500, "message_key": "error.internal", "status": "catalogued", "source": "FN-API-02 (unmapped exception -> 500 INTERNAL)" },
+    "NOT_FOUND": { "http_status": 404, "message_key": "error.not_found", "status": "proposed", "source": "XC-FND-11 (no route / no resource)" },
+    "METHOD_NOT_ALLOWED": { "http_status": 405, "message_key": "error.method_not_allowed", "status": "proposed", "source": "XC-FND-11" },
+    "REQUEST_INVALID": { "http_status": 422, "message_key": "error.request_invalid", "status": "proposed", "source": "XC-FND-11 (request schema validation)" }
+  }
+}

@@ -17,6 +17,7 @@ ENV UV_COMPILE_BYTECODE=1 \
 WORKDIR /src
 COPY pyproject.toml uv.lock ./
 COPY packages/kernel packages/kernel
+COPY packages/platform packages/platform
 COPY services services
 COPY tools/storage_fake tools/storage_fake
 RUN test -n "${PACKAGE}" && uv sync --locked --no-dev --no-editable --package "${PACKAGE}"

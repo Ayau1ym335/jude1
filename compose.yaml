@@ -71,7 +71,7 @@ services:
       <<: *python-build
       args: { PACKAGE: jude-api }
     image: jude/api:dev
-    command: ["uvicorn", "jude_api.main:app", "--host", "0.0.0.0", "--port", "8000", "--no-server-header"]
+    command: ["uvicorn", "jude_api.main:build", "--factory", "--host", "0.0.0.0", "--port", "8000", "--no-server-header", "--no-access-log"]
     environment:
       JUDE_DATABASE_URL: *database-url
       JUDE_STORAGE_URL: http://storage-fake:9000
@@ -80,7 +80,7 @@ services:
       storage-fake: { condition: service_healthy }
       migrate: { condition: service_completed_successfully }
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health', timeout=3)"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readyz', timeout=3)"]
       interval: 5s
       timeout: 4s
       retries: 20

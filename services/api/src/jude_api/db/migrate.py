@@ -9,13 +9,14 @@ CLI (reads JUDE_DATABASE_URL):
   jude-migrate sql [REVISION]       print the SQL instead of running it (for review)
 """
 
-import logging
 import os
 from pathlib import Path
 import sys
 
 from alembic import command
 from alembic.config import Config
+
+from jude_platform.logs import configure_logging
 
 MIGRATIONS_DIR = Path(__file__).resolve().parent.parent / "migrations"
 USAGE = "usage: jude-migrate {upgrade [REV] | current | sql [REV]}"
@@ -47,8 +48,8 @@ def main(argv: list[str] | None = None) -> int:
     if not url or not args:
         sys.stderr.write(USAGE + "\n(JUDE_DATABASE_URL must be set)\n")
         return 2
-    # Alembic's progress lines ("Running upgrade ...") carry revision ids only, no URL.
-    logging.basicConfig(level=logging.INFO, format="jude-migrate %(levelname)s %(message)s")
+    # JSON logs; Alembic's progress lines ("Running upgrade ...") carry revision ids only.
+    configure_logging("migrate", distribution="jude-api")
     cfg = alembic_config(url)
     match args:
         case ["upgrade"]:
