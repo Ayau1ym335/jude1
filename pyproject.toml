@@ -92,7 +92,10 @@ select = ["E", "F", "W", "I", "B", "UP", "N", "S", "RUF"]
 [tool.ruff.lint.per-file-ignores]
 "**/tests/**" = ["S101", "S310"]  # assert is the pytest idiom; urlopen on 127.0.0.1 test servers
 "tools/lint_selftest/**" = ["S101", "S603"]
-"tools/ci_selftest/**" = ["S101"]  # runs the lint tools as subprocesses with fixed argv
+"tools/ci_selftest/**" = ["S101"]
+# Experiment harnesses run in throwaway, network-less containers: /tmp is their tmpfs and
+# subprocess re-invokes the probe itself with fixed argv. Never shipped.
+"infra/experiments/**" = ["S108", "S603"]  # runs the lint tools as subprocesses with fixed argv
 
 [tool.ruff.lint.isort]
 force-sort-within-sections = true

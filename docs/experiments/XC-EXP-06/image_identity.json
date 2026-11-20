@@ -1,0 +1,19 @@
+{
+  "image": "jude-x06:exp, built once by workflow x06-numba-determinism run 44532823988, saved with docker save, loaded on the local host with docker load",
+  "config_digest": "sha256:96f3a1525ef83271eec57bf01196c79fa66d5917ed4fbc76eab05d7dc3549bc0",
+  "ci_image_id": "sha256:96f3a1525ef83271eec57bf01196c79fa66d5917ed4fbc76eab05d7dc3549bc0",
+  "local_image_id": "sha256:704eaa801706500c50efad2d2b2fffd83c778312295e8c09065ff0097f32cf1a",
+  "local_image_id_note": "Docker Desktop's containerd image store reports the digest of the image index created by docker load; the classic store on the CI runner reports the config digest. Identity is shown by the config digest and the layer diff_ids.",
+  "layer_diff_ids": [
+    "sha256:1d7b9dd8778ebc4d9bf2f64436dd358640718cb349f5640b33bebaea4ffd62c2",
+    "sha256:a3cfe73133965fb536427fde3fe66b2949ea6178f568733760bf45f5c8b5c405",
+    "sha256:5e63f01f0cee6291b52c44ffeee48c9eb7b94cdb19478259bcfce37db9eb680e",
+    "sha256:311a92d269bd002ca4ff3d801c6320df734027d3b425ff1ec860368f12b07a26",
+    "sha256:fd5b56eb4922108d7e949b10e18b7eec7248c2eda9001df2d1e84d9045fe01a9",
+    "sha256:7f4a8de3645008cefc47bace4fe65afc8622657b67d49fbad719ff3e0bc78f47",
+    "sha256:0201c441ec36648b7864ad8be395927b7cd287ea4bf24ca7a7ca29cb499a87c7",
+    "sha256:1136a451029342c3a2ff6ce11038b5a447456d81a1d7cc5d88224086544ab0ba",
+    "sha256:bba6fade689cfb8848b1ca99763420b4a23edd95c308a3054feb6c8f3dbeca4a"
+  ],
+  "layers_identical_on_both_hosts": true
+}

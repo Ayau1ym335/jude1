@@ -1,0 +1,211 @@
+{
+  "env": {
+    "docker_os": "Ubuntu 24.04.5 LTS",
+    "kernel": "7.0.0-1014-aws",
+    "ncpu": 4,
+    "mem_bytes": 16464306176,
+    "arch": "x86_64",
+    "image_id": "sha256:96f3a1525ef83271eec57bf01196c79fa66d5917ed4fbc76eab05d7dc3549bc0",
+    "cpu_model": "Intel(R) Xeon(R) 6975P-C"
+  },
+  "series": {
+    "generic-cold": {
+      "runs": 100,
+      "llvm_host_cpu": [
+        "graniterapids"
+      ],
+      "numba_cpu_name": [
+        "generic"
+      ],
+      "all_repeats_equal": true,
+      "distinct_hashes_per_kernel": {
+        "closest_point_triangle": 1,
+        "hermite_profile": 1,
+        "laplacian_smooth": 1,
+        "median_split_order": 1,
+        "ordered_sum": 1,
+        "orient3d_float": 1,
+        "transcendental": 1
+      },
+      "deterministic": true,
+      "import_s": {
+        "n": 100,
+        "median": 0.7509,
+        "p95": 0.7593
+      },
+      "first_calls_total_s": {
+        "n": 100,
+        "median": 4.6384,
+        "p95": 4.7335
+      },
+      "warmup_total_s": {
+        "n": 100,
+        "median": 5.3873,
+        "p95": 5.4936
+      },
+      "steady_second_call_total_s": {
+        "n": 100,
+        "median": 0.0211,
+        "p95": 0.0213
+      }
+    },
+    "generic-warm": {
+      "runs": 100,
+      "llvm_host_cpu": [
+        "graniterapids"
+      ],
+      "numba_cpu_name": [
+        "generic"
+      ],
+      "all_repeats_equal": true,
+      "distinct_hashes_per_kernel": {
+        "closest_point_triangle": 1,
+        "hermite_profile": 1,
+        "laplacian_smooth": 1,
+        "median_split_order": 1,
+        "ordered_sum": 1,
+        "orient3d_float": 1,
+        "transcendental": 1
+      },
+      "deterministic": true,
+      "import_s": {
+        "n": 99,
+        "median": 0.7509,
+        "p95": 0.7588
+      },
+      "first_calls_total_s": {
+        "n": 99,
+        "median": 0.3774,
+        "p95": 0.383
+      },
+      "warmup_total_s": {
+        "n": 99,
+        "median": 1.1282,
+        "p95": 1.1415
+      },
+      "steady_second_call_total_s": {
+        "n": 99,
+        "median": 0.0208,
+        "p95": 0.021
+      }
+    },
+    "host-cold": {
+      "runs": 100,
+      "llvm_host_cpu": [
+        "graniterapids"
+      ],
+      "numba_cpu_name": [
+        "host"
+      ],
+      "all_repeats_equal": true,
+      "distinct_hashes_per_kernel": {
+        "closest_point_triangle": 1,
+        "hermite_profile": 1,
+        "laplacian_smooth": 1,
+        "median_split_order": 1,
+        "ordered_sum": 1,
+        "orient3d_float": 1,
+        "transcendental": 1
+      },
+      "deterministic": true,
+      "import_s": {
+        "n": 100,
+        "median": 0.7573,
+        "p95": 0.7655
+      },
+      "first_calls_total_s": {
+        "n": 100,
+        "median": 5.0344,
+        "p95": 5.1159
+      },
+      "warmup_total_s": {
+        "n": 100,
+        "median": 5.7912,
+        "p95": 5.8814
+      },
+      "steady_second_call_total_s": {
+        "n": 100,
+        "median": 0.0208,
+        "p95": 0.021
+      }
+    },
+    "host-warm": {
+      "runs": 100,
+      "llvm_host_cpu": [
+        "graniterapids"
+      ],
+      "numba_cpu_name": [
+        "host"
+      ],
+      "all_repeats_equal": true,
+      "distinct_hashes_per_kernel": {
+        "closest_point_triangle": 1,
+        "hermite_profile": 1,
+        "laplacian_smooth": 1,
+        "median_split_order": 1,
+        "ordered_sum": 1,
+        "orient3d_float": 1,
+        "transcendental": 1
+      },
+      "deterministic": true,
+      "import_s": {
+        "n": 99,
+        "median": 0.7539,
+        "p95": 0.7638
+      },
+      "first_calls_total_s": {
+        "n": 99,
+        "median": 0.3818,
+        "p95": 0.3891
+      },
+      "warmup_total_s": {
+        "n": 99,
+        "median": 1.1359,
+        "p95": 1.153
+      },
+      "steady_second_call_total_s": {
+        "n": 99,
+        "median": 0.0206,
+        "p95": 0.021
+      }
+    }
+  },
+  "hashes": {
+    "generic-cold": {
+      "closest_point_triangle": "a6bc036aaa5d0cf81f413e3a18891b0c5fb53aaa8d44ccb91c27519e22a9dacf",
+      "hermite_profile": "067bb56ae43d26e8a19aca1269d6404ca6f8d09e89aa3cf9e105db0b67f73cf2",
+      "laplacian_smooth": "aa18ffff658e68fd658d0c4427808c604bd534eae9d0439002ee33be315a3b27",
+      "median_split_order": "3833274b7a9ee757ec1276900f3660a4b4b0674ec0003b65faad92d8643d31df",
+      "ordered_sum": "1c8beedff50769c75a69febc63a9d4ae9d70458f07c54cc2f902114e9a066633",
+      "orient3d_float": "51b960b32668944acc97bcfe64b267df73db52074e9c1486270b57508adf037c",
+      "transcendental": "8f83c31d14fd7f0dc861ba2c7703f5d1a292bb3b5b743bbcc4721c3a59cf0071"
+    },
+    "generic-warm": {
+      "closest_point_triangle": "a6bc036aaa5d0cf81f413e3a18891b0c5fb53aaa8d44ccb91c27519e22a9dacf",
+      "hermite_profile": "067bb56ae43d26e8a19aca1269d6404ca6f8d09e89aa3cf9e105db0b67f73cf2",
+      "laplacian_smooth": "aa18ffff658e68fd658d0c4427808c604bd534eae9d0439002ee33be315a3b27",
+      "median_split_order": "3833274b7a9ee757ec1276900f3660a4b4b0674ec0003b65faad92d8643d31df",
+      "ordered_sum": "1c8beedff50769c75a69febc63a9d4ae9d70458f07c54cc2f902114e9a066633",
+      "orient3d_float": "51b960b32668944acc97bcfe64b267df73db52074e9c1486270b57508adf037c",
+      "transcendental": "8f83c31d14fd7f0dc861ba2c7703f5d1a292bb3b5b743bbcc4721c3a59cf0071"
+    },
+    "host-cold": {
+      "closest_point_triangle": "a6bc036aaa5d0cf81f413e3a18891b0c5fb53aaa8d44ccb91c27519e22a9dacf",
+      "hermite_profile": "067bb56ae43d26e8a19aca1269d6404ca6f8d09e89aa3cf9e105db0b67f73cf2",
+      "laplacian_smooth": "aa18ffff658e68fd658d0c4427808c604bd534eae9d0439002ee33be315a3b27",
+      "median_split_order": "3833274b7a9ee757ec1276900f3660a4b4b0674ec0003b65faad92d8643d31df",
+      "ordered_sum": "1c8beedff50769c75a69febc63a9d4ae9d70458f07c54cc2f902114e9a066633",
+      "orient3d_float": "51b960b32668944acc97bcfe64b267df73db52074e9c1486270b57508adf037c",
+      "transcendental": "8f83c31d14fd7f0dc861ba2c7703f5d1a292bb3b5b743bbcc4721c3a59cf0071"
+    },
+    "host-warm": {
+      "closest_point_triangle": "a6bc036aaa5d0cf81f413e3a18891b0c5fb53aaa8d44ccb91c27519e22a9dacf",
+      "hermite_profile": "067bb56ae43d26e8a19aca1269d6404ca6f8d09e89aa3cf9e105db0b67f73cf2",
+      "laplacian_smooth": "aa18ffff658e68fd658d0c4427808c604bd534eae9d0439002ee33be315a3b27",
+      "median_split_order": "3833274b7a9ee757ec1276900f3660a4b4b0674ec0003b65faad92d8643d31df",
+      "ordered_sum": "1c8beedff50769c75a69febc63a9d4ae9d70458f07c54cc2f902114e9a066633",
+      "orient3d_float": "51b960b32668944acc97bcfe64b267df73db52074e9c1486270b57508adf037c",
+      "transcendental": "8f83c31d14fd7f0dc861ba2c7703f5d1a292bb3b5b743bbcc4721c3a59cf0071"
+    }
+  }
+}
