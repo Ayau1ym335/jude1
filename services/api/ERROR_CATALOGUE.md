@@ -73,3 +73,15 @@ A new token in either document fails CI until it is catalogued or added to `NON_
 - **`CONTOUR_NOT_CLOSED` and `CONTOUR_AMBIGUOUS`.** FN-MEA-01 lists them under EH-API, but FN-KMS-02 defines them as reasons of a `NOT_COMPUTED` measurement. They are catalogued as `measurement`: the measurement call succeeds and returns the status with its reason. Make them refusals instead if the UI should get an error.
 - **`FRAME_DEGENERATE` and `FRAME_INVALID`** are `job` codes, because FN-ANA-03 computes the frame in a job (EH-JOB). If frame computation becomes synchronous, they need statuses, and that is a new code or a pre-freeze edit.
 - **`DUPLICATE_CLINIC_REF`, `LATERALITY_LABEL_MISMATCH` and `TARGET_NOT_REACHED`** are warnings. The FS says the action proceeds.
+
+## Decisions taken (engineering, 2026-11-22)
+
+The user delegated these non-clinical choices to engineering. They stay draft entries until the freeze.
+
+- **`JOB_HANDLER_ERROR`, `JOB_LEASE_EXPIRED` and `JOB_TYPE_UNKNOWN` are kept as `job` codes** (TSK-JOB-02-J). FN-JOB-02 names only `JOB_RESOURCE_LIMIT`, but its algorithm has three more outcomes, each of which needs a code:
+  - an infrastructure error after the last attempt;
+  - a lease that expired with no attempts left;
+  - a job type with no handler.
+
+  They are job-result codes, not HTTP refusals.
+- **Worker resource limits have no default in code** (SEC-07). `JUDE_JOB_CPU_SECONDS` and `JUDE_JOB_MEMORY_MB` are deployment settings, and the worker refuses to start without them. The memory limit is added on top of the worker's footprint at fork time, because numba and LLVM already occupy a large address space. `compose.yaml` holds development values only (600 s, 2 048 MB).
