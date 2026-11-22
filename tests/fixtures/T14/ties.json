@@ -1,0 +1,553 @@
+{
+  "closest_point_ties": {
+    "mesh": "cube_40 (face ids are row numbers of CUBE_F)",
+    "queries": {
+      "above_top_diagonal": {
+        "distance": 20.0,
+        "distance_squared": "400",
+        "face_by_tie_rule": 2,
+        "query": [
+          20,
+          20,
+          60
+        ],
+        "tied_faces": [
+          2,
+          3
+        ]
+      },
+      "above_top_diagonal_offcentre": {
+        "distance": 10.0,
+        "distance_squared": "100",
+        "face_by_tie_rule": 2,
+        "query": [
+          10,
+          10,
+          50
+        ],
+        "tied_faces": [
+          2,
+          3
+        ]
+      },
+      "centre_all_faces": {
+        "distance": 20.0,
+        "distance_squared": "400",
+        "face_by_tie_rule": 0,
+        "query": [
+          20,
+          20,
+          20
+        ],
+        "tied_faces": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "control_above_top_no_tie": {
+        "distance": 10.0,
+        "distance_squared": "100",
+        "face_by_tie_rule": 2,
+        "query": [
+          30,
+          10,
+          50
+        ],
+        "tied_faces": [
+          2
+        ]
+      },
+      "control_outside_x": {
+        "distance": 15.0,
+        "distance_squared": "225",
+        "face_by_tie_rule": 6,
+        "query": [
+          55,
+          13,
+          7
+        ],
+        "tied_faces": [
+          6
+        ]
+      },
+      "corner_region_40_40_40": {
+        "distance": 34.64101615137755,
+        "distance_squared": "1200",
+        "face_by_tie_rule": 2,
+        "query": [
+          60,
+          60,
+          60
+        ],
+        "tied_faces": [
+          2,
+          3,
+          6,
+          7,
+          9
+        ]
+      },
+      "edge_region_x40_y40": {
+        "distance": 28.284271247461902,
+        "distance_squared": "800",
+        "face_by_tie_rule": 6,
+        "query": [
+          60,
+          60,
+          20
+        ],
+        "tied_faces": [
+          6,
+          9
+        ]
+      },
+      "inside_near_two_walls": {
+        "distance": 2.0,
+        "distance_squared": "4",
+        "face_by_tie_rule": 5,
+        "query": [
+          2,
+          2,
+          20
+        ],
+        "tied_faces": [
+          5,
+          10
+        ]
+      }
+    },
+    "tie_rule": "smallest face_id among the faces at the exact minimum distance"
+  },
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  },
+  "plane_sections": {
+    "cases": {
+      "cube_diagonal_through_edges": {
+        "contours": [
+          {
+            "closed": true,
+            "length": 193.13708499,
+            "n_points": 6,
+            "points": [
+              [
+                "0",
+                "0",
+                "0"
+              ],
+              [
+                "40",
+                "40",
+                "0"
+              ],
+              [
+                "40",
+                "40",
+                "0"
+              ],
+              [
+                "40",
+                "40",
+                "40"
+              ],
+              [
+                "0",
+                "0",
+                "40"
+              ],
+              [
+                "0",
+                "0",
+                "40"
+              ]
+            ]
+          }
+        ],
+        "crossed_edges": 6,
+        "mesh": "cube",
+        "n_contours": 1,
+        "plane": {
+          "normal": [
+            1,
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            0
+          ]
+        },
+        "vertices_on_plane": 4
+      },
+      "cube_x0_on_face": {
+        "contours": [],
+        "crossed_edges": 0,
+        "mesh": "cube",
+        "n_contours": 0,
+        "plane": {
+          "normal": [
+            1,
+            0,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            0
+          ]
+        },
+        "vertices_on_plane": 4
+      },
+      "cube_x40_on_face": {
+        "contours": [
+          {
+            "closed": true,
+            "length": 160.0,
+            "n_points": 8,
+            "points": [
+              [
+                "40",
+                "40",
+                "0"
+              ],
+              [
+                "40",
+                "0",
+                "0"
+              ],
+              [
+                "40",
+                "0",
+                "40"
+              ],
+              [
+                "40",
+                "0",
+                "40"
+              ],
+              [
+                "40",
+                "40",
+                "40"
+              ],
+              [
+                "40",
+                "40",
+                "40"
+              ],
+              [
+                "40",
+                "40",
+                "0"
+              ],
+              [
+                "40",
+                "40",
+                "0"
+              ]
+            ]
+          }
+        ],
+        "crossed_edges": 8,
+        "mesh": "cube",
+        "n_contours": 1,
+        "plane": {
+          "normal": [
+            1,
+            0,
+            0
+          ],
+          "point": [
+            40,
+            0,
+            0
+          ]
+        },
+        "vertices_on_plane": 4
+      },
+      "cube_z20_generic": {
+        "contours": [
+          {
+            "closed": true,
+            "length": 160.0,
+            "n_points": 8,
+            "points": [
+              [
+                "40",
+                "0",
+                "20"
+              ],
+              [
+                "20",
+                "0",
+                "20"
+              ],
+              [
+                "0",
+                "0",
+                "20"
+              ],
+              [
+                "0",
+                "20",
+                "20"
+              ],
+              [
+                "0",
+                "40",
+                "20"
+              ],
+              [
+                "20",
+                "40",
+                "20"
+              ],
+              [
+                "40",
+                "40",
+                "20"
+              ],
+              [
+                "40",
+                "20",
+                "20"
+              ]
+            ]
+          }
+        ],
+        "crossed_edges": 8,
+        "mesh": "cube",
+        "n_contours": 1,
+        "plane": {
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            20
+          ]
+        },
+        "vertices_on_plane": 0
+      },
+      "octa_x_eq_y_through_2_vertices": {
+        "contours": [
+          {
+            "closed": true,
+            "length": 195.959179423,
+            "n_points": 6,
+            "points": [
+              [
+                "20",
+                "20",
+                "0"
+              ],
+              [
+                "0",
+                "0",
+                "40"
+              ],
+              [
+                "0",
+                "0",
+                "40"
+              ],
+              [
+                "-20",
+                "-20",
+                "0"
+              ],
+              [
+                "0",
+                "0",
+                "-40"
+              ],
+              [
+                "0",
+                "0",
+                "-40"
+              ]
+            ]
+          }
+        ],
+        "crossed_edges": 6,
+        "mesh": "octa",
+        "n_contours": 1,
+        "plane": {
+          "normal": [
+            1,
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            0
+          ]
+        },
+        "vertices_on_plane": 2
+      },
+      "octa_z0_through_4_vertices": {
+        "contours": [
+          {
+            "closed": true,
+            "length": 226.27416998,
+            "n_points": 4,
+            "points": [
+              [
+                "40",
+                "0",
+                "0"
+              ],
+              [
+                "0",
+                "40",
+                "0"
+              ],
+              [
+                "-40",
+                "0",
+                "0"
+              ],
+              [
+                "0",
+                "-40",
+                "0"
+              ]
+            ]
+          }
+        ],
+        "crossed_edges": 4,
+        "mesh": "octa",
+        "n_contours": 1,
+        "plane": {
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            0
+          ]
+        },
+        "vertices_on_plane": 4
+      },
+      "octa_z20_generic": {
+        "contours": [
+          {
+            "closed": true,
+            "length": 113.13708499,
+            "n_points": 4,
+            "points": [
+              [
+                "0",
+                "20",
+                "20"
+              ],
+              [
+                "20",
+                "0",
+                "20"
+              ],
+              [
+                "0",
+                "-20",
+                "20"
+              ],
+              [
+                "-20",
+                "0",
+                "20"
+              ]
+            ]
+          }
+        ],
+        "crossed_edges": 4,
+        "mesh": "octa",
+        "n_contours": 1,
+        "plane": {
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            20
+          ]
+        },
+        "vertices_on_plane": 0
+      },
+      "octa_z40_through_apex": {
+        "contours": [
+          {
+            "closed": true,
+            "length": 0.0,
+            "n_points": 4,
+            "points": [
+              [
+                "0",
+                "0",
+                "40"
+              ],
+              [
+                "0",
+                "0",
+                "40"
+              ],
+              [
+                "0",
+                "0",
+                "40"
+              ],
+              [
+                "0",
+                "0",
+                "40"
+              ]
+            ]
+          }
+        ],
+        "crossed_edges": 4,
+        "mesh": "octa",
+        "n_contours": 1,
+        "plane": {
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            40
+          ]
+        },
+        "vertices_on_plane": 1
+      }
+    },
+    "rule": "ALG-23: d = n.(v - p); d = 0 counts as positive; t = d_a / (d_a - d_b)"
+  }
+}

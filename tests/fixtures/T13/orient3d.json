@@ -1,0 +1,51 @@
+{
+  "category_counts": {
+    "degenerate": 3000,
+    "exact-coplanar": 3000,
+    "mixed-magnitude": 5000,
+    "near-coplanar": 70000,
+    "random": 5000,
+    "scale-2^-1000": 2000,
+    "scale-2^-150": 2000,
+    "scale-2^-201": 2000,
+    "scale-2^-260": 2000,
+    "scale-2^-600": 2000,
+    "scale-2^150": 2000,
+    "scale-2^201": 2000,
+    "scale-2^260": 2000,
+    "scale-2^600": 2000,
+    "scale-2^900": 2000,
+    "ulp-grid": 12288
+  },
+  "category_order": [
+    "near-coplanar",
+    "ulp-grid",
+    "exact-coplanar",
+    "degenerate",
+    "scale-2^-1000",
+    "scale-2^-600",
+    "scale-2^-260",
+    "scale-2^-201",
+    "scale-2^-150",
+    "scale-2^150",
+    "scale-2^201",
+    "scale-2^260",
+    "scale-2^600",
+    "scale-2^900",
+    "mixed-magnitude",
+    "random"
+  ],
+  "convention": "orient2d = sign det[b-a, c-a]; orient3d = sign det[b-a, c-a, d-a] (FN-KVL-05; opposite of Shewchuk's orient3d)",
+  "files": {
+    "expected.jarr": "sign_plus_1 (uint8 = sign + 1), category (uint8)",
+    "inputs.jarr": "arrays a, b, c, d (float64, n x dim)"
+  },
+  "n_cases": 118288,
+  "oracle": "fractions.Fraction (jude_fixtures.t13), independent of the kernel",
+  "predicate": "orient3d",
+  "sign_counts": {
+    "-1": 52287,
+    "0": 9398,
+    "1": 56603
+  }
+}

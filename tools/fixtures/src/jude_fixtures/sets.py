@@ -559,6 +559,78 @@ def t10() -> list[Fixture]:
     return out
 
 
+# ------------------------------------------------------------------------ T13 / T14 / T15 ---
+def t13() -> list[Fixture]:
+    """Adversarial predicate inputs (pinned by hash) and their exact signs (committed)."""
+    from jude_fixtures.t13 import SEED, inputs_bytes, oracle2d, oracle3d, t13_orient2d, t13_orient3d
+    from jude_kernel.core.jarr import encode
+
+    out = []
+    for name, gen, oracle, keys in (
+        ("orient2d", t13_orient2d, oracle2d, "abc"),
+        ("orient3d", t13_orient3d, oracle3d, "abcd"),
+    ):
+        pts, cats = gen()
+        want = oracle(*pts)
+        order = list(dict.fromkeys(cats))
+        code = np.array([order.index(c) for c in cats], dtype=np.uint8)
+        inputs = inputs_bytes(name, pts)
+        expected = encode(
+            {"sign_plus_1": (want.astype(np.int64) + 1).astype(np.uint8), "category": code},
+            {"schema": "t13/1", "predicate": name},
+        )
+        truth = {
+            "predicate": name,
+            "convention": "orient2d = sign det[b-a, c-a]; orient3d = sign det[b-a, c-a, d-a] "
+            "(FN-KVL-05; opposite of Shewchuk's orient3d)",
+            "oracle": "fractions.Fraction (jude_fixtures.t13), independent of the kernel",
+            "n_cases": len(cats),
+            "category_order": order,
+            "category_counts": {c: cats.count(c) for c in order},
+            "sign_counts": {str(k): int((want == k).sum()) for k in (-1, 0, 1)},
+            "files": {
+                "inputs.jarr": "arrays " + ", ".join(keys) + " (float64, n x dim)",
+                "expected.jarr": "sign_plus_1 (uint8 = sign + 1), category (uint8)",
+            },
+        }
+        out.append(
+            Fixture(
+                "T13",
+                name,
+                {"inputs.jarr": inputs, "expected.jarr": expected},
+                truth,
+                {"seed": SEED},
+                SEED,
+            )
+        )
+    return out
+
+
+def t14() -> list[Fixture]:
+    from jude_fixtures.t14_t15 import CUBE_F, CUBE_V, OCTA_F, OCTA_V, t14_truth
+
+    files = {
+        "cube_40.jarr": jarr(np.array(CUBE_V, dtype=np.float64), np.array(CUBE_F, dtype=np.int32)),
+        "octahedron_40.jarr": jarr(
+            np.array(OCTA_V, dtype=np.float64), np.array(OCTA_F, dtype=np.int32)
+        ),
+    }
+    return [Fixture("T14", "ties", files, {**t14_truth(), "frame": FRAME_NOTE})]
+
+
+def t15() -> list[Fixture]:
+    from jude_fixtures.t14_t15 import contours, t15_truth
+    from jude_kernel.core.jarr import encode
+
+    shapes = contours()
+    files = {
+        "contours.jarr": encode(
+            {k: np.array(v, dtype=np.float64) for k, v in shapes.items()}, {"schema": "t15/1"}
+        )
+    }
+    return [Fixture("T15", "contours", files, t15_truth(shapes))]
+
+
 SETS: dict[str, Callable[[], list[Fixture]]] = {
     "T1": t1,
     "T2": t2,
@@ -569,4 +641,7 @@ SETS: dict[str, Callable[[], list[Fixture]]] = {
     "T7": t7,
     "T8": t8,
     "T10": t10,
+    "T13": t13,
+    "T14": t14,
+    "T15": t15,
 }

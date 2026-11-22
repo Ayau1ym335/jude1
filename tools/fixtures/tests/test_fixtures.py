@@ -119,14 +119,16 @@ def test_every_fixture_has_analytic_json() -> None:
         assert json.loads((OUT / entry["truth"]).read_text(encoding="utf-8")), fid
 
 
-@pytest.mark.parametrize("set_name", sorted(set(SETS) - {"T1"}))
+@pytest.mark.parametrize("set_name", sorted(set(SETS) - {"T1", "T13"}))
 def test_reproducible_by_seed(set_name: str) -> None:
     assert build.check(OUT, [set_name]) == []
 
 
 @pytest.mark.determinism
-def test_reproducible_t1_including_generated_only_files() -> None:
-    assert build.check(OUT, ["T1"]) == []
+@pytest.mark.parametrize("set_name", ["T1", "T13"])
+def test_reproducible_heavy_sets_including_generated_only_files(set_name: str) -> None:
+    """T1 (large meshes) and T13 (Fraction oracle over 250 000 cases) take ~10 s each."""
+    assert build.check(OUT, [set_name]) == []
 
 
 def test_large_files_are_ignored_not_committed() -> None:
@@ -364,3 +366,64 @@ def test_t8_profile_and_strategies() -> None:
     assert seen == first  # derandomized: the same examples every run
     with pytest.raises(ValueError):
         t8.signed_value(1.0, 1.0)
+
+
+# ------------------------------------------------------------------------ T13 / T14 / T15 ---
+def test_t13_frozen_signs_match_their_summary() -> None:
+    from jude_kernel.core.jarr import decode
+
+    for pred in ("orient2d", "orient3d"):
+        t = truth(f"T13/{pred}")
+        arrays, _ = decode((OUT / FX[f"T13/{pred}"]["files"]["expected.jarr"]["path"]).read_bytes())
+        signs = arrays["sign_plus_1"].astype(np.int64) - 1
+        assert len(signs) == t["n_cases"] >= 100_000
+        assert {str(k): int((signs == k).sum()) for k in (-1, 0, 1)} == t["sign_counts"]
+        cats = np.bincount(arrays["category"].astype(np.int64), minlength=len(t["category_order"]))
+        assert dict(zip(t["category_order"], cats.tolist(), strict=True)) == t["category_counts"]
+        assert t["sign_counts"]["0"] > 1_000  # many exact degeneracies
+
+
+def test_t14_ties_match_hand_derived_facts() -> None:
+    from jude_fixtures.t14_t15 import CUBE_F
+
+    q = truth("T14/ties")["closest_point_ties"]["queries"]
+    assert q["centre_all_faces"]["tied_faces"] == list(range(12))
+    assert q["centre_all_faces"]["distance_squared"] == "400"
+    corner = [i for i, f in enumerate(CUBE_F) if 6 in f]  # vertex (40, 40, 40)
+    assert q["corner_region_40_40_40"]["tied_faces"] == corner
+    assert q["corner_region_40_40_40"]["distance_squared"] == "1200"
+    edge = [i for i, f in enumerate(CUBE_F) if 2 in f and 6 in f]  # edge x = y = 40
+    assert q["edge_region_x40_y40"]["tied_faces"] == edge
+    for name, entry in q.items():
+        assert entry["face_by_tie_rule"] == min(entry["tied_faces"]), name
+        if name.startswith("control"):
+            assert len(entry["tied_faces"]) == 1, name
+
+
+def test_t14_sections_match_hand_derived_facts() -> None:
+    c = truth("T14/ties")["plane_sections"]["cases"]
+    eq = c["octa_z0_through_4_vertices"]
+    assert (eq["vertices_on_plane"], eq["n_contours"]) == (4, 1)
+    assert eq["contours"][0]["closed"] and abs(eq["contours"][0]["length"] - 160 * 2**0.5) < 1e-6
+    assert c["octa_z40_through_apex"]["contours"][0]["length"] == 0.0  # collapses to the apex
+    assert c["cube_x0_on_face"]["n_contours"] == 0  # every vertex counts as positive
+    assert c["cube_z20_generic"]["contours"][0]["length"] == 160.0
+    assert c["octa_z20_generic"]["vertices_on_plane"] == 0
+
+
+def test_t15_contours_match_hand_derived_facts() -> None:
+    from jude_kernel.core.jarr import decode
+
+    t = truth("T15/contours")["contours"]
+    arrays, _ = decode((OUT / FX["T15/contours"]["files"]["contours.jarr"]["path"]).read_bytes())
+    assert set(arrays) == set(t)
+    for name, pts in arrays.items():  # float shoelace agrees with the exact area
+        x, y = pts[:, 0], pts[:, 1]
+        area = 0.5 * abs(float(np.sum(x * np.roll(y, -1) - np.roll(x, -1) * y)))
+        assert abs(area - t[name]["area_float"]) <= 1e-9 * max(1.0, area), name
+    assert t["comb_12"]["area_float"] == 130 * 40 + 12 * 5 * 30
+    expected_simple = {"neck_touching": False, "bowtie": False, "duplicate_point": False}
+    for name, entry in t.items():
+        assert entry["simple"] == expected_simple.get(name, True), name
+    assert t["clockwise_square"]["orientation"] == "cw"
+    assert t["collinear_vertices"]["collinear_vertices"] == 2
