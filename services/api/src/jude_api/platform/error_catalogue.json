@@ -1,10 +1,982 @@
 {
-  "schema": "error/1-draft",
-  "note": "XC-FND-11 seeds the entries the error middleware needs. TSK-API-02-A completes and freezes the catalogue (IDR-05, OQ-FS-06): RTM v0.3 codes plus every code used by the function specifications. 'proposed' entries are not in the RTM v0.3 catalogue yet.",
+  "schema": "error/1",
+  "status": "draft: frozen at M0 exit after engineering-lead sign-off (IDR-05)",
+  "note": "Every code used by FUNCTION_TECHNICAL_SPECIFICATIONS_v1.0 and RTM v0.3/v0.4 (IDR-05; CN-11 names retired). kind: refusal = top-level DS-24 error with http_status; kernel = OpResult reason_code; job = job failure reason; measurement = NOT_COMPUTED reason; warning = non-blocking; startup = service refuses to start. http_source: FS = stated in the specification; R1/R2 = assigned by rule (see ERROR_CATALOGUE.md).",
   "codes": {
-    "INTERNAL": { "http_status": 500, "message_key": "error.internal", "status": "catalogued", "source": "FN-API-02 (unmapped exception -> 500 INTERNAL)" },
-    "NOT_FOUND": { "http_status": 404, "message_key": "error.not_found", "status": "proposed", "source": "XC-FND-11 (no route / no resource)" },
-    "METHOD_NOT_ALLOWED": { "http_status": 405, "message_key": "error.method_not_allowed", "status": "proposed", "source": "XC-FND-11" },
-    "REQUEST_INVALID": { "http_status": 422, "message_key": "error.request_invalid", "status": "proposed", "source": "XC-FND-11 (request schema validation)" }
+    "ACCOUNT_LOCKED": {
+      "http_status": 423,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.account_locked",
+      "sources": [
+        "FN-API-02",
+        "FN-IAM-01"
+      ]
+    },
+    "ACTIVE_APPROVAL_IN_USE": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.active_approval_in_use",
+      "sources": [
+        "FN-CAS-03"
+      ]
+    },
+    "ANCHOR_TOPOLOGY_CHANGED": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.anchor_topology_changed",
+      "sources": [
+        "FN-KAN-02"
+      ]
+    },
+    "APPROVAL_HASH_MISMATCH": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.approval_hash_mismatch",
+      "sources": [
+        "FN-EXP-01",
+        "FN-EXP-02"
+      ]
+    },
+    "APPROVAL_REQUIRED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.approval_required",
+      "sources": [
+        "FN-EXP-01"
+      ]
+    },
+    "AUDIT_UNAVAILABLE": {
+      "http_status": 503,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.audit_unavailable",
+      "sources": [
+        "FN-AUD-02"
+      ]
+    },
+    "BAD_CREDENTIALS": {
+      "http_status": 401,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.bad_credentials",
+      "sources": [
+        "FN-IAM-01"
+      ]
+    },
+    "BLOB_MISSING": {
+      "http_status": 500,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.blob_missing",
+      "sources": [
+        "FN-BLB-02",
+        "FN-KRP-01"
+      ]
+    },
+    "CASE_ARCHIVED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.case_archived",
+      "sources": [
+        "FN-CAS-03",
+        "FN-IAM-04",
+        "FN-SCN-01"
+      ]
+    },
+    "CASE_ASSOC_NOT_CONFIRMED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.case_assoc_not_confirmed",
+      "sources": [
+        "FN-ANA-01",
+        "FN-SCN-03",
+        "FN-SCN-04"
+      ]
+    },
+    "CATEGORY_REQUIRED": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.category_required",
+      "sources": [
+        "FN-DES-02",
+        "FN-REV-05",
+        "FN-SCN-07"
+      ]
+    },
+    "CHECKLIST_INCOMPLETE": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.checklist_incomplete",
+      "sources": [
+        "FN-REV-04"
+      ]
+    },
+    "CONFIG_NOT_SET": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.config_not_set",
+      "sources": [
+        "FN-ANA-01",
+        "FN-AUD-06",
+        "FN-CFG-04",
+        "FN-DES-05",
+        "FN-EXP-01",
+        "FN-KAN-03",
+        "FN-KFR-04",
+        "FN-SCN-06"
+      ]
+    },
+    "CONFIG_SCHEMA": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.config_schema",
+      "sources": [
+        "FN-CFG-01"
+      ]
+    },
+    "CONFIG_TEST_VALUE_IN_PROD": {
+      "http_status": null,
+      "kind": "startup",
+      "http_source": "not an HTTP refusal",
+      "message_key": "error.config_test_value_in_prod",
+      "sources": [
+        "FN-CFG-07"
+      ]
+    },
+    "CONSENT_REF_MISSING": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.consent_ref_missing",
+      "sources": [
+        "FN-CAS-04",
+        "FN-SCN-01",
+        "SEC-12 (RTM)"
+      ]
+    },
+    "CONTOUR_AMBIGUOUS": {
+      "http_status": null,
+      "kind": "measurement",
+      "http_source": "not an HTTP refusal (NOT_COMPUTED reason)",
+      "message_key": "error.contour_ambiguous",
+      "sources": [
+        "FN-API-02",
+        "FN-KMS-02",
+        "FN-MEA-01"
+      ]
+    },
+    "CONTOUR_NOT_CLOSED": {
+      "http_status": null,
+      "kind": "measurement",
+      "http_source": "not an HTTP refusal (NOT_COMPUTED reason)",
+      "message_key": "error.contour_not_closed",
+      "sources": [
+        "FN-KMS-02",
+        "FN-MEA-01"
+      ]
+    },
+    "COVERAGE_BLOCKED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.coverage_blocked",
+      "sources": [
+        "FN-ANA-04",
+        "FN-MEA-01"
+      ]
+    },
+    "CSRF_INVALID": {
+      "http_status": 403,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.csrf_invalid",
+      "sources": [
+        "FN-API-02",
+        "FN-IAM-02"
+      ]
+    },
+    "DEFINITION_INCOMPLETE": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.definition_incomplete",
+      "sources": [
+        "FN-CFG-05"
+      ]
+    },
+    "DEFINITION_NOT_SELECTED": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.definition_not_selected",
+      "sources": [
+        "FN-MEA-01"
+      ]
+    },
+    "DEPENDENCY_SUPERSEDED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.dependency_superseded",
+      "sources": [
+        "FN-ANA-02",
+        "FN-ANA-05",
+        "FN-REV-04"
+      ]
+    },
+    "DIAGONAL_UNDEFINED": {
+      "http_status": null,
+      "kind": "measurement",
+      "http_source": "not an HTTP refusal (NOT_COMPUTED reason)",
+      "message_key": "error.diagonal_undefined",
+      "sources": [
+        "FN-KMS-04"
+      ]
+    },
+    "DUPLICATE_CLINIC_REF": {
+      "http_status": null,
+      "kind": "warning",
+      "http_source": "not an HTTP refusal",
+      "message_key": "error.duplicate_clinic_ref",
+      "sources": [
+        "FN-CAS-01"
+      ]
+    },
+    "EXPORT_NOT_RELEASED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.export_not_released",
+      "sources": [
+        "FN-EXP-03",
+        "SEC-16 (RTM)"
+      ]
+    },
+    "FACE_LIMIT": {
+      "http_status": 413,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.face_limit",
+      "sources": [
+        "FN-KIO-02",
+        "FN-SCN-02"
+      ]
+    },
+    "FIELD_TOO_LONG": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.field_too_long",
+      "sources": [
+        "FN-CAS-01"
+      ]
+    },
+    "FILE_EMPTY": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.file_empty",
+      "sources": [
+        "FN-KIO-02",
+        "FN-KIO-05",
+        "FN-SCN-02"
+      ]
+    },
+    "FILE_TOO_LARGE": {
+      "http_status": 413,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.file_too_large",
+      "sources": [
+        "FN-SCN-01"
+      ]
+    },
+    "FILE_UNREADABLE": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.file_unreadable",
+      "sources": [
+        "FN-KIO-01",
+        "FN-KIO-02",
+        "FN-KIO-03",
+        "FN-KIO-04",
+        "FN-SCN-02"
+      ]
+    },
+    "FRAME_DEGENERATE": {
+      "http_status": null,
+      "kind": "job",
+      "http_source": "not an HTTP refusal (job result)",
+      "message_key": "error.frame_degenerate",
+      "sources": [
+        "FN-ANA-03",
+        "FN-KFR-02"
+      ]
+    },
+    "FRAME_INVALID": {
+      "http_status": null,
+      "kind": "job",
+      "http_source": "not an HTTP refusal (job result)",
+      "message_key": "error.frame_invalid",
+      "sources": [
+        "FN-ANA-03",
+        "FN-KFR-02"
+      ]
+    },
+    "FRAME_NOT_CONFIRMED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.frame_not_confirmed",
+      "sources": [
+        "FN-ANA-04",
+        "FN-DES-01",
+        "FN-MEA-01",
+        "FR-185 (RTM)"
+      ]
+    },
+    "FRAME_RULE_INVALID": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.frame_rule_invalid",
+      "sources": [
+        "FN-CFG-06"
+      ]
+    },
+    "GATE_BLOCKED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.gate_blocked",
+      "sources": [
+        "FN-SCN-06",
+        "FN-SCN-07"
+      ]
+    },
+    "GATE_NOT_PASSED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.gate_not_passed",
+      "sources": [
+        "FN-ANA-01",
+        "FN-SCN-11"
+      ]
+    },
+    "IDEMPOTENCY_KEY_REQUIRED": {
+      "http_status": 428,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.idempotency_key_required",
+      "sources": [
+        "FN-API-01"
+      ]
+    },
+    "ILLEGAL_STATE": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.illegal_state",
+      "sources": [
+        "FN-REV-06"
+      ]
+    },
+    "INTERNAL": {
+      "http_status": 500,
+      "kind": "refusal",
+      "http_source": "platform",
+      "message_key": "error.internal",
+      "sources": [
+        "FN-API-02"
+      ]
+    },
+    "INVALID_FILTER": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.invalid_filter",
+      "sources": [
+        "FN-AUD-04"
+      ]
+    },
+    "INVALID_SCOPE": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.invalid_scope",
+      "sources": [
+        "FN-CAS-04"
+      ]
+    },
+    "JOB_RESOURCE_LIMIT": {
+      "http_status": null,
+      "kind": "job",
+      "http_source": "not an HTTP refusal (job result)",
+      "message_key": "error.job_resource_limit",
+      "sources": [
+        "FN-JOB-02"
+      ]
+    },
+    "LANDMARKS_INCOMPLETE": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.landmarks_incomplete",
+      "sources": [
+        "FN-ANA-03"
+      ]
+    },
+    "LANDMARK_UNKNOWN": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.landmark_unknown",
+      "sources": [
+        "FN-ANA-02"
+      ]
+    },
+    "LAST_ADMIN": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.last_admin",
+      "sources": [
+        "FN-IAM-05"
+      ]
+    },
+    "LATERALITY_LABEL_MISMATCH": {
+      "http_status": null,
+      "kind": "warning",
+      "http_source": "not an HTTP refusal",
+      "message_key": "error.laterality_label_mismatch",
+      "sources": [
+        "FN-ANA-04",
+        "FN-KFR-02"
+      ]
+    },
+    "LOGIN_TAKEN": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.login_taken",
+      "sources": [
+        "FN-IAM-05"
+      ]
+    },
+    "MANIFEST_INCOMPLETE": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.manifest_incomplete",
+      "sources": [
+        "FN-KEX-01"
+      ]
+    },
+    "MANIFEST_INVALID": {
+      "http_status": null,
+      "kind": "job",
+      "http_source": "not an HTTP refusal (job result)",
+      "message_key": "error.manifest_invalid",
+      "sources": [
+        "FN-EXP-02",
+        "FN-KEX-02"
+      ]
+    },
+    "MEASUREMENT_SET_INVALID": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.measurement_set_invalid",
+      "sources": [
+        "FN-API-02",
+        "FN-REV-04"
+      ]
+    },
+    "METADATA_LOCKED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.metadata_locked",
+      "sources": [
+        "FN-SCN-09",
+        "FR-181 (RTM)"
+      ]
+    },
+    "METHOD_NOT_ALLOWED": {
+      "http_status": 405,
+      "kind": "refusal",
+      "http_source": "platform",
+      "message_key": "error.method_not_allowed",
+      "sources": [
+        "XC-FND-11 (platform)"
+      ]
+    },
+    "NAME_REQUIRED": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.name_required",
+      "sources": [
+        "FN-IAM-05"
+      ]
+    },
+    "NON_FINITE": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.non_finite",
+      "sources": [
+        "FN-KOP-13"
+      ]
+    },
+    "NON_FINITE_COORDINATES": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.non_finite_coordinates",
+      "sources": [
+        "FN-KIO-05",
+        "FN-SCN-02"
+      ]
+    },
+    "NORMAL_UNDEFINED": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.normal_undefined",
+      "sources": [
+        "FN-KOP-05"
+      ]
+    },
+    "NOT_FOUND": {
+      "http_status": 404,
+      "kind": "refusal",
+      "http_source": "platform",
+      "message_key": "error.not_found",
+      "sources": [
+        "XC-FND-11 (platform)"
+      ]
+    },
+    "NOT_PENDING": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.not_pending",
+      "sources": [
+        "FN-CFG-03"
+      ]
+    },
+    "NOT_SAVED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.not_saved",
+      "sources": [
+        "FN-REV-04"
+      ]
+    },
+    "OP_REJECTED_EMPTY": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.op_rejected_empty",
+      "sources": [
+        "FN-KOP-01"
+      ]
+    },
+    "OP_REJECTED_LOOP_TOO_LARGE": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.op_rejected_loop_too_large",
+      "sources": [
+        "FN-KOP-02"
+      ]
+    },
+    "OP_REJECTED_MULTIPLE_CONTOURS": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.op_rejected_multiple_contours",
+      "sources": [
+        "FN-KOP-06"
+      ]
+    },
+    "OP_REJECTED_NON_SIMPLE_CONTOUR": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.op_rejected_non_simple_contour",
+      "sources": [
+        "FN-KOP-06"
+      ]
+    },
+    "OP_REJECTED_NO_CONTOUR": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.op_rejected_no_contour",
+      "sources": [
+        "FN-KOP-09"
+      ]
+    },
+    "OP_REJECTED_OPEN_BOUNDARY": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.op_rejected_open_boundary",
+      "sources": [
+        "FN-KOP-06"
+      ]
+    },
+    "OP_UNKNOWN": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.op_unknown",
+      "sources": [
+        "FN-KRP-04"
+      ]
+    },
+    "OUT_OF_RANGE_UNCONFIRMED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.out_of_range_unconfirmed",
+      "sources": [
+        "FN-DES-02",
+        "FN-DES-05"
+      ]
+    },
+    "PARAM_INVALID": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.param_invalid",
+      "sources": [
+        "FN-KFR-01",
+        "FN-KOP-01",
+        "FN-KOP-08",
+        "FN-KRP-04"
+      ]
+    },
+    "PARAM_NOT_SET": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.param_not_set",
+      "sources": [
+        "FN-DES-02",
+        "FN-DES-07",
+        "FN-KRP-04",
+        "FR-184 (RTM)",
+        "FR-189 (RTM)"
+      ]
+    },
+    "PRESCRIPTION_MISSING": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.prescription_missing",
+      "sources": [
+        "FN-CAS-06",
+        "FN-REV-04",
+        "FR-164 (RTM)"
+      ]
+    },
+    "PRIVACY_RECORD_REQUIRED": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.privacy_record_required",
+      "sources": [
+        "FN-CFG-02",
+        "FN-CFG-08"
+      ]
+    },
+    "REAL_DATA_DISABLED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.real_data_disabled",
+      "sources": [
+        "FN-CFG-08",
+        "FN-SCN-01",
+        "SEC-17 (RTM)"
+      ]
+    },
+    "REAPPROVAL_REQUIRED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.reapproval_required",
+      "sources": [
+        "FN-API-02",
+        "FN-CFG-02",
+        "FN-EXP-01",
+        "FR-141 (RTM)"
+      ]
+    },
+    "REASON_REQUIRED": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.reason_required",
+      "sources": [
+        "FN-REV-05"
+      ]
+    },
+    "REASON_TOO_SHORT": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.reason_too_short",
+      "sources": [
+        "FN-SCN-07"
+      ]
+    },
+    "REFLECTION_REJECTED": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.reflection_rejected",
+      "sources": [
+        "FN-KFR-03"
+      ]
+    },
+    "REGEN_FAILED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.regen_failed",
+      "sources": [
+        "FN-DES-03",
+        "FN-DES-04"
+      ]
+    },
+    "REGEN_PENDING": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.regen_pending",
+      "sources": [
+        "FN-DES-04"
+      ]
+    },
+    "REIMPORT_FAILED": {
+      "http_status": null,
+      "kind": "job",
+      "http_source": "not an HTTP refusal (job result)",
+      "message_key": "error.reimport_failed",
+      "sources": [
+        "FN-EXP-02"
+      ]
+    },
+    "REQUEST_INVALID": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "platform",
+      "message_key": "error.request_invalid",
+      "sources": [
+        "XC-FND-11 (platform)"
+      ]
+    },
+    "ROLE_FORBIDDEN": {
+      "http_status": 403,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.role_forbidden",
+      "sources": [
+        "FN-IAM-04",
+        "FN-REV-04"
+      ]
+    },
+    "SCOPE_NOT_COVERED": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.scope_not_covered",
+      "sources": [
+        "FN-CAS-05"
+      ]
+    },
+    "SELF_APPROVAL_FORBIDDEN": {
+      "http_status": 403,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.self_approval_forbidden",
+      "sources": [
+        "FN-CFG-03"
+      ]
+    },
+    "SELF_INTERSECTION_CREATED": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.self_intersection_created",
+      "sources": [
+        "FN-KOP-07",
+        "FN-KOP-10",
+        "FN-KOP-12",
+        "FN-KOP-13"
+      ]
+    },
+    "SELF_INTERSECTION_TIMEOUT": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.self_intersection_timeout",
+      "sources": [
+        "FN-KVL-05"
+      ]
+    },
+    "SESSION_EXPIRED": {
+      "http_status": 401,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.session_expired",
+      "sources": [
+        "FN-API-02",
+        "FN-IAM-02"
+      ]
+    },
+    "SESSION_INVALID": {
+      "http_status": 401,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.session_invalid",
+      "sources": [
+        "FN-IAM-02"
+      ]
+    },
+    "SIGN_CHECK_FAILED": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.sign_check_failed",
+      "sources": [
+        "FN-KOP-10",
+        "FN-KOP-13"
+      ]
+    },
+    "STALE_SOURCE_UNCONFIRMED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.stale_source_unconfirmed",
+      "sources": [
+        "FN-EXP-01",
+        "FN-REV-04"
+      ]
+    },
+    "STORAGE_UNAVAILABLE": {
+      "http_status": 503,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.storage_unavailable",
+      "sources": [
+        "FN-BLB-01"
+      ]
+    },
+    "TARGET_NOT_REACHED": {
+      "http_status": null,
+      "kind": "warning",
+      "http_source": "not an HTTP refusal",
+      "message_key": "error.target_not_reached",
+      "sources": [
+        "FN-KOP-03"
+      ]
+    },
+    "TEST_ONLY_VALUE": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.test_only_value",
+      "sources": [
+        "FN-CFG-01"
+      ]
+    },
+    "UNIT_NOT_CONFIRMED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.unit_not_confirmed",
+      "sources": [
+        "FN-ANA-01",
+        "FN-SCN-11"
+      ]
+    },
+    "UNSUPPORTED_TYPE": {
+      "http_status": 415,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.unsupported_type",
+      "sources": [
+        "FN-CAS-06"
+      ]
+    },
+    "VALIDITY_FAILED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.validity_failed",
+      "sources": [
+        "FN-KOP-06",
+        "FN-REV-04"
+      ]
+    },
+    "VERSION_CONFLICT": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.version_conflict",
+      "sources": [
+        "FN-API-01",
+        "FN-CFG-02",
+        "FN-IAM-06"
+      ]
+    },
+    "VERSION_NOT_DRAFT": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "R1 (state gate -> 409)",
+      "message_key": "error.version_not_draft",
+      "sources": [
+        "FN-DES-02"
+      ]
+    },
+    "ZONE_CONTOUR_INVALID": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "R2 (invalid input -> 422)",
+      "message_key": "error.zone_contour_invalid",
+      "sources": [
+        "FR-183 (RTM)"
+      ]
+    },
+    "ZONE_OVERLAP_NOT_ALLOWED": {
+      "http_status": 409,
+      "kind": "refusal",
+      "http_source": "FS",
+      "message_key": "error.zone_overlap_not_allowed",
+      "sources": [
+        "FN-DES-02",
+        "FN-KOP-11",
+        "FR-180 (RTM)"
+      ]
+    }
   }
 }

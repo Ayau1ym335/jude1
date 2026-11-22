@@ -65,6 +65,8 @@ case "$STAGE" in
     else
       echo "contract: no base ref (set JUDE_CONTRACT_BASE): breaking-change check skipped"
     fi
+    # 2b. Error catalogue error/1 (TSK-API-02-A): every FS/RTM code catalogued; codes stable.
+    uv run --frozen python tools/contract/error_catalogue.py ${base:+--base-ref "$base"}
     # 3. The TypeScript client regenerates to the committed bytes.
     pnpm --filter @jude/contracts generate
     git diff --exit-code -- packages/contracts/src/schema.d.ts       || { echo "contract: src/schema.d.ts is stale; run pnpm --filter @jude/contracts generate" >&2; exit 1; }
