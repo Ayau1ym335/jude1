@@ -5,7 +5,9 @@ every /api/v1 operation declares it as its ``default`` response, so the generate
 knows the error shape.
 """
 
-from typing import Literal
+from datetime import datetime
+from typing import Any, Literal
+import uuid
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -47,3 +49,33 @@ class HealthResponse(BaseModel):
     status: Literal["ok", "unavailable"]
     service: Literal["api"]
     checks: HealthChecks
+
+
+class JobResultSummary(BaseModel):
+    """Summary of the job-result/1 envelope: the kernel report, never the geometry itself."""
+
+    op_type: str
+    op_version: int
+    status: Literal["ok", "rejected", "failed"]
+    reason_code: str | None
+    output_names: list[str]
+    report: dict[str, Any]
+
+
+class JobStatusResponse(BaseModel):
+    """FN-JOB-03: what the UI polls while a job runs."""
+
+    model_config = ConfigDict(extra="forbid")
+    job_id: uuid.UUID
+    type: str
+    status: Literal["queued", "running", "succeeded", "failed"]
+    attempts: int
+    progress: float | None = Field(
+        description="0..1 when the job reports progress; null otherwise", ge=0.0, le=1.0
+    )
+    result: JobResultSummary | None
+    error_code: str | None = Field(description="Error catalogue code when status is failed")
+    message_ru: str | None = Field(description="Russian message for error_code (NFR-05)")
+    correlation_id: str | None
+    created_at: datetime
+    finished_at: datetime | None
