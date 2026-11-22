@@ -14,7 +14,7 @@ This document describes the error catalogue of the API: which codes exist, which
 - the platform codes;
 - the Russian messages.
 
-From the moment `schema` is `error/1` on `main`, the CI check also enforces stability: no code is removed or renamed, and no `http_status` or `kind` changes. A new meaning gets a new code.
+At the sign-off, `status` in `error_catalogue.json` becomes `frozen <date> (<who>)`. From then on, the CI check also enforces stability against the base commit: no code is removed or renamed, and no `http_status` or `kind` changes. A new meaning gets a new code; adding codes stays possible. While the catalogue is a draft, entries can still be corrected.
 
 ## Contents: 100 codes
 

@@ -110,3 +110,20 @@ def test_stability_against_base() -> None:
 
 def test_drafts_before_error_1_do_not_bind() -> None:
     assert ec.main(["--base-ref", "HEAD"]) == 0
+
+
+def test_only_a_frozen_base_binds(monkeypatch: pytest.MonkeyPatch) -> None:
+    draft = _catalogue()
+    frozen = dict(draft, status="frozen 2026-12-01 (engineering lead, IDR-05)")
+
+    class Proc:
+        returncode = 0
+        stderr = ""
+
+        def __init__(self, doc: dict[str, Any]) -> None:
+            self.stdout = json.dumps(doc)
+
+    monkeypatch.setattr(ec.subprocess, "run", lambda *a, **k: Proc(draft))
+    assert ec._at_ref("base", ec.CATALOGUE) is None
+    monkeypatch.setattr(ec.subprocess, "run", lambda *a, **k: Proc(frozen))
+    assert ec._at_ref("base", ec.CATALOGUE) == frozen

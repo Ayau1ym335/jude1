@@ -10,8 +10,9 @@ Fails (exit 1) when:
 2. the catalogue is inconsistent: a ``refusal`` without a 4xx/5xx ``http_status`` or another
    kind with one, a message key without a Russian message, or a message without a code;
 3. Python code raises a code that is not catalogued (``ApiError("X")``, ``error_response("X")``);
-4. with ``--base-ref``: a code was removed, or the ``http_status`` or ``kind`` of an existing
-   code changed. Codes are stable (DS-24); a rename is a new code, never an edit.
+4. with ``--base-ref``, once the base catalogue is frozen (its ``status`` starts with
+   ``frozen``, set at the M0-exit sign-off, IDR-05): a code was removed, or the ``http_status``
+   or ``kind`` of an existing code changed. Codes are stable (DS-24); a rename is a new code.
 """
 
 import argparse
@@ -159,7 +160,8 @@ def _at_ref(ref: str, path: Path) -> dict[str, Any] | None:
             return None
         raise ValueError(f"cannot read {path} at {ref}: {proc.stderr.strip()}")
     old: dict[str, Any] = json.loads(proc.stdout)
-    return old if old.get("schema") == "error/1" else None  # drafts before error/1 are not bound
+    frozen = old.get("schema") == "error/1" and str(old.get("status", "")).startswith("frozen")
+    return old if frozen else None  # a draft binds nothing; the frozen catalogue binds
 
 
 def main(argv: list[str] | None = None) -> int:
