@@ -110,11 +110,6 @@
           "checks": {
             "$ref": "#/components/schemas/HealthChecks"
           },
-          "service": {
-            "const": "api",
-            "title": "Service",
-            "type": "string"
-          },
           "status": {
             "enum": [
               "ok",
@@ -126,7 +121,6 @@
         },
         "required": [
           "status",
-          "service",
           "checks"
         ],
         "title": "HealthResponse",

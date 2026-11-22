@@ -74,11 +74,6 @@ export interface components {
         HealthResponse: {
             checks: components["schemas"]["HealthChecks"];
             /**
-             * Service
-             * @constant
-             */
-            service: "api";
-            /**
              * Status
              * @enum {string}
              */

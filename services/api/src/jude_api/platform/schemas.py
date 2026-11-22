@@ -45,5 +45,4 @@ class HealthChecks(BaseModel):
 class HealthResponse(BaseModel):
     model_config = ConfigDict(extra="forbid")
     status: Literal["ok", "unavailable"]
-    service: Literal["api"]
     checks: HealthChecks

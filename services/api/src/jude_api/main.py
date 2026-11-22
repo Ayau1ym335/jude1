@@ -71,11 +71,11 @@ def create_app(
         except Exception:  # any failure means "not healthy"; details stay out of the response
             return JSONResponse(
                 status_code=503,
-                content={"status": "unavailable", "service": "api", "checks": {"database": "fail"}},
+                content={"status": "unavailable", "checks": {"database": "fail"}},
             )
         return JSONResponse(
             status_code=200,
-            content={"status": "ok", "service": "api", "checks": {"database": "ok"}},
+            content={"status": "ok", "checks": {"database": "ok"}},
         )
 
     app.include_router(router)
