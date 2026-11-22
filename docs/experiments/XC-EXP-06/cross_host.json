@@ -1,0 +1,94 @@
+{
+  "hosts": {
+    "ci": {
+      "docker_os": "Ubuntu 24.04.5 LTS",
+      "kernel": "7.0.0-1014-aws",
+      "ncpu": 4,
+      "mem_bytes": 16464306176,
+      "arch": "x86_64",
+      "image_id": "sha256:96f3a1525ef83271eec57bf01196c79fa66d5917ed4fbc76eab05d7dc3549bc0",
+      "cpu_model": "Intel(R) Xeon(R) 6975P-C"
+    },
+    "local": {
+      "docker_os": "Docker Desktop",
+      "kernel": "6.6.87.2-microsoft-standard-WSL2",
+      "ncpu": 12,
+      "mem_bytes": 7959953408,
+      "arch": "x86_64",
+      "image_id": "sha256:704eaa801706500c50efad2d2b2fffd83c778312295e8c09065ff0097f32cf1a",
+      "cpu_model": "AMD Ryzen 5 7535HS with Radeon Graphics",
+      "runner": "run_detached.sh"
+    }
+  },
+  "same_image": false,
+  "series": {
+    "generic-cold": {
+      "kernels_equal": {
+        "closest_point_triangle": true,
+        "hermite_profile": true,
+        "laplacian_smooth": true,
+        "median_split_order": true,
+        "ordered_sum": true,
+        "orient3d_float": true,
+        "transcendental": true
+      },
+      "all_equal": true
+    },
+    "generic-warm": {
+      "kernels_equal": {
+        "closest_point_triangle": true,
+        "hermite_profile": true,
+        "laplacian_smooth": true,
+        "median_split_order": true,
+        "ordered_sum": true,
+        "orient3d_float": true,
+        "transcendental": true
+      },
+      "all_equal": true
+    },
+    "host-cold": {
+      "kernels_equal": {
+        "closest_point_triangle": true,
+        "hermite_profile": true,
+        "laplacian_smooth": true,
+        "median_split_order": true,
+        "ordered_sum": true,
+        "orient3d_float": true,
+        "transcendental": true
+      },
+      "all_equal": true
+    },
+    "host-warm": {
+      "kernels_equal": {
+        "closest_point_triangle": true,
+        "hermite_profile": true,
+        "laplacian_smooth": true,
+        "median_split_order": true,
+        "ordered_sum": true,
+        "orient3d_float": true,
+        "transcendental": true
+      },
+      "all_equal": true
+    }
+  },
+  "host_vs_generic": {
+    "ci": {
+      "closest_point_triangle": true,
+      "hermite_profile": true,
+      "laplacian_smooth": true,
+      "median_split_order": true,
+      "ordered_sum": true,
+      "orient3d_float": true,
+      "transcendental": true
+    },
+    "local": {
+      "closest_point_triangle": true,
+      "hermite_profile": true,
+      "laplacian_smooth": true,
+      "median_split_order": true,
+      "ordered_sum": true,
+      "orient3d_float": true,
+      "transcendental": true
+    }
+  }
+}
