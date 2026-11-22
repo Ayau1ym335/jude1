@@ -533,7 +533,8 @@ def xe(id, name, desc, reqs, decides, ms, pool, eff, deps, gate="", status="Read
     xc(id, "XEXP", name, desc, reqs, [], decides, ms, pool, eff, deps,
        f"docs/experiments/{id}.md + raw results (CSV) + decision proposal", f"Evidence for {', '.join(decides[:3])}",
        "Report states hardware, image digest, versions, runs, median/p95; recommendation signed by engineering lead", f"{id} protocol (TECHNICAL_OPEN_QUESTIONS §3 / PERFORMANCE_REQUIREMENTS §4)", "PERF/EXP", "DoD-X", gate=gate, status=status, scope=scope)
-xe("XC-EXP-06", "X-06 numba determinism and warm-up on two hosts", "Bit-equality of numba kernels (fastmath off, parallel off) across 100 runs x 2 hosts; JIT warm-up time at worker start.", ["VER-07"], ["TD-02", "TQ-11"], "M0", "KERNEL", (1.5, 2.5, 4), ["XC-FND-12"])
+xe("XC-EXP-06", "X-06 numba determinism and warm-up on two hosts", "Bit-equality of numba kernels (fastmath off, parallel off) across 100 runs x 2 hosts; JIT warm-up time at worker start.", ["VER-07"], ["TD-02", "TQ-11"], "M0", "KERNEL", (1.5, 2.5, 4), ["XC-FND-12"],
+   status="Done 2026-11-22 (X-06 report accepted; TQ-11 closed; TD-02 option b)")
 xe("XC-EXP-08", "X-08 container image build matrix", "Build worker image for Python 3.12 linux/amd64 with all candidate wheels (numpy, scipy, numba, fast-simplification, WeasyPrint system libs); record SOUP list.", ["SEC-09"], ["TQ-09"], "M0", "QA_OPS", (1, 2, 3), ["XC-FND-02"],
    status="Done 2026-11-19 (PR #5 merged; recommendation signed by EL 2026-11-19)")
 xe("XC-EXP-01", "X-01 determinism and tie handling of candidate libraries", "Own BVH vs libigl vs Open3D (closest point); fast-simplification vs meshoptimizer (display LOD); own windowed-sinc only (VTK excluded by IDR-11).", ["VER-07", "NFR-03"], ["TD-03", "TD-11", "TQ-05", "TQ-07"], "M1", "KERNEL", (2, 4, 6), ["XC-SHR-02", "XC-EXP-08"])

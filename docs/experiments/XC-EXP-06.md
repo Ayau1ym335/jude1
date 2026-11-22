@@ -6,7 +6,7 @@
 | Requirement | VER-07 (determinism regime TD-19 / ADR-010) |
 | Date | 2026-11-20 |
 | Scope | Python 3.12 · linux/amd64 · numpy 2.5.4, numba 0.68.1, llvmlite 0.50.0 (X-08 SOUP versions) |
-| Status | **Proposed.** The recommendation in §6 needs the engineering lead's signature (§7). |
+| Status | **Accepted.** The engineering lead signed recommendation §6 on 2026-11-22 (§7). |
 
 ## 1. Question
 
@@ -106,7 +106,7 @@ The cache cuts warm-up by about 5× (5.8 s → 1.1 s). Most of what is left is t
 - **Seven kernels compile in about 5 s.** Total warm-up for the full M1 kernel set will scale with the amount of code. It has to be measured again in BM-01.
 - **No warm-up budget exists yet.** TD-02 says "warm-up acceptable" and PERFORMANCE_REQUIREMENTS leaves the budget TBD until BM-01. This report gives the numbers; it does not set a threshold.
 
-## 6. Recommendation (needs the engineering lead's signature)
+## 6. Recommendation
 
 1. **Close TQ-11 and TD-02 with option (b):** numpy plus numba for the scalar inner loops. The determinism condition of X-06 is met on two hosts with the same image. The C++ extension (option c) is not needed for determinism.
 2. **Required decorator settings:** `fastmath=False`, `parallel=False`, `error_model="numpy"`, plus `NUMBA_NUM_THREADS=1` in the image. These match TD-19. The kernel lint should enforce the decorator settings when the first numba kernel lands (XC-SHR-01 is the first candidate).
@@ -116,6 +116,22 @@ The cache cuts warm-up by about 5× (5.8 s → 1.1 s). Most of what is left is t
 
 ## 7. Sign-off
 
-| Role | Decision | Date | Notes |
+| Role | Name | Date | Decision |
 |---|---|---|---|
-| Engineering lead | _pending_ | | |
+| Engineering lead | Ayau | 2026-11-22 | ☑ Accept §6 ☐ Accept with changes ☐ Reject |
+
+**Form of approval:** a written statement in the implementation session on 2026-11-22: "Accept §6". No changes to §6 were requested.
+
+**Effect:**
+- **TQ-11 is closed and TD-02 is decided** with option (b): numpy plus numba, with the settings in §6.2 and §6.3.
+- **Where the rest lands:** §6.2–§6.4 go into the kernel and the worker image when the first numba kernel lands (XC-SHR-01 is the first candidate). §6.5 goes into the CI `determinism` stage at the same time.
+- **Not decided here:** the BLAS kernel path that X-08 §6.3 deferred "to X-06 / BM-03". None of these kernels calls BLAS, so it stays with BM-03.
+- **Design documents:** updating TECHNICAL_DECISIONS and TECHNICAL_OPEN_QUESTIONS to the new status is document-owner work (XC-FND-10).
+
+## 8. Reproduce
+
+- **CI:** run the workflow `x06-numba-determinism`, by dispatch or with any PR that touches `infra/experiments/x06/**`. Its artifact `x06-ci` holds the same files as `ci/`, and its artifact `x06-image` holds the image itself.
+- **Local, on the CI image:** first `gunzip -c x06-image.tar.gz | docker load`. Then either:
+  - `bash infra/experiments/x06/run.sh jude-x06:exp <out_dir> 100`, or
+  - `bash infra/experiments/x06/run_detached.sh start jude-x06:exp <out_dir> 100`, followed by `… collect jude-x06:exp <out_dir>` once the container has exited.
+- **Compare hosts:** `python infra/experiments/x06/compare.py <ci_dir> <local_dir>`.
