@@ -131,6 +131,181 @@
         ],
         "title": "HealthResponse",
         "type": "object"
+      },
+      "JobResultSummary": {
+        "description": "Summary of the job-result/1 envelope: the kernel report, never the geometry itself.",
+        "properties": {
+          "op_type": {
+            "title": "Op Type",
+            "type": "string"
+          },
+          "op_version": {
+            "title": "Op Version",
+            "type": "integer"
+          },
+          "output_names": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Output Names",
+            "type": "array"
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason Code"
+          },
+          "report": {
+            "additionalProperties": true,
+            "title": "Report",
+            "type": "object"
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "rejected",
+              "failed"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "op_type",
+          "op_version",
+          "status",
+          "reason_code",
+          "output_names",
+          "report"
+        ],
+        "title": "JobResultSummary",
+        "type": "object"
+      },
+      "JobStatusResponse": {
+        "additionalProperties": false,
+        "description": "FN-JOB-03: what the UI polls while a job runs.",
+        "properties": {
+          "attempts": {
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "correlation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correlation Id"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Error catalogue code when status is failed",
+            "title": "Error Code"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "job_id": {
+            "format": "uuid",
+            "title": "Job Id",
+            "type": "string"
+          },
+          "message_ru": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Russian message for error_code (NFR-05)",
+            "title": "Message Ru"
+          },
+          "progress": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "0..1 when the job reports progress; null otherwise",
+            "title": "Progress"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JobResultSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "queued",
+              "running",
+              "succeeded",
+              "failed"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "job_id",
+          "type",
+          "status",
+          "attempts",
+          "progress",
+          "result",
+          "error_code",
+          "message_ru",
+          "correlation_id",
+          "created_at",
+          "finished_at"
+        ],
+        "title": "JobStatusResponse",
+        "type": "object"
       }
     }
   },
@@ -176,6 +351,56 @@
           }
         },
         "summary": "Health"
+      }
+    },
+    "/api/v1/jobs/{job_id}": {
+      "get": {
+        "operationId": "get_job",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatusResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unknown job, or not visible"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Error (DS-24)"
+          }
+        },
+        "summary": "Get Job"
       }
     }
   }

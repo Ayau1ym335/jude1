@@ -14,6 +14,7 @@ from fastapi.routing import APIRoute
 import psycopg
 
 from jude_api.platform.errors import install_error_handlers
+from jude_api.platform.job_routes import router as jobs_router
 from jude_api.platform.middleware import Metrics, RequestContextMiddleware
 from jude_api.platform.probes import DEFAULT_CHECKS, Check, probe_router
 from jude_api.platform.schemas import ERROR_RESPONSES, HealthResponse
@@ -79,6 +80,7 @@ def create_app(
         )
 
     app.include_router(router)
+    app.include_router(jobs_router)
     app.include_router(probe_router(metrics, readiness_checks))
     return app
 

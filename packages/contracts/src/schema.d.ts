@@ -21,6 +21,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/jobs/{job_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Job */
+        get: operations["get_job"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -84,6 +101,74 @@ export interface components {
              */
             status: "ok" | "unavailable";
         };
+        /**
+         * JobResultSummary
+         * @description Summary of the job-result/1 envelope: the kernel report, never the geometry itself.
+         */
+        JobResultSummary: {
+            /** Op Type */
+            op_type: string;
+            /** Op Version */
+            op_version: number;
+            /** Output Names */
+            output_names: string[];
+            /** Reason Code */
+            reason_code: string | null;
+            /** Report */
+            report: {
+                [key: string]: unknown;
+            };
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "ok" | "rejected" | "failed";
+        };
+        /**
+         * JobStatusResponse
+         * @description FN-JOB-03: what the UI polls while a job runs.
+         */
+        JobStatusResponse: {
+            /** Attempts */
+            attempts: number;
+            /** Correlation Id */
+            correlation_id: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Error Code
+             * @description Error catalogue code when status is failed
+             */
+            error_code: string | null;
+            /** Finished At */
+            finished_at: string | null;
+            /**
+             * Job Id
+             * Format: uuid
+             */
+            job_id: string;
+            /**
+             * Message Ru
+             * @description Russian message for error_code (NFR-05)
+             */
+            message_ru: string | null;
+            /**
+             * Progress
+             * @description 0..1 when the job reports progress; null otherwise
+             */
+            progress: number | null;
+            result: components["schemas"]["JobResultSummary"] | null;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "queued" | "running" | "succeeded" | "failed";
+            /** Type */
+            type: string;
+        };
     };
     responses: never;
     parameters: never;
@@ -118,6 +203,46 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HealthResponse"];
+                };
+            };
+            /** @description Error (DS-24) */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    get_job: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                job_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JobStatusResponse"];
+                };
+            };
+            /** @description Unknown job, or not visible */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Error (DS-24) */
