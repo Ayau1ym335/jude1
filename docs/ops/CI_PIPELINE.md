@@ -15,7 +15,7 @@
 | lint | ci / `lint` | every PR, push to main | merge | ruff, ruff format, `mypy --strict`, import-linter, kernel builtins, eslint, prettier, tsc, commitlint | TSK-OPS-01-C (wording/localisation lint, VER-09); schema checks |
 | unit | ci / `unit` | every PR, push to main | merge | unit and property tests (kernel, API, worker, storage fake); coverage report (`reports/coverage.xml`) | every K/B/A/J task; web component tests start with the first TT-U task |
 | determinism | ci / `determinism` | every PR, push to main | merge | jude-arr/1 golden bytes and bit-exact round trips (`-m determinism`) | TSK-OPS-04-C (T9 golden hashes, 100-run determinism nightly) |
-| contract | ci / `contract` | every PR, push to main | merge | gate only (`-m contract`) | XC-FND-06 (OpenAPI / JSON Schema additive-only diff) |
+| contract | ci / `contract` | every PR, push to main | merge | `openapi.json` matches the code; no breaking change against the base commit (`tools/contract/oacompat.py`); TS client regenerates to the committed bytes; `-m contract` tests | XC-FND-06 (done); JSON Schema of stored documents joins with their tasks |
 | integration | ci / `integration` | every PR, push to main | merge | 29 schema and grant tests on a fresh Postgres (`-m integration`) | every TT-B/TT-J task (VER-12 permissions, VER-13 audit) |
 | smoke | ci / `smoke` | every PR, push to main | merge | `docker compose up` + every health endpoint 200 | XC-FND-11 (readiness) |
 | ci-selftest | ci / `ci-selftest` | every PR, push to main | merge | 25 seeded lint violations (XC-FND-04) and a seeded failure in each stage | — |

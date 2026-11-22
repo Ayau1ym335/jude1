@@ -2,5 +2,24 @@
   "name": "@jude/contracts",
   "version": "0.0.0",
   "private": true,
-  "description": "OpenAPI 3.1 contract of record and generated TypeScript client. Populated by XC-FND-06."
+  "description": "OpenAPI 3.1 contract of record (/api/v1) and the generated TypeScript client (XC-FND-06, IF-01).",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./openapi.json": "./openapi.json"
+  },
+  "scripts": {
+    "generate": "openapi-typescript openapi.json --output src/schema.d.ts",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "openapi-fetch": "0.17.0"
+  },
+  "devDependencies": {
+    "openapi-typescript": "7.13.0",
+    "prettier": "3.10.1",
+    "typescript": "6.0.3"
+  }
 }
