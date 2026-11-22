@@ -421,6 +421,24 @@
         "FN-CAS-04"
       ]
     },
+    "JOB_HANDLER_ERROR": {
+      "http_status": null,
+      "kind": "job",
+      "http_source": "not an HTTP refusal (job result)",
+      "message_key": "error.job_handler_error",
+      "sources": [
+        "TSK-JOB-02-J (FN-JOB-02, EH-JOB)"
+      ]
+    },
+    "JOB_LEASE_EXPIRED": {
+      "http_status": null,
+      "kind": "job",
+      "http_source": "not an HTTP refusal (job result)",
+      "message_key": "error.job_lease_expired",
+      "sources": [
+        "TSK-JOB-02-J (FN-JOB-02, EH-JOB)"
+      ]
+    },
     "JOB_RESOURCE_LIMIT": {
       "http_status": null,
       "kind": "job",
@@ -428,6 +446,15 @@
       "message_key": "error.job_resource_limit",
       "sources": [
         "FN-JOB-02"
+      ]
+    },
+    "JOB_TYPE_UNKNOWN": {
+      "http_status": null,
+      "kind": "job",
+      "http_source": "not an HTTP refusal (job result)",
+      "message_key": "error.job_type_unknown",
+      "sources": [
+        "TSK-JOB-02-J (FN-JOB-02, EH-JOB)"
       ]
     },
     "LANDMARKS_INCOMPLETE": {
