@@ -530,7 +530,8 @@ xc("XC-SHR-02", "XSHR", "Deterministic AABB BVH (closest point, ray, box-pair tr
 xc("XC-SHR-03", "XSHR", "Fixture sets T13-T15 (adversarial predicates, ties, contours)",
    "Generators and frozen files for T13 (near-coplanar, 1-ulp), T14 (equidistant faces, planes through vertices), T15 (convex/concave/comb/spiral contours).",
    ["VER-01", "VER-08"], ["FN-OPS-06"], ["GEOMETRY_TESTING_STRATEGY §2"], "M0", "KERNEL", (1.5, 2.5, 4), ["TSK-OPS-06-C"],
-   "tests/fixtures/T13..T15 + generator scripts", "Robustness fixtures available to all kernel tests", "Fixture hashes frozen; generator reproducible", "CI-fixtures", "CI", "DoD-STD + DoD-C")
+   "tests/fixtures/T13..T15 + generator scripts", "Robustness fixtures available to all kernel tests", "Fixture hashes frozen; generator reproducible", "CI-fixtures", "CI", "DoD-STD + DoD-C",
+   status="Done 2026-11-22 (PR #27 merged; T13-T15 hashes frozen and reproducible)")
 xc("XC-WSK-01", "XFND", "Walking skeleton: phantom STL -> closed positive -> export through every layer",
    "Dev-only route (test_only flag, IDR-31): upload phantom -> parse job -> mm -> test-only frame fixture -> closure -> validity -> hash-bound minimal approval -> STL export + re-import -> download; viewer shows LOD.",
    ["STK-01", "VER-15", "VER-06", "VER-07"], ["FN-SCN-02", "FN-KOP-06", "FN-KVL-07", "FN-KRP-01", "FN-KIO-07"], ["BL-017", "BL-018", "BL-019", "BL-020", "OQ-FS-38"], "M1", "BACKEND", (3, 5, 8),
