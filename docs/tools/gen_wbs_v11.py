@@ -513,7 +513,8 @@ xc("XC-FND-12", "XSHR", "Kernel contracts: MeshArrays, jude-arr/1, OpResult, ker
 xc("XC-SHR-01", "XSHR", "Exact geometric predicates (orient2d/orient3d) port",
    "Port of public-domain Shewchuk adaptive predicates (TD-04) with float filter + exact fallback; tested against Python fractions on adversarial set T13.",
    ["FR-171", "FR-080", "FR-173"], ["FN-KVL-05", "FN-KOP-06", "FN-KMS-04"], ["TD-04", "ALG-11", "ALG-25", "LIB-PREDICATES"], "M0", "KERNEL", (3, 5, 8), ["XC-FND-12", "XC-EXP-06"],
-   "jude_kernel/shared/predicates.py (+ numba kernels)", "Sign-exact orientation tests for all robustness-critical code", "100 % agreement with rational oracle on T13 (>= 10^5 cases); determinism 100 runs", "UT-predicates; PT-predicates vs fractions (T13)", "UT, PT, GT", "DoD-STD + DoD-K", gate="IDR-10")
+   "jude_kernel/shared/predicates.py (+ numba kernels)", "Sign-exact orientation tests for all robustness-critical code", "100 % agreement with rational oracle on T13 (>= 10^5 cases); determinism 100 runs", "UT-predicates; PT-predicates vs fractions (T13)", "UT, PT, GT", "DoD-STD + DoD-K", gate="IDR-10",
+   status="Done 2026-11-22 (PR #16 merged; T13 100 % agreement with the rational oracle)")
 xc("XC-SHR-02", "XSHR", "Deterministic AABB BVH (closest point, ray, box-pair traversal)",
    "Median-split BVH shared by ALG-11/33/34/40; Ericson closest-point regions; tie rule = smallest face_id (T14); incremental refit for guard; numba inner loops (IDR-10).",
    ["FR-030", "FR-171", "FR-070", "FR-172"], ["FN-KAN-01", "FN-KVL-05", "FN-KCP-01", "FN-KAN-03"], ["ALG-33", "ALG-11", "TD-03", "TQ-05"], "M1", "KERNEL", (5, 8, 13), ["XC-FND-12", "XC-EXP-06"],
