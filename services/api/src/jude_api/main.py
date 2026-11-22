@@ -10,14 +10,19 @@ import os
 
 from fastapi import APIRouter, FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.routing import APIRoute
 import psycopg
 
 from jude_api.platform.errors import install_error_handlers
 from jude_api.platform.middleware import Metrics, RequestContextMiddleware
 from jude_api.platform.probes import DEFAULT_CHECKS, Check, probe_router
+from jude_api.platform.schemas import ERROR_RESPONSES, HealthResponse
 from jude_platform.logs import build_version, configure_logging
 
 API_PREFIX = "/api/v1"
+# Version of the contract document (IF-01): the major version of the URI. Additive changes keep
+# it; a breaking change means /api/v2. The build version is in /metrics and in every log line.
+API_CONTRACT_VERSION = "1"
 DB_CONNECT_TIMEOUT_S = 2
 DISTRIBUTION = "jude-api"
 
@@ -31,6 +36,11 @@ def postgres_check() -> None:
         conn.execute("SELECT 1")
 
 
+def operation_id(route: APIRoute) -> str:
+    """Stable operationId = the endpoint function name (the generated client's method names)."""
+    return route.name
+
+
 def create_app(
     db_check: DbCheck = postgres_check,
     readiness_checks: Mapping[str, Check] = DEFAULT_CHECKS,
@@ -38,18 +48,23 @@ def create_app(
     version = build_version(DISTRIBUTION)
     app = FastAPI(
         title="Jude API",
-        version=version,
+        version=API_CONTRACT_VERSION,
         openapi_url=f"{API_PREFIX}/openapi.json",
         docs_url=None,
         redoc_url=None,
+        generate_unique_id_function=operation_id,
     )
     metrics = Metrics("api", version)
     app.add_middleware(RequestContextMiddleware, metrics=metrics)
     install_error_handlers(app)
 
-    router = APIRouter(prefix=API_PREFIX)
+    router = APIRouter(prefix=API_PREFIX, responses=ERROR_RESPONSES)
 
-    @router.get("/health")
+    @router.get(
+        "/health",
+        response_model=HealthResponse,
+        responses={503: {"model": HealthResponse, "description": "Database unreachable"}},
+    )
     def health() -> JSONResponse:
         try:
             db_check()

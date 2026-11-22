@@ -116,10 +116,26 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 0  # the breaking-change check reads the contract at the base commit
       - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           version: ${{ env.UV_VERSION }}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - run: npm install -g --no-fund --no-audit pnpm@${{ env.PNPM_VERSION }}
       - run: uv sync --locked
+      - run: pnpm install --frozen-lockfile
+      - name: Base commit for the breaking-change check
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          base="${PR_BASE:-$PUSH_BEFORE}"
+          if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            base="$(git rev-parse HEAD^1)"
+          fi
+          echo "JUDE_CONTRACT_BASE=$base" >> "$GITHUB_ENV"
       - name: Seed (demonstration PRs only)
         run: if [ -f .github/ci-seed ]; then echo "JUDE_CI_SEED=$(tr -d '[:space:]' < .github/ci-seed)" >> "$GITHUB_ENV"; fi
       - name: Stage contract

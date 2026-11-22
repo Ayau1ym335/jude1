@@ -14,6 +14,7 @@ dependencies = [
 
 [project.scripts]
 jude-migrate = "jude_api.db.migrate:main"
+jude-openapi = "jude_api.contract:main"
 
 [tool.uv.sources]
 jude-platform = { workspace = true }

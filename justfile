@@ -78,12 +78,20 @@ lint-web:
     pnpm --filter @jude/web lint
     pnpm --filter @jude/web format:check
     pnpm --filter @jude/web typecheck
+    pnpm --filter @jude/contracts format:check
+    pnpm --filter @jude/contracts typecheck
+
+# Regenerate the API contract (packages/contracts/openapi.json) and its TypeScript client
+contract:
+    uv run --frozen jude-openapi
+    pnpm --filter @jude/contracts generate
 
 # Apply ruff fixes + formatting and prettier
 fmt:
     uv run --frozen ruff check --fix
     uv run --frozen ruff format
     pnpm --filter @jude/web format
+    pnpm --filter @jude/contracts format
 
 # Run one CI stage exactly as CI does: lint unit determinism contract integration smoke
 # oracle security e2e performance  (seed a failure with JUDE_CI_SEED=<stage>)

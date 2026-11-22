@@ -42,6 +42,8 @@ case "$STAGE" in
     pnpm --filter @jude/web lint
     pnpm --filter @jude/web format:check
     pnpm --filter @jude/web typecheck
+    pnpm --filter @jude/contracts format:check
+    pnpm --filter @jude/contracts typecheck
     ;;
   unit)
     # Coverage is reported now; the thresholds of DEVELOPMENT_TEST_PLAN §6 apply from M1/M2.
@@ -52,7 +54,20 @@ case "$STAGE" in
   determinism)  # T9 golden hashes + 100-run determinism join with TSK-OPS-04-C
     run_pytest "determinism"
     ;;
-  contract)     # OpenAPI / JSON Schema diff joins with XC-FND-06
+  contract)     # XC-FND-06: OpenAPI contract of record + generated client (IF-01)
+    # 1. openapi.json matches the API code.
+    uv run --frozen jude-openapi --check
+    # 2. No breaking change against the base (CI sets JUDE_CONTRACT_BASE; locally origin/main).
+    base="${JUDE_CONTRACT_BASE:-}"
+    if [[ -z "$base" ]] && git rev-parse --verify --quiet origin/main >/dev/null; then base=origin/main; fi
+    if [[ -n "$base" ]]; then
+      uv run --frozen python tools/contract/oacompat.py --base-ref "$base"
+    else
+      echo "contract: no base ref (set JUDE_CONTRACT_BASE): breaking-change check skipped"
+    fi
+    # 3. The TypeScript client regenerates to the committed bytes.
+    pnpm --filter @jude/contracts generate
+    git diff --exit-code -- packages/contracts/src/schema.d.ts       || { echo "contract: src/schema.d.ts is stale; run pnpm --filter @jude/contracts generate" >&2; exit 1; }
     run_pytest "contract"
     ;;
   integration)  # needs JUDE_TEST_ADMIN_URL (disposable Postgres)
