@@ -1,0 +1,32 @@
+{
+  "convention": "+m moves the surface along the outward normal (FN-KOP-10)",
+  "expected": [
+    {
+      "m": -2.0,
+      "radius_after": 73.0
+    },
+    {
+      "m": -0.5,
+      "radius_after": 74.5
+    },
+    {
+      "m": 0.5,
+      "radius_after": 75.5
+    },
+    {
+      "m": 2.0,
+      "radius_after": 77.0
+    }
+  ],
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  },
+  "note": "magnitudes are test inputs, not clinical values",
+  "radius": 75.0
+}

@@ -1,0 +1,17 @@
+{
+  "base": "icosphere_s2_r75",
+  "defects": {
+    "boundary_loops": 1,
+    "hole_vertices": 6
+  },
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  },
+  "removed_faces": 6
+}

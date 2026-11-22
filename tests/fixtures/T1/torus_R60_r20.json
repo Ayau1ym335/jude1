@@ -1,0 +1,23 @@
+{
+  "area": 47374.101125229,
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  },
+  "major_radius": 60.0,
+  "mesh": {
+    "closed": true,
+    "euler": 0,
+    "genus": 1,
+    "n_faces": 9216,
+    "n_vertices": 4608
+  },
+  "minor_radius": 20.0,
+  "surface": "torus",
+  "volume": 473741.011252289
+}

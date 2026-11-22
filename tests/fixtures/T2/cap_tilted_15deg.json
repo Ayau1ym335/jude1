@@ -1,0 +1,32 @@
+{
+  "boundary": {
+    "kind": "tilted",
+    "plane": {
+      "normal": [
+        -0.2588190451024275,
+        0.0,
+        0.9659258262890944
+      ],
+      "offset": -20.0
+    }
+  },
+  "boundary_loops": 1,
+  "closure_expectation": "one cut contour (FN-KOP-06); other loops are refused",
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  },
+  "n_faces": 3286,
+  "semi_axes": [
+    95.0,
+    75.0,
+    70.0
+  ],
+  "surface": "open ellipsoid cap",
+  "watertight": false
+}

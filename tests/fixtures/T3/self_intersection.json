@@ -1,0 +1,16 @@
+{
+  "base": "icosphere_s2_r75",
+  "defects": {
+    "moved_vertex": 40,
+    "self_intersecting": true
+  },
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  }
+}

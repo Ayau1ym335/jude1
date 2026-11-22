@@ -81,6 +81,14 @@ lint-web:
     pnpm --filter @jude/contracts format:check
     pnpm --filter @jude/contracts typecheck
 
+# Synthetic fixtures T1-T8, T10 (FN-OPS-06): build writes tests/fixtures (large files only
+# locally), check regenerates and compares with tests/fixtures/manifest.json
+fixtures:
+    uv run --frozen jude-fixtures build
+
+fixtures-check:
+    uv run --frozen jude-fixtures check
+
 # Regenerate the API contract (packages/contracts/openapi.json) and its TypeScript client
 contract:
     uv run --frozen jude-openapi

@@ -1,0 +1,16 @@
+{
+  "base": "icosphere_s2_r75",
+  "defects": {
+    "boundary_loops": 5,
+    "coincident_vertex_pairs": 5
+  },
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "defects": {
+    "expected": "FILE_UNREADABLE",
+    "reason": "size != 84 + 50*count"
+  },
+  "note": "file-level defect"
+}

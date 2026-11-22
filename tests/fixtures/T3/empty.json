@@ -1,0 +1,6 @@
+{
+  "defects": {
+    "expected": "FILE_EMPTY"
+  },
+  "note": "file-level defect"
+}

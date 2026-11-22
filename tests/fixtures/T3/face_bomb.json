@@ -1,0 +1,7 @@
+{
+  "defects": {
+    "expected": "FILE_UNREADABLE or FACE_LIMIT",
+    "reason": "count field claims 2**31 triangles in a 184-byte file"
+  },
+  "note": "file-level defect"
+}

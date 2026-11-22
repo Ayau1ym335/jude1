@@ -1,0 +1,17 @@
+{
+  "base": "icosphere_s2_r75",
+  "defects": {
+    "components_by_faces": 1,
+    "nonmanifold_vertices": 1,
+    "unused_vertices": 1
+  },
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  }
+}

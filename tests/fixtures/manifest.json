@@ -1,0 +1,912 @@
+{
+  "fixtures": {
+    "T1/ellipsoid_asym_s4": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 256084,
+          "committed": true,
+          "path": "T1/ellipsoid_asym_s4/mesh.stl",
+          "sha256": "7d651058f3252ae5d2ab1414578394bba13eb7c26c65be356a200a9e1d74594c"
+        }
+      },
+      "params": {
+        "level": 4,
+        "rotation": {
+          "cos": 0.96,
+          "sin": 0.28
+        },
+        "semi_axes": [
+          95.0,
+          75.0,
+          70.0
+        ]
+      },
+      "seed": null,
+      "set": "T1",
+      "truth": "T1/ellipsoid_asym_s4.json",
+      "truth_sha256": "5db014867f8514a6b302d080762228eb3efcf82a7be5e21c7112c368729cf954"
+    },
+    "T1/ellipsoid_asym_s6": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 4096084,
+          "committed": false,
+          "path": "T1/ellipsoid_asym_s6/mesh.stl",
+          "sha256": "a96c2e30a688ae619f0fe555e40b30abde14ead54392ec14fca65b84b084d779"
+        }
+      },
+      "params": {
+        "level": 6,
+        "rotation": {
+          "cos": 0.96,
+          "sin": 0.28
+        },
+        "semi_axes": [
+          95.0,
+          75.0,
+          70.0
+        ]
+      },
+      "seed": null,
+      "set": "T1",
+      "truth": "T1/ellipsoid_asym_s6.json",
+      "truth_sha256": "79d01bef6d2d69c7249b31a08af5cc96978ef87d07cece9deeddf248b7935c8d"
+    },
+    "T1/ellipsoid_s4": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 256084,
+          "committed": true,
+          "path": "T1/ellipsoid_s4/mesh.stl",
+          "sha256": "35e018ee4b4965f0f78ebe2679916693badd48e8d95950836ff1abf82cd9ef44"
+        }
+      },
+      "params": {
+        "level": 4,
+        "rotation": {
+          "cos": 1.0,
+          "sin": 0.0
+        },
+        "semi_axes": [
+          95.0,
+          75.0,
+          70.0
+        ]
+      },
+      "seed": null,
+      "set": "T1",
+      "truth": "T1/ellipsoid_s4.json",
+      "truth_sha256": "ebb2122b4f2cc32f6784f82525809f39c2c4420f3fd21bc476793ad696fbd7d3"
+    },
+    "T1/ellipsoid_s6": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 4096084,
+          "committed": false,
+          "path": "T1/ellipsoid_s6/mesh.stl",
+          "sha256": "635f00aa18ce1a40c58bcc1a811ef807cd9f3935bb2ed3da9aa394d2e23b69d2"
+        }
+      },
+      "params": {
+        "level": 6,
+        "rotation": {
+          "cos": 1.0,
+          "sin": 0.0
+        },
+        "semi_axes": [
+          95.0,
+          75.0,
+          70.0
+        ]
+      },
+      "seed": null,
+      "set": "T1",
+      "truth": "T1/ellipsoid_s6.json",
+      "truth_sha256": "318abcddfc27ae3c19b6d7c3aadae749563fa44e909f6d6f17cfc52d3d4050da"
+    },
+    "T1/icosphere_s4_r75": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 256084,
+          "committed": true,
+          "path": "T1/icosphere_s4_r75/mesh.stl",
+          "sha256": "4ec5ea7edda21d81745712b6ce54d4a73e5ad1328cd95c71d217d7707bd7591a"
+        }
+      },
+      "params": {
+        "level": 4,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T1",
+      "truth": "T1/icosphere_s4_r75.json",
+      "truth_sha256": "44e119c6593b10c59874a1928f9c85e86d4cd17b0a1b4de459f6fe2af942ac38"
+    },
+    "T1/icosphere_s5_r75": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 1024084,
+          "committed": true,
+          "path": "T1/icosphere_s5_r75/mesh.stl",
+          "sha256": "0e4fcbfcd2fefe0d3eab35bacd7df10d10ee6ed6d22f9128b7d29b54b4a53d0e"
+        }
+      },
+      "params": {
+        "level": 5,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T1",
+      "truth": "T1/icosphere_s5_r75.json",
+      "truth_sha256": "71e450dddd575006aeeb8c152f9f7059cc3bcbec5f5e560f12733528051f0672"
+    },
+    "T1/icosphere_s6_r75": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 4096084,
+          "committed": false,
+          "path": "T1/icosphere_s6_r75/mesh.stl",
+          "sha256": "0cf339edd118f30241058fbccef215f16956ff208da0ae58d257b126dccdb03f"
+        }
+      },
+      "params": {
+        "level": 6,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T1",
+      "truth": "T1/icosphere_s6_r75.json",
+      "truth_sha256": "700c2a25904728afdd38440c4e41c1cbf8bb045a3e7f2c62f13e09fe31aeae3d"
+    },
+    "T1/icosphere_s7_r75": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 16384084,
+          "committed": false,
+          "path": "T1/icosphere_s7_r75/mesh.stl",
+          "sha256": "3113f7ef88ebf6b74b017ace797f95b385fc138618d1faa22a4e9120663abd99"
+        }
+      },
+      "params": {
+        "level": 7,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T1",
+      "truth": "T1/icosphere_s7_r75.json",
+      "truth_sha256": "4a71551cc4618a78ea2d08fb9051427dc53a9e70caa6a72b5bfa211a21bac840"
+    },
+    "T1/icosphere_s8_r75": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 65536084,
+          "committed": false,
+          "path": "T1/icosphere_s8_r75/mesh.stl",
+          "sha256": "0c15c6005d22964491b094e33e2f20985e0d2f80ccc38dfcece5e29dfb80c941"
+        }
+      },
+      "params": {
+        "level": 8,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T1",
+      "truth": "T1/icosphere_s8_r75.json",
+      "truth_sha256": "591fc2f762f35d3f59caac1be923f00dbde1f135951dfa094ddfd12a4b64f1fb"
+    },
+    "T1/torus_R60_r20": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 460884,
+          "committed": true,
+          "path": "T1/torus_R60_r20/mesh.stl",
+          "sha256": "3f7f67456e2ce37af2e3b4318591811ac23f08c530e14514b65641b1e923fea6"
+        }
+      },
+      "params": {
+        "major": 60.0,
+        "minor": 20.0,
+        "nu": 96,
+        "nv": 48
+      },
+      "seed": null,
+      "set": "T1",
+      "truth": "T1/torus_R60_r20.json",
+      "truth_sha256": "95fd215df996bdd3cb6315a98338e70e845d60acd1c02d025572ba97f3edbfba"
+    },
+    "T10/count_plus_one": {
+      "files": {
+        "count_plus_one.stl": {
+          "bytes": 64084,
+          "committed": true,
+          "path": "T10/count_plus_one/count_plus_one.stl",
+          "sha256": "cae16639005b6bc414a97f9c3e4931cff83a6b7c5c6963fcfac01c6e54ee7a76"
+        }
+      },
+      "params": {
+        "level": 3,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T10",
+      "truth": "T10/count_plus_one.json",
+      "truth_sha256": "bfa7b8c103fdb6dda7f511c1141fd48d0cf79b04fc2d78195b9f1e3f8213a18f"
+    },
+    "T10/export_ok": {
+      "files": {
+        "export_ok.stl": {
+          "bytes": 64084,
+          "committed": true,
+          "path": "T10/export_ok/export_ok.stl",
+          "sha256": "c38d4fb52eb962d34fb6bdea16d56788d853b53ce61160845e545d104f04ed39"
+        }
+      },
+      "params": {
+        "level": 3,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T10",
+      "truth": "T10/export_ok.json",
+      "truth_sha256": "10c43419a775c8ccbee9b98c59532ba2620765123bb479c1508e43716aa1381a"
+    },
+    "T10/nan_coordinate": {
+      "files": {
+        "nan_coordinate.stl": {
+          "bytes": 64084,
+          "committed": true,
+          "path": "T10/nan_coordinate/nan_coordinate.stl",
+          "sha256": "363dd00c9ae85ff5b738fee4d44bbfbed2bc0eaa82fae9797538f67c643d4516"
+        }
+      },
+      "params": {
+        "level": 3,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T10",
+      "truth": "T10/nan_coordinate.json",
+      "truth_sha256": "9e7fcbf5e45b6dca250572733b4ea991b1790ace38c8c1540cd4aa6d9c7c26cd"
+    },
+    "T10/triangles_swapped": {
+      "files": {
+        "triangles_swapped.stl": {
+          "bytes": 64084,
+          "committed": true,
+          "path": "T10/triangles_swapped/triangles_swapped.stl",
+          "sha256": "4460bac2bc7e33de46f80ef8ec3ebe17956b600f5f47501cd1cc9b8344949546"
+        }
+      },
+      "params": {
+        "level": 3,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T10",
+      "truth": "T10/triangles_swapped.json",
+      "truth_sha256": "9e7fcbf5e45b6dca250572733b4ea991b1790ace38c8c1540cd4aa6d9c7c26cd"
+    },
+    "T10/truncated": {
+      "files": {
+        "truncated.stl": {
+          "bytes": 64074,
+          "committed": true,
+          "path": "T10/truncated/truncated.stl",
+          "sha256": "80532ccae9850c4dbdf459931a7f9e5bbbd5139942e75f795cb2329851c869c9"
+        }
+      },
+      "params": {
+        "level": 3,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T10",
+      "truth": "T10/truncated.json",
+      "truth_sha256": "ce0f65f999766ff8ec4843b09fd2a113c25fe492434cdd7ba8c6ec5f07bb68a9"
+    },
+    "T10/vertex_lsb_flip": {
+      "files": {
+        "vertex_lsb_flip.stl": {
+          "bytes": 64084,
+          "committed": true,
+          "path": "T10/vertex_lsb_flip/vertex_lsb_flip.stl",
+          "sha256": "bc43655be6a4b672f9785bd1ee1abee80d29746970ef4c235805bc0ee7df0cea"
+        }
+      },
+      "params": {
+        "level": 3,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T10",
+      "truth": "T10/vertex_lsb_flip.json",
+      "truth_sha256": "7eca560201448f4b4b2635a32bd73367bb8b6151b31bc48d6d573d0afa0e8642"
+    },
+    "T10/vertex_moved_0p5mm": {
+      "files": {
+        "vertex_moved_0p5mm.stl": {
+          "bytes": 64084,
+          "committed": true,
+          "path": "T10/vertex_moved_0p5mm/vertex_moved_0p5mm.stl",
+          "sha256": "584a67581266c39a8f628c88d4077b49d1db976f5151e63aa110777651f34153"
+        }
+      },
+      "params": {
+        "level": 3,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T10",
+      "truth": "T10/vertex_moved_0p5mm.json",
+      "truth_sha256": "9e7fcbf5e45b6dca250572733b4ea991b1790ace38c8c1540cd4aa6d9c7c26cd"
+    },
+    "T2/cap_planar_z-20": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 164884,
+          "committed": true,
+          "path": "T2/cap_planar_z-20/mesh.stl",
+          "sha256": "4828f4050ead26d148f4c36f77fe9bb35345ac6a984411e4c9362d017b8f7c12"
+        }
+      },
+      "params": {
+        "cut": {
+          "kind": "planar",
+          "plane_z": -20.0
+        },
+        "level": 4
+      },
+      "seed": null,
+      "set": "T2",
+      "truth": "T2/cap_planar_z-20.json",
+      "truth_sha256": "aa2b9c1171d8328f0adfe03bfa6513406a98693e7c00d43f20419d1b7e9fdd3f"
+    },
+    "T2/cap_tilted_15deg": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 164384,
+          "committed": true,
+          "path": "T2/cap_tilted_15deg/mesh.stl",
+          "sha256": "cdbec8e9daed15a44350cc7a72fa4cbb9bed19988d029a40cfe1e65a7d0a7812"
+        }
+      },
+      "params": {
+        "cut": {
+          "kind": "tilted",
+          "plane": {
+            "normal": [
+              -0.2588190451024275,
+              0.0,
+              0.9659258262890944
+            ],
+            "offset": -20.0
+          }
+        },
+        "level": 4
+      },
+      "seed": null,
+      "set": "T2",
+      "truth": "T2/cap_tilted_15deg.json",
+      "truth_sha256": "3d9c21662726d5a1bbaae289573aadba15638a32513dcdef6486fcf6cc823d49"
+    },
+    "T2/cap_wavy": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 164934,
+          "committed": true,
+          "path": "T2/cap_wavy/mesh.stl",
+          "sha256": "e494453cd2b6420b77b4d542ea5ba28774b90013bc892062e55886454e874909"
+        }
+      },
+      "params": {
+        "cut": {
+          "kind": "wavy",
+          "z": "-20 + 5 sin(3 phi)"
+        },
+        "level": 4
+      },
+      "seed": null,
+      "set": "T2",
+      "truth": "T2/cap_wavy.json",
+      "truth_sha256": "4617f617d2f20c260f89fe73f9dde4a560eafa2f97075d8f69efe8163a100edc"
+    },
+    "T2/cap_with_top_hole": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 164384,
+          "committed": true,
+          "path": "T2/cap_with_top_hole/mesh.stl",
+          "sha256": "0b20700362005b06aad6462b40632faf607b101eefa952ccb9f59530c7ffce76"
+        }
+      },
+      "params": {
+        "cut": {
+          "kind": "planar + hole near the vertex",
+          "plane_z": -20.0
+        },
+        "level": 4
+      },
+      "seed": null,
+      "set": "T2",
+      "truth": "T2/cap_with_top_hole.json",
+      "truth_sha256": "78abba4fd51f988194bafb9111a8f614a9a9886d97f7b314eb24cbd8d4c9897c"
+    },
+    "T3/degenerate_faces": {
+      "files": {
+        "mesh.jarr": {
+          "bytes": 7968,
+          "committed": true,
+          "path": "T3/degenerate_faces/mesh.jarr",
+          "sha256": "256beed2402106514af8f054a1b3798e4eae25ef6f341749fb3b80de80b2ff91"
+        },
+        "mesh.stl": {
+          "bytes": 16234,
+          "committed": true,
+          "path": "T3/degenerate_faces/mesh.stl",
+          "sha256": "6903d59ccd12182513b9d25f8a8e95526e4ecce9e660a195e7cc2b3064e91897"
+        }
+      },
+      "params": {
+        "base_level": 2
+      },
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/degenerate_faces.json",
+      "truth_sha256": "21120e9e6844909d57d9cfcc033057946984af969a8978368a72f7b689ab1d5d"
+    },
+    "T3/duplicate_faces": {
+      "files": {
+        "mesh.jarr": {
+          "bytes": 7992,
+          "committed": true,
+          "path": "T3/duplicate_faces/mesh.jarr",
+          "sha256": "e3e76c68bc25bcc68200ea5a0baa3555441d0bb29b399d604764ea75a3e2dfa7"
+        },
+        "mesh.stl": {
+          "bytes": 16334,
+          "committed": true,
+          "path": "T3/duplicate_faces/mesh.stl",
+          "sha256": "8706492b0c70f2ee08c64dfac5ce448512206b3b5cc979f563e91b244203c788"
+        }
+      },
+      "params": {
+        "base_level": 2
+      },
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/duplicate_faces.json",
+      "truth_sha256": "534412fa3238453333b956cc0ed7fb3eee299da6d2755829fd8cf966cc4adcb5"
+    },
+    "T3/duplicate_vertices": {
+      "files": {
+        "mesh.jarr": {
+          "bytes": 8048,
+          "committed": true,
+          "path": "T3/duplicate_vertices/mesh.jarr",
+          "sha256": "5b872d84d0cb5bfcf30cd1fc8e843639a5f1d31e134009bb6270eb21398a574c"
+        },
+        "mesh.stl": {
+          "bytes": 16084,
+          "committed": true,
+          "path": "T3/duplicate_vertices/mesh.stl",
+          "sha256": "65c0404578e3f5fcdbba126ab1e8614da47393b2921cb0a9a803293dbb5b8456"
+        }
+      },
+      "params": {
+        "base_level": 2
+      },
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/duplicate_vertices.json",
+      "truth_sha256": "c4e399c8703571cd59030262ed1d2c9dccb79e682ba2cd295b89de7047d5a00c"
+    },
+    "T3/empty": {
+      "files": {
+        "empty.stl": {
+          "bytes": 0,
+          "committed": true,
+          "path": "T3/empty/empty.stl",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "params": {},
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/empty.json",
+      "truth_sha256": "b93d0684094543126bf7f8af3636bec43dab4cd1974d623ae6209d8f20a5d74f"
+    },
+    "T3/extra_component": {
+      "files": {
+        "mesh.jarr": {
+          "bytes": 9896,
+          "committed": true,
+          "path": "T3/extra_component/mesh.jarr",
+          "sha256": "46e2af04897b04084916ed04fe242aa61b62f7a5a0b030a30e66e123e809ea03"
+        },
+        "mesh.stl": {
+          "bytes": 20084,
+          "committed": true,
+          "path": "T3/extra_component/mesh.stl",
+          "sha256": "3a5e6bf1119bb6480c45bce90063a9bd1d171065a28312a1a7ad145e6d1b0dd0"
+        }
+      },
+      "params": {
+        "base_level": 2
+      },
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/extra_component.json",
+      "truth_sha256": "957488053fca30487a9919a8d7d588875a785759c7cf7e3dde7abcb6dc42ab91"
+    },
+    "T3/face_bomb": {
+      "files": {
+        "face_bomb.stl": {
+          "bytes": 184,
+          "committed": true,
+          "path": "T3/face_bomb/face_bomb.stl",
+          "sha256": "6188ee58712a78ba4117872f0ff6508b1fb531902c662b424b1ef128732a5453"
+        }
+      },
+      "params": {},
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/face_bomb.json",
+      "truth_sha256": "44f97f5e8345fb2f777aae2197b5c41873cf22b52841f65f0a48288ae5bd0233"
+    },
+    "T3/flipped_faces": {
+      "files": {
+        "mesh.jarr": {
+          "bytes": 7928,
+          "committed": true,
+          "path": "T3/flipped_faces/mesh.jarr",
+          "sha256": "6323d394781108c2fc2be81c2611f9bfebdb65d3d710617d9b24a1070fa60805"
+        },
+        "mesh.stl": {
+          "bytes": 16084,
+          "committed": true,
+          "path": "T3/flipped_faces/mesh.stl",
+          "sha256": "941e226d931f6704fa7c2e6fd09f6caddec6c328a66939ce786aed2d6b73c7bf"
+        }
+      },
+      "params": {
+        "base_level": 2
+      },
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/flipped_faces.json",
+      "truth_sha256": "30db55b7e4205826bb1f7e1541381792ba13b9455b2db61cdbcec0b3d5cb8b95"
+    },
+    "T3/ghost_layer": {
+      "files": {
+        "mesh.jarr": {
+          "bytes": 15656,
+          "committed": true,
+          "path": "T3/ghost_layer/mesh.jarr",
+          "sha256": "59d23f9e7182624820f5b261423a9124773fcafa21f624f621d39ee9b0aef42a"
+        },
+        "mesh.stl": {
+          "bytes": 32084,
+          "committed": true,
+          "path": "T3/ghost_layer/mesh.stl",
+          "sha256": "37096733b9065a459f1b3092955e1332906968b879f2b1d7d1f763121ae9d22e"
+        }
+      },
+      "params": {
+        "base_level": 2
+      },
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/ghost_layer.json",
+      "truth_sha256": "a1ea46ac71006389820411f2f0a57ef8e72c25b2b13aa64198182f06608660d5"
+    },
+    "T3/hole_one_ring": {
+      "files": {
+        "mesh.jarr": {
+          "bytes": 7832,
+          "committed": true,
+          "path": "T3/hole_one_ring/mesh.jarr",
+          "sha256": "6d9548a1d7efbf2c537534286021dd51c46213c99ed13fa938c681dff7f9219d"
+        },
+        "mesh.stl": {
+          "bytes": 15784,
+          "committed": true,
+          "path": "T3/hole_one_ring/mesh.stl",
+          "sha256": "05a46aa02e246cbfe78c9e21feeab4d57a84ff9ae5f6b43a7165b5bafaa4e5eb"
+        }
+      },
+      "params": {
+        "base_level": 2
+      },
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/hole_one_ring.json",
+      "truth_sha256": "8b2378139621888eb57c186dba7d89f239f67030770474551008d07b395a2828"
+    },
+    "T3/nonmanifold_edge": {
+      "files": {
+        "mesh.jarr": {
+          "bytes": 7968,
+          "committed": true,
+          "path": "T3/nonmanifold_edge/mesh.jarr",
+          "sha256": "2c0a8a2cb9897193a8bbc15e6226f38b2b37e8d1a177278a70de8cb7a4bedc79"
+        },
+        "mesh.stl": {
+          "bytes": 16134,
+          "committed": true,
+          "path": "T3/nonmanifold_edge/mesh.stl",
+          "sha256": "67aa96bbcea0810032f02661fc8acafcb51c2950d1262a0ac3fa78d80c623611"
+        }
+      },
+      "params": {
+        "base_level": 2
+      },
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/nonmanifold_edge.json",
+      "truth_sha256": "d8122d996be80eedeb5619867153a3291887d141fd630b2926d327a181184da1"
+    },
+    "T3/nonmanifold_vertex": {
+      "files": {
+        "mesh.jarr": {
+          "bytes": 15656,
+          "committed": true,
+          "path": "T3/nonmanifold_vertex/mesh.jarr",
+          "sha256": "9cfaf0f4a511efa2404fdc9989f5efaeecf2db643cce281f39b1bbaf06053016"
+        },
+        "mesh.stl": {
+          "bytes": 32084,
+          "committed": true,
+          "path": "T3/nonmanifold_vertex/mesh.stl",
+          "sha256": "87535b75c9bba2d1b6dfb654aaeab4f1be1945c934d7941c2206f908beb0fe87"
+        }
+      },
+      "params": {
+        "base_level": 2
+      },
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/nonmanifold_vertex.json",
+      "truth_sha256": "688d7613cf53a49607985130b2d9f3c896fcbd9b7bf601376de8b154bc8ed1b8"
+    },
+    "T3/oversize_parametric": {
+      "files": {},
+      "params": {},
+      "seed": null,
+      "set": "T3",
+      "truth": "T3/oversize_parametric.json",
+      "truth_sha256": "2657ccd62d7b8683e38079adcce00de40861ce92a1d7281595033a03dbedb386"
+    },
+    "T3/random_bytes": {
+      "files": {
+        "random_bytes.stl": {
+          "bytes": 2048,
+          "committed": true,
+          "path": "T3/random_bytes/random_bytes.stl",
+          "sha256": "a8260e6e2e55d0215f3530f1dcd2b509185d5f3dedc89b8920628ffe90355c81"
+        }
+      },
+      "params": {},
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/random_bytes.json",
+      "truth_sha256": "ba4ef28c35391e7feb6af66121e4baf1eb257a6d137020b42b69f3d699f18157"
+    },
+    "T3/self_intersection": {
+      "files": {
+        "mesh.jarr": {
+          "bytes": 7928,
+          "committed": true,
+          "path": "T3/self_intersection/mesh.jarr",
+          "sha256": "92e6701ea308218080a7d93b5d83caa98bf1f43c47c580afd4bcf8b336238ed2"
+        },
+        "mesh.stl": {
+          "bytes": 16084,
+          "committed": true,
+          "path": "T3/self_intersection/mesh.stl",
+          "sha256": "8b6bb20b8d1c7e752710c6524c08a11d5c73f6d2b34a5cecb3adf206100b3a65"
+        }
+      },
+      "params": {
+        "base_level": 2
+      },
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/self_intersection.json",
+      "truth_sha256": "788f09625ac7a26ba64e3ff8a9193bd7d372c38b2f68ff86795642416ad9f584"
+    },
+    "T3/truncated": {
+      "files": {
+        "truncated.stl": {
+          "bytes": 16047,
+          "committed": true,
+          "path": "T3/truncated/truncated.stl",
+          "sha256": "d1c30a916fa307e086e9f56ceca74dcd47930ee625501227db26ac3e6b27fe15"
+        }
+      },
+      "params": {},
+      "seed": 3003,
+      "set": "T3",
+      "truth": "T3/truncated.json",
+      "truth_sha256": "479aa18b5985fb5d33ca6f0a70a12c4c597c78a42ffeb4a9c7da0a79ac47a0fc"
+    },
+    "T4/format_set": {
+      "files": {
+        "cube_quads.obj": {
+          "bytes": 209,
+          "committed": true,
+          "path": "T4/format_set/cube_quads.obj",
+          "sha256": "494ee7115c2ad82db22249cf8312d44fe218296e9218f6f87283a699e309e1de"
+        },
+        "expected_sphere.jarr": {
+          "bytes": 7928,
+          "committed": true,
+          "path": "T4/format_set/expected_sphere.jarr",
+          "sha256": "08e755e3e3e315076aae6910f2ea21a18888fff0b4edaa11a41b91227417a9b4"
+        },
+        "sphere.obj": {
+          "bytes": 10115,
+          "committed": true,
+          "path": "T4/format_set/sphere.obj",
+          "sha256": "aaecb99b2df0504450724f4ff3b3f2708bd5af8564917ce204147f754d7b26fa"
+        },
+        "sphere_ascii.ply": {
+          "bytes": 9937,
+          "committed": true,
+          "path": "T4/format_set/sphere_ascii.ply",
+          "sha256": "7a4b008243459bd6588b87e388f0c3a9b3eb04a61251d61875804b4707392387"
+        },
+        "sphere_ascii.stl": {
+          "bytes": 82828,
+          "committed": true,
+          "path": "T4/format_set/sphere_ascii.stl",
+          "sha256": "6c7d560d5b82a84665966748f4070399f0c488428b28cdef080f83d1f7852ac5"
+        },
+        "sphere_be.ply": {
+          "bytes": 8242,
+          "committed": true,
+          "path": "T4/format_set/sphere_be.ply",
+          "sha256": "abd162882f6c81cf53c449c56e8edb02789e02fa2e0a288b917951186f1bb476"
+        },
+        "sphere_binary.stl": {
+          "bytes": 16084,
+          "committed": true,
+          "path": "T4/format_set/sphere_binary.stl",
+          "sha256": "0d3759d379adee1443efa639cc227c5d30a55a7181962a47751dc67d6fcc92db"
+        },
+        "sphere_le.ply": {
+          "bytes": 8245,
+          "committed": true,
+          "path": "T4/format_set/sphere_le.ply",
+          "sha256": "8f04ffe0112773e63d89e8894b9e7927464d921dfa78d51d4dc93b78ac5530dc"
+        },
+        "sphere_negative_indices.obj": {
+          "bytes": 11054,
+          "committed": true,
+          "path": "T4/format_set/sphere_negative_indices.obj",
+          "sha256": "30c07f2ecc81cc00275b7a660f2debd1d24241f8555bd21b5a52969508210ace"
+        },
+        "sphere_texture_refs.obj": {
+          "bytes": 14003,
+          "committed": true,
+          "path": "T4/format_set/sphere_texture_refs.obj",
+          "sha256": "122e0aa4e0d77567aec83e050923ca7af63d7420554938ed57e9fbf5bdeb8200"
+        }
+      },
+      "params": {
+        "grid": "2**-10 mm"
+      },
+      "seed": null,
+      "set": "T4",
+      "truth": "T4/format_set.json",
+      "truth_sha256": "b1bb3ad0db71a3777492454151a7d259f997d74470c50e62cd63496503f4242a"
+    },
+    "T5/laterality_bump_left": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 256084,
+          "committed": true,
+          "path": "T5/laterality_bump_left/mesh.stl",
+          "sha256": "99707bdb8d16f46fa045be897ae4105d4707950be53a04fbb1ab2df38a75e31b"
+        }
+      },
+      "params": {
+        "level": 4,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T5",
+      "truth": "T5/laterality_bump_left.json",
+      "truth_sha256": "558d8c5f42c72c9c5795fa5cb911f1dae0775a072fae82380c615974ba85242d"
+    },
+    "T6/sign_sphere_r75": {
+      "files": {
+        "mesh.stl": {
+          "bytes": 256084,
+          "committed": true,
+          "path": "T6/sign_sphere_r75/mesh.stl",
+          "sha256": "4ec5ea7edda21d81745712b6ce54d4a73e5ad1328cd95c71d217d7707bd7591a"
+        }
+      },
+      "params": {
+        "level": 4,
+        "radius": 75.0
+      },
+      "seed": null,
+      "set": "T6",
+      "truth": "T6/sign_sphere_r75.json",
+      "truth_sha256": "87648b7bebefac58316dec01a7701c37b9fbb0dacbe0747e68c6026e69302eaa"
+    },
+    "T7/metamorphic_ellipsoid": {
+      "files": {
+        "base.jarr": {
+          "bytes": 30968,
+          "committed": true,
+          "path": "T7/metamorphic_ellipsoid/base.jarr",
+          "sha256": "f5c45eaf1d9d37b9049b2a4d021c627777946d9059937b0ed71e070c1f31bde4"
+        },
+        "cyclic_xyz.jarr": {
+          "bytes": 30968,
+          "committed": true,
+          "path": "T7/metamorphic_ellipsoid/cyclic_xyz.jarr",
+          "sha256": "917d518ff2dbf6ccfab4de1371efedff71f53117d415962bcf1f9611564724b1"
+        },
+        "rot_x_180.jarr": {
+          "bytes": 30968,
+          "committed": true,
+          "path": "T7/metamorphic_ellipsoid/rot_x_180.jarr",
+          "sha256": "9a62e548dbdb0176a90d43b531596e18a4c4df22447f596f380b6d81f0cd2156"
+        },
+        "rot_z_90.jarr": {
+          "bytes": 30968,
+          "committed": true,
+          "path": "T7/metamorphic_ellipsoid/rot_z_90.jarr",
+          "sha256": "55d8ff81b1200a1e72db08941a6cf89faf17310599a2bae1302a488bbd32da2e"
+        },
+        "scale_2.jarr": {
+          "bytes": 30968,
+          "committed": true,
+          "path": "T7/metamorphic_ellipsoid/scale_2.jarr",
+          "sha256": "c40bb62b68429ca00c5636523ba7c4f94cb55d0cc95b19f5ceac40334768a542"
+        },
+        "scale_half.jarr": {
+          "bytes": 30968,
+          "committed": true,
+          "path": "T7/metamorphic_ellipsoid/scale_half.jarr",
+          "sha256": "216f9a0567f376cb9670c9bda396fe30907cc046cc75f8f8c95f3ca59d0ff414"
+        },
+        "translate_pow2.jarr": {
+          "bytes": 30968,
+          "committed": true,
+          "path": "T7/metamorphic_ellipsoid/translate_pow2.jarr",
+          "sha256": "e6d73d0c2483b2526b5d7d3e7e76f89e7adf591e4dfdf6b969f9e4e7ff63bc97"
+        },
+        "unit_cm_to_mm.jarr": {
+          "bytes": 30968,
+          "committed": true,
+          "path": "T7/metamorphic_ellipsoid/unit_cm_to_mm.jarr",
+          "sha256": "60031495c50ed781f445502aba79f04218b8e493710c32e25e6c93f5ea6b5d7c"
+        },
+        "unit_inch_to_mm.jarr": {
+          "bytes": 30968,
+          "committed": true,
+          "path": "T7/metamorphic_ellipsoid/unit_inch_to_mm.jarr",
+          "sha256": "38653a5fafb0f878918782d722a40e626347dbd41b8536884c852a276f6fa0c5"
+        }
+      },
+      "params": {},
+      "seed": null,
+      "set": "T7",
+      "truth": "T7/metamorphic_ellipsoid.json",
+      "truth_sha256": "b619994943820caa5f6494e696b499b365ae2c73a8ab5b386e6dfd60d0dffe8b"
+    },
+    "T8/hypothesis_profile": {
+      "files": {},
+      "params": {},
+      "seed": null,
+      "set": "T8",
+      "truth": "T8/hypothesis_profile.json",
+      "truth_sha256": "a251b80c1cd846bc394f623fd3330d612697e55210321f81bd50a63e090bfb50"
+    }
+  },
+  "schema": "fixtures/1"
+}

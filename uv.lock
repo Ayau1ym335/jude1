@@ -5,6 +5,7 @@ requires-python = "==3.12.*"
 [manifest]
 members = [
     "jude-api",
+    "jude-fixtures",
     "jude-kernel",
     "jude-platform",
     "jude-storage-fake",
@@ -419,6 +420,23 @@ requires-dist = [
 ]
 
 [[package]]
+name = "jude-fixtures"
+version = "0.0.0"
+source = { editable = "tools/fixtures" }
+dependencies = [
+    { name = "hypothesis" },
+    { name = "jude-kernel" },
+    { name = "numpy" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "hypothesis", specifier = ">=6.170.15" },
+    { name = "jude-kernel", editable = "packages/kernel" },
+    { name = "numpy", specifier = "==2.5.4" },
+]
+
+[[package]]
 name = "jude-kernel"
 version = "0.0.0"
 source = { editable = "packages/kernel" }
@@ -466,6 +484,7 @@ version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
     { name = "jude-api" },
+    { name = "jude-fixtures" },
     { name = "jude-kernel" },
     { name = "jude-platform" },
     { name = "jude-storage-fake" },
@@ -489,6 +508,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "jude-api", editable = "services/api" },
+    { name = "jude-fixtures", editable = "tools/fixtures" },
     { name = "jude-kernel", editable = "packages/kernel" },
     { name = "jude-platform", editable = "packages/platform" },
     { name = "jude-storage-fake", editable = "tools/storage_fake" },

@@ -1,0 +1,215 @@
+{
+  "base": "ellipsoid_asym level 3",
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  },
+  "oracle": "exact transforms: results transform exactly (bit-equal) or are invariant; unit_* files hold the base in cm / inch: after unit confirmation they equal base within DEC-025 (not bit-exact: 25.4 and 1/10 are not dyadic)",
+  "transforms": {
+    "cyclic_xyz": {
+      "exact": true,
+      "matrix": [
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "rot_x_180": {
+      "exact": true,
+      "matrix": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          -1,
+          0
+        ],
+        [
+          0,
+          0,
+          -1
+        ]
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "rot_z_90": {
+      "exact": true,
+      "matrix": [
+        [
+          0,
+          -1,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "scale_2": {
+      "exact": true,
+      "matrix": [
+        [
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          2
+        ]
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "scale_half": {
+      "exact": true,
+      "matrix": [
+        [
+          0.5,
+          0,
+          0
+        ],
+        [
+          0,
+          0.5,
+          0
+        ],
+        [
+          0,
+          0,
+          0.5
+        ]
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "translate_pow2": {
+      "exact": true,
+      "matrix": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "translation": [
+        256.0,
+        -128.0,
+        64.0
+      ]
+    },
+    "unit_cm_to_mm": {
+      "exact": false,
+      "matrix": [
+        [
+          10,
+          0,
+          0
+        ],
+        [
+          0,
+          10,
+          0
+        ],
+        [
+          0,
+          0,
+          10
+        ]
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "unit_inch_to_mm": {
+      "exact": false,
+      "matrix": [
+        [
+          25.4,
+          0,
+          0
+        ],
+        [
+          0,
+          25.4,
+          0
+        ],
+        [
+          0,
+          0,
+          25.4
+        ]
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    }
+  }
+}

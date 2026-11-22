@@ -1,0 +1,58 @@
+{
+  "area": 70685.83470577,
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  },
+  "mesh": {
+    "closed": true,
+    "components": 1,
+    "euler": 2,
+    "n_faces": 1310720,
+    "n_vertices": 655362
+  },
+  "radius": 75.0,
+  "sections": [
+    {
+      "CI": 100.0,
+      "HC": 471.238898038,
+      "L": 150.0,
+      "W": 150.0,
+      "diagonals": {
+        "30": {
+          "CVA": 0.0,
+          "CVAI_long": 0.0,
+          "CVAI_short": 0.0,
+          "D1": 150.0,
+          "D2": 150.0
+        },
+        "40": {
+          "CVA": 0.0,
+          "CVAI_long": 0.0,
+          "CVAI_short": 0.0,
+          "D1": 150.0,
+          "D2": 150.0
+        }
+      },
+      "plane": {
+        "normal": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "point": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "surface": "sphere",
+  "volume": 1767145.867644259
+}
