@@ -306,6 +306,11 @@ def idr_of(fid):
         if v and v not in out: out.append(v)
     return out
 
+# Recorded progress of generated TSK tasks (XC tasks carry status= in their xc()/xe() calls).
+TASK_STATUS = {
+    "TSK-API-02-A": "Done 2026-11-22 (PR #21 merged; catalogue check in CI; freeze sign-off at M0 exit)",
+}
+
 def status_of(fid, idrs):
     s = FN[fid]["spec_status"]
     ext = [x for x in idrs if x.startswith("EXT")]
@@ -427,7 +432,7 @@ for r in FUNCS:
                       description=desc, reqs=reqs, refs=algs + tds + ifs + bl_refs(reqs), scope=sc, prio=PRIO[sc],
                       ms=MS[fid], pool=pool, eff=eff, deps=[], deliverables=deliv,
                       result=r["purpose"], completion=FS_AC.get(fid, "") or NEW_AC.get(fid, ""), tests=tests.strip("; "), levels=levels,
-                      dod=dod, gate="; ".join(idrs), status=status_of(fid, idrs),
+                      dod=dod, gate="; ".join(idrs), status=TASK_STATUS.get(tid, status_of(fid, idrs)),
                       owner=("QA engineer (geometry) - not the author of the K task" if tt == "V" else ROLE[pool]), subtasks=subs, skills=sk))
         if tt == task_types(r)[0]: primary[fid] = tid
         if tt == "U": uitask[fid] = tid
