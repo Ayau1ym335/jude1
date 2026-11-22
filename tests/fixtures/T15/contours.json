@@ -1,0 +1,115 @@
+{
+  "contours": {
+    "bowtie": {
+      "area_float": 0.0,
+      "collinear_vertices": 0,
+      "duplicate_consecutive_points": 0,
+      "n_vertices": 4,
+      "orientation": "degenerate",
+      "perimeter": 193.13708499,
+      "signed_area": "0",
+      "simple": false
+    },
+    "clockwise_square": {
+      "area_float": 1600.0,
+      "collinear_vertices": 0,
+      "duplicate_consecutive_points": 0,
+      "n_vertices": 4,
+      "orientation": "cw",
+      "perimeter": 160.0,
+      "signed_area": "-1600",
+      "simple": true
+    },
+    "collinear_vertices": {
+      "area_float": 1600.0,
+      "collinear_vertices": 2,
+      "duplicate_consecutive_points": 0,
+      "n_vertices": 6,
+      "orientation": "ccw",
+      "perimeter": 160.0,
+      "signed_area": "1600",
+      "simple": true
+    },
+    "comb_12": {
+      "area_float": 7000.0,
+      "collinear_vertices": 0,
+      "duplicate_consecutive_points": 0,
+      "n_vertices": 52,
+      "orientation": "ccw",
+      "perimeter": 1060.0,
+      "signed_area": "7000",
+      "simple": true
+    },
+    "concave_star_10": {
+      "area_float": 8652.475842503733,
+      "collinear_vertices": 0,
+      "duplicate_consecutive_points": 0,
+      "n_vertices": 20,
+      "orientation": "ccw",
+      "perimeter": 958.975183985,
+      "signed_area": "326881295299831399771415975/37778931862957161709568",
+      "simple": true
+    },
+    "convex_64": {
+      "area_float": 20073.91033949126,
+      "collinear_vertices": 0,
+      "duplicate_consecutive_points": 0,
+      "n_vertices": 64,
+      "orientation": "ccw",
+      "perimeter": 502.452985113,
+      "signed_area": "23699090341835986250212125/1180591620717411303424",
+      "simple": true
+    },
+    "duplicate_point": {
+      "area_float": 1600.0,
+      "collinear_vertices": 2,
+      "duplicate_consecutive_points": 1,
+      "n_vertices": 5,
+      "orientation": "ccw",
+      "perimeter": 160.0,
+      "signed_area": "1600",
+      "simple": false
+    },
+    "neck_near_touching": {
+      "area_float": 3240.0000190734863,
+      "collinear_vertices": 0,
+      "duplicate_consecutive_points": 0,
+      "n_vertices": 12,
+      "orientation": "ccw",
+      "perimeter": 355.999998093,
+      "signed_area": "849346565/262144",
+      "simple": true
+    },
+    "neck_touching": {
+      "area_float": 3200.0,
+      "collinear_vertices": 0,
+      "duplicate_consecutive_points": 0,
+      "n_vertices": 12,
+      "orientation": "ccw",
+      "perimeter": 360.0,
+      "signed_area": "3200",
+      "simple": false
+    },
+    "spiral": {
+      "area_float": 5500.0,
+      "collinear_vertices": 0,
+      "duplicate_consecutive_points": 0,
+      "n_vertices": 22,
+      "orientation": "ccw",
+      "perimeter": 1120.0,
+      "signed_area": "5500",
+      "simple": true
+    },
+    "triangle_minimal": {
+      "area_float": 0.5,
+      "collinear_vertices": 0,
+      "duplicate_consecutive_points": 0,
+      "n_vertices": 3,
+      "orientation": "ccw",
+      "perimeter": 3.414213562,
+      "signed_area": "1/2",
+      "simple": true
+    }
+  },
+  "oracle": "exact rational arithmetic (fractions): simple = no two non-adjacent edges share a point, adjacent edges share only their common vertex, no zero-length edge"
+}

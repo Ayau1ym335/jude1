@@ -340,6 +340,88 @@
       "truth": "T10/vertex_moved_0p5mm.json",
       "truth_sha256": "9e7fcbf5e45b6dca250572733b4ea991b1790ace38c8c1540cd4aa6d9c7c26cd"
     },
+    "T13/orient2d": {
+      "files": {
+        "expected.jarr": {
+          "bytes": 265464,
+          "committed": true,
+          "path": "T13/orient2d/expected.jarr",
+          "sha256": "7fc5b42fa62430577b3b0153954495ab436239b8f318c18fa5314aa4e8535dc7"
+        },
+        "inputs.jarr": {
+          "bytes": 6366576,
+          "committed": false,
+          "path": "T13/orient2d/inputs.jarr",
+          "sha256": "de1161fc7eb9520c6b683ac2895bbb6c800b022109f1d7c0ab18a20fbc4ec722"
+        }
+      },
+      "params": {
+        "seed": 20261122
+      },
+      "seed": 20261122,
+      "set": "T13",
+      "truth": "T13/orient2d.json",
+      "truth_sha256": "7f0ca13987047e50f752902ba769431ad2895a54d2fae0020f6151b1ef6c2003"
+    },
+    "T13/orient3d": {
+      "files": {
+        "expected.jarr": {
+          "bytes": 236776,
+          "committed": true,
+          "path": "T13/orient3d/expected.jarr",
+          "sha256": "2bc396c7e894b3dcd63b80f05b69f619aa77f8df3c6297e3303f0218bf2a8c19"
+        },
+        "inputs.jarr": {
+          "bytes": 11355928,
+          "committed": false,
+          "path": "T13/orient3d/inputs.jarr",
+          "sha256": "f989eed702baec44cf1c7fb6de119391b43f4a0566176b31cef9911b6a0fbb24"
+        }
+      },
+      "params": {
+        "seed": 20261122
+      },
+      "seed": 20261122,
+      "set": "T13",
+      "truth": "T13/orient3d.json",
+      "truth_sha256": "5b35a9f71c7f05cee853a57d3860494eff51c275629b207c0fa261628522050b"
+    },
+    "T14/ties": {
+      "files": {
+        "cube_40.jarr": {
+          "bytes": 528,
+          "committed": true,
+          "path": "T14/ties/cube_40.jarr",
+          "sha256": "a6855d20ab288356b296df3a4f689859cd86a8e9fd93fba774c4b2210cf7b29e"
+        },
+        "octahedron_40.jarr": {
+          "bytes": 432,
+          "committed": true,
+          "path": "T14/ties/octahedron_40.jarr",
+          "sha256": "ffeb18096535ada238849bafa362619e7ec46fdcb050640adacfaf41724a7d2a"
+        }
+      },
+      "params": {},
+      "seed": null,
+      "set": "T14",
+      "truth": "T14/ties.json",
+      "truth_sha256": "06ccec7a815f8693d05bfca4eac14faaf28b48ed90e86014bfc0368aab0fd132"
+    },
+    "T15/contours": {
+      "files": {
+        "contours.jarr": {
+          "bytes": 3928,
+          "committed": true,
+          "path": "T15/contours/contours.jarr",
+          "sha256": "6a270739a76a1b7e1b62521cd7ad3939d3f01ca6b532be1a31c2c4941aa5adb1"
+        }
+      },
+      "params": {},
+      "seed": null,
+      "set": "T15",
+      "truth": "T15/contours.json",
+      "truth_sha256": "2356a49822e4dccee66bdb2347b1dd9032a04888345971d9da2d87d2c9461c93"
+    },
     "T2/cap_planar_z-20": {
       "files": {
         "mesh.stl": {
