@@ -16,6 +16,7 @@ import psycopg
 
 import jude_kernel
 from jude_platform.logs import configure_logging
+from jude_worker.kernel_warmup import warm_up
 
 log = logging.getLogger("jude_worker")
 
@@ -67,6 +68,7 @@ def make_health_server(host: str, port: int, db_check: DbCheck) -> ThreadingHTTP
 
 def main() -> None:
     configure_logging("worker", distribution="jude-worker")
+    warm_up()  # every numba kernel loaded before /healthz answers (X-06 §6.4)
     port = int(os.environ.get("JUDE_WORKER_HEALTH_PORT", "8001"))
     server = make_health_server("0.0.0.0", port, postgres_check)  # noqa: S104 — container-internal port
     stop = threading.Event()

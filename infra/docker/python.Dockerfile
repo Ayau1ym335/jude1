@@ -23,10 +23,24 @@ COPY tools/storage_fake tools/storage_fake
 RUN test -n "${PACKAGE}" && uv sync --locked --no-dev --no-editable --package "${PACKAGE}"
 
 FROM ${PYTHON_IMAGE}
+ARG PACKAGE
 RUN useradd --system --uid 10001 --no-create-home --shell /usr/sbin/nologin jude \
  && install -d -o 10001 -g 10001 /var/lib/jude
 COPY --from=build /opt/venv /opt/venv
 ENV PATH=/opt/venv/bin:${PATH} \
     PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    NUMBA_CPU_NAME=generic \
+    NUMBA_NUM_THREADS=1 \
+    OMP_NUM_THREADS=1 \
+    OPENBLAS_NUM_THREADS=1 \
+    MKL_NUM_THREADS=1 \
+    NUMBA_CACHE_DIR=/tmp/numba-cache \
+    JUDE_NUMBA_PREFILLED_CACHE=/opt/numba-cache
+# Numerics regime (TD-19, X-06 §6.2-6.3): single-threaded, CPU-independent code (generic), so
+# the numba cache compiled here is valid on any amd64 host. The worker copies it to the
+# writable NUMBA_CACHE_DIR at start (numba will not use a read-only cache directory).
+RUN if [ "${PACKAGE}" = "jude-worker" ]; then \
+      NUMBA_CACHE_DIR=/opt/numba-cache python -c "from jude_kernel.shared.warmup import warm_up; warm_up()"; \
+    fi
 USER 10001

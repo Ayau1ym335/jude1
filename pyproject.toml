@@ -124,6 +124,10 @@ files = [
     "tools/ci_selftest/tests",
 ]
 
+[[tool.mypy.overrides]]
+module = ["numba", "numba.*"]
+ignore_missing_imports = true  # numba ships no type hints; kernel_jit restores typing
+
 # Layer rules (TECHNICAL_DESIGN architecture; DEVELOPMENT_STANDARDS §5 kernel purity, IF-03).
 [tool.importlinter]
 root_packages = ["jude_kernel", "jude_platform", "jude_api", "jude_worker", "jude_storage_fake"]
