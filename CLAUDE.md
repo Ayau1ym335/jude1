@@ -18,7 +18,8 @@ Next.js UI + three.js viewer → same-origin Caddy proxy → FastAPI domain API 
 ## Kernel rules (DEVELOPMENT_STANDARDS §5)
 - `packages/kernel` is pure: arrays + explicit params in, `OpResult` out (contract IF-03). No I/O, clock, randomness, global state, network.
 - float64, millimetres. Deterministic ordering everywhere. numba: fastmath off, parallel off.
-- Exact predicates (own Shewchuk port) and ONE shared deterministic BVH. libigl/trimesh/CGAL/PyMeshLab are CI oracles only, never imported by shipped code.
+- Exact predicates (own Shewchuk port) and ONE shared deterministic BVH.
+- numba only via `jude_kernel.shared.jit.kernel_jit` (ruff bans `numba.njit` etc. elsewhere in the kernel). Orientation tests only via `jude_kernel.shared.predicates.orient2d/orient3d` (or `orient*_nb` inside numba, which can return `OUT_OF_DOMAIN`); never compare a float determinant with an epsilon. orient3d sign = det[b−a, c−a, d−a] (opposite of Shewchuk). New numba modules join `jude_kernel.shared.warmup.MODULES`. libigl/trimesh/CGAL/PyMeshLab are CI oracles only, never imported by shipped code.
 - Tolerances: DEC-025 (e = 0.011 mm, perimeter 0.032 mm, file fidelity 1e-4 mm). No ad-hoc epsilons.
 - Every op has a registry entry with `op_version`; changing behaviour means a version bump.
 - A kernel task (TT-K) is verified by a separate verification task (TT-V). Do not mark K done without its V.

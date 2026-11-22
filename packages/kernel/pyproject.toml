@@ -5,6 +5,7 @@ description = "Jude geometry kernel: pure functions, arrays + explicit params in
 requires-python = "==3.12.*"
 dependencies = [
     "numpy==2.5.4",
+    "numba==0.68.1",
 ]
 
 # Kernel-only additions to the root ruff config. import-linter covers module imports;
@@ -19,6 +20,16 @@ extend-select = ["T20", "TID251"]  # no print(); banned APIs below
 [tool.ruff.lint.flake8-tidy-imports.banned-api]
 "numpy.random".msg = "Kernel is deterministic: no randomness (DEVELOPMENT_STANDARDS §5)."
 "io.open".msg = "Kernel is pure: no file I/O (IF-03)."
+# numba only through jude_kernel.shared.jit.kernel_jit (fastmath/parallel off, TD-19, X-06 §6.2).
+"numba.njit".msg = "Use jude_kernel.shared.jit.kernel_jit (X-06 §6.2)."
+"numba.jit".msg = "Use jude_kernel.shared.jit.kernel_jit (X-06 §6.2)."
+"numba.vectorize".msg = "Use jude_kernel.shared.jit.kernel_jit (X-06 §6.2)."
+"numba.guvectorize".msg = "Use jude_kernel.shared.jit.kernel_jit (X-06 §6.2)."
+"numba.cfunc".msg = "Use jude_kernel.shared.jit.kernel_jit (X-06 §6.2)."
+"numba.prange".msg = "Kernel numerics are single-threaded (TD-19)."
+
+[tool.ruff.lint.extend-per-file-ignores]
+"src/jude_kernel/shared/jit.py" = ["TID251"]  # the one sanctioned numba entry point
 
 [build-system]
 requires = ["uv_build>=0.10.6,<0.11"]
