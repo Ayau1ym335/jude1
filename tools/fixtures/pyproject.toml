@@ -1,0 +1,20 @@
+[project]
+name = "jude-fixtures"
+version = "0.0.0"
+description = "Dev/test-only generators of the synthetic fixture sets T1-T10 (FN-OPS-06) with analytic ground truth. Never shipped."
+requires-python = "==3.12.*"
+dependencies = [
+    "jude-kernel",
+    "numpy==2.5.4",
+    "hypothesis>=6.170.15",
+]
+
+[project.scripts]
+jude-fixtures = "jude_fixtures.build:main"
+
+[tool.uv.sources]
+jude-kernel = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.10.6,<0.11"]
+build-backend = "uv_build"

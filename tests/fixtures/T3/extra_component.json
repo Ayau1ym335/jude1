@@ -1,0 +1,16 @@
+{
+  "base": "icosphere_s2_r75",
+  "defects": {
+    "components": 2,
+    "small_component_faces": 80
+  },
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  }
+}

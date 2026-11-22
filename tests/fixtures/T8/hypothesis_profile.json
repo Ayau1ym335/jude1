@@ -1,0 +1,12 @@
+{
+  "oracle": "every generated op yields a valid mesh or an explicit rejection code",
+  "profile": "jude-fixed",
+  "settings": {
+    "database": null,
+    "deadline": null,
+    "derandomize": true,
+    "max_examples": 200,
+    "print_blob": true
+  },
+  "strategies": "jude_fixtures.t8: face selections on fixture meshes; signed magnitudes and offsets drawn from an interval the test passes in (no default values)"
+}

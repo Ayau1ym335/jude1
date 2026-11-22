@@ -1,0 +1,6 @@
+{
+  "defects": {
+    "expected": "FILE_UNREADABLE"
+  },
+  "note": "file-level defect"
+}

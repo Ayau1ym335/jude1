@@ -1,0 +1,6 @@
+{
+  "defects": {
+    "expected": "FILE_TOO_LARGE"
+  },
+  "note": "Generated at test time with jude_fixtures.sets.oversize_stl(size_bytes); the cap is a clinic/deployment setting (SEC-07), so no size is fixed here."
+}

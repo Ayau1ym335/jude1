@@ -1,0 +1,11 @@
+{
+  "checks_that_must_fire": {
+    "count": true,
+    "fidelity": false,
+    "sha256": true,
+    "size": true
+  },
+  "n_triangles": 1280,
+  "note": "fidelity = max per-vertex deviation in face order > 1e-4 mm (DEC-025); a 1-ulp change stays within fidelity but changes the SHA-256",
+  "source": "icosphere_s3_r75 written by FN-KIO-06"
+}

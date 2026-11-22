@@ -1,0 +1,20 @@
+{
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  },
+  "marker_axis": [
+    0.0,
+    1.0,
+    0.0
+  ],
+  "marker_cone_half_angle_deg": 20,
+  "marker_height_mm": 8.0,
+  "marker_side": "L",
+  "oracle": "the bump appears on the side labelled L, side-specific values come from +y, and in the exported STL the bump centroid has y > 0"
+}

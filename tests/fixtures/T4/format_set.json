@@ -1,0 +1,21 @@
+{
+  "cube_quads": {
+    "area": 9600.0,
+    "n_quads": 6,
+    "n_triangles_after_split": 12,
+    "n_vertices": 8,
+    "volume": 64000.0
+  },
+  "frame": {
+    "axes": {
+      "x": "A-P, +x anterior",
+      "y": "M-L, +y patient-left",
+      "z": "+z superior"
+    },
+    "handedness": "right",
+    "units": "mm"
+  },
+  "n_faces": 320,
+  "n_vertices": 162,
+  "oracle": "every sphere_* file imports to the V and F of expected_sphere.jarr (STL: after vertex welding of identical coordinates)"
+}

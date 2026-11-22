@@ -10,6 +10,7 @@ dependencies = [
     "jude-api",
     "jude-worker",
     "jude-storage-fake",
+    "jude-fixtures",
 ]
 
 [dependency-groups]
@@ -36,6 +37,7 @@ members = [
     "services/api",
     "services/worker",
     "tools/storage_fake",
+    "tools/fixtures",
 ]
 
 [tool.uv.sources]
@@ -44,6 +46,7 @@ jude-platform = { workspace = true }
 jude-api = { workspace = true }
 jude-worker = { workspace = true }
 jude-storage-fake = { workspace = true }
+jude-fixtures = { workspace = true }
 
 [tool.pytest.ini_options]
 testpaths = [
@@ -55,6 +58,7 @@ testpaths = [
     "tools/lint_selftest/tests",
     "tools/ci_selftest/tests",
     "tools/contract/tests",
+    "tools/fixtures/tests",
 ]
 # Seeded-violation self-test needs the JS toolchain; run it explicitly: pytest -m lint_selftest
 # Run explicitly: pytest -m integration (needs JUDE_TEST_ADMIN_URL; `just test-int` starts a server)
@@ -83,6 +87,7 @@ src = [
     "services/api/src",
     "services/worker/src",
     "tools/storage_fake/src",
+    "tools/fixtures/src",
 ]
 # docs/tools holds one-off planning generators, not product code.
 extend-exclude = ["docs"]
@@ -100,7 +105,7 @@ select = ["E", "F", "W", "I", "B", "UP", "N", "S", "RUF"]
 
 [tool.ruff.lint.isort]
 force-sort-within-sections = true
-known-first-party = ["jude_kernel", "jude_platform", "jude_api", "jude_worker", "jude_storage_fake"]
+known-first-party = ["jude_kernel", "jude_platform", "jude_api", "jude_worker", "jude_storage_fake", "jude_fixtures"]
 
 [tool.ruff.format]
 line-ending = "lf"
@@ -124,6 +129,8 @@ files = [
     "tools/lint_selftest/tests",
     "tools/ci_selftest/tests",
     "tools/contract",
+    "tools/fixtures/src",
+    "tools/fixtures/tests",
 ]
 
 [[tool.mypy.overrides]]
@@ -132,7 +139,7 @@ ignore_missing_imports = true  # numba ships no type hints; kernel_jit restores 
 
 # Layer rules (TECHNICAL_DESIGN architecture; DEVELOPMENT_STANDARDS §5 kernel purity, IF-03).
 [tool.importlinter]
-root_packages = ["jude_kernel", "jude_platform", "jude_api", "jude_worker", "jude_storage_fake"]
+root_packages = ["jude_kernel", "jude_platform", "jude_api", "jude_worker", "jude_storage_fake", "jude_fixtures"]
 include_external_packages = true
 
 [[tool.importlinter.contracts]]
@@ -152,14 +159,14 @@ id = "kernel-leaf"
 name = "Kernel does not depend on services or dev tools"
 type = "forbidden"
 source_modules = ["jude_kernel"]
-forbidden_modules = ["jude_platform", "jude_api", "jude_worker", "jude_storage_fake"]
+forbidden_modules = ["jude_platform", "jude_api", "jude_worker", "jude_storage_fake", "jude_fixtures"]
 
 [[tool.importlinter.contracts]]
 id = "no-dev-fakes-in-services"
 name = "Shipped services never import the dev-only storage fake"
 type = "forbidden"
 source_modules = ["jude_api", "jude_worker"]
-forbidden_modules = ["jude_storage_fake"]
+forbidden_modules = ["jude_storage_fake", "jude_fixtures"]
 
 [[tool.importlinter.contracts]]
 id = "api-worker-independent"

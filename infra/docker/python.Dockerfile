@@ -20,6 +20,9 @@ COPY packages/kernel packages/kernel
 COPY packages/platform packages/platform
 COPY services services
 COPY tools/storage_fake tools/storage_fake
+# Workspace member needed only to resolve the workspace; --package never installs it.
+COPY tools/fixtures/pyproject.toml tools/fixtures/pyproject.toml
+COPY tools/fixtures/src tools/fixtures/src
 RUN test -n "${PACKAGE}" && uv sync --locked --no-dev --no-editable --package "${PACKAGE}"
 
 FROM ${PYTHON_IMAGE}
