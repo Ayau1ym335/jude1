@@ -113,3 +113,18 @@ Demonstration PR #10 (`.github/ci-seed` = `all`), `ci.yml` run 44411699434:
 - PR #10 was closed unmerged and its branch deleted.
 
 The release stages (oracle, security, e2e) and performance are checked on every PR by `ci-selftest`, which runs `scripts/ci/selftest.sh`. Each one exits non-zero on its own seed.
+
+### 5.3 A breaking API change blocks the merge (XC-FND-06)
+
+Demonstration PR #19 removed the response field `service` from `GET /api/v1/health`. It regenerated `openapi.json` and the TypeScript client and updated the unit tests, so only the contract rule could stop it.
+
+| Check | Result |
+|---|---|
+| `contract` (run 45020329537) | **fail**: `BREAKING GET /api/v1/health response 200 application/json.service: response field removed`, against base `d68e338` |
+| `lint`, `unit`, `determinism`, `integration`, `smoke`, `ci-selftest` | pass |
+
+- GitHub reported `mergeStateStatus = BLOCKED`.
+- `gh pr merge 19 --merge` was refused: "the base branch policy prohibits the merge".
+- PR #19 was closed unmerged and its branch deleted.
+
+The client regenerates deterministically. The `contract` stage regenerates `src/schema.d.ts` on the Linux runner and diffs it against the file committed from Windows (PR #18: identical).

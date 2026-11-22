@@ -480,7 +480,8 @@ xc("XC-FND-05", "XFND", "Database schema baseline, roles and forward-only migrat
 xc("XC-FND-06", "XFND", "API contract pipeline (OpenAPI 3.1 -> TypeScript client)",
    "/api/v1 prefix, OpenAPI generated from FastAPI as contract of record, openapi-typescript client generation, contract diff check in CI (additive-only within v1).",
    ["NFR-05", "FR-015"], ["FN-API-02"], ["IF-01", "TD-22"], "M0", "BACKEND", (1.5, 2.5, 4), ["XC-FND-02"],
-   "packages/contracts/openapi.json + generated client package", "UI and API share one typed contract", "Breaking change in a PR fails CI; client regenerates deterministically", "CI-contract", "CI, IT", "DoD-STD + DoD-B")
+   "packages/contracts/openapi.json + generated client package", "UI and API share one typed contract", "Breaking change in a PR fails CI; client regenerates deterministically", "CI-contract", "CI, IT", "DoD-STD + DoD-B",
+   status="Done 2026-11-22 (PR #18 merged; breaking change blocked in demo PR #19)")
 xc("XC-FND-07", "XFND", "Environments and deployment topology (dev / staging / pilot)",
    "Single Linux x86-64 container host in the Supabase project's region (IDR-07); C0 reverse proxy with TLS >= 1.2 and size cap; secrets management; deployment record (region, image digests, adapter versions).",
    ["SEC-04", "SEC-10", "SEC-13"], ["FN-OPS-05"], ["TD-13", "TD-26", "OQ-FS-08", "TQ-02"], "M1", "QA_OPS", (3, 5, 8), ["XC-FND-03", "XC-EXP-08"],
