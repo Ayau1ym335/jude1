@@ -15,7 +15,7 @@ def test_health_ok_when_database_reachable() -> None:
     client = TestClient(create_app(db_check=_ok))
     resp = client.get("/api/v1/health")
     assert resp.status_code == 200
-    assert resp.json() == {"status": "ok", "service": "api", "checks": {"database": "ok"}}
+    assert resp.json() == {"status": "ok", "checks": {"database": "ok"}}
 
 
 def test_health_503_when_database_unreachable() -> None:
