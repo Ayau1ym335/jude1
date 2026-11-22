@@ -310,6 +310,7 @@ def idr_of(fid):
 TASK_STATUS = {
     "TSK-API-02-A": "Done 2026-11-22 (PR #21 merged; catalogue check in CI; freeze sign-off at M0 exit)",
     "TSK-KIO-06-K": "Merged 2026-11-22 (PR #23); Done after TSK-KIO-06-V",
+    "TSK-OPS-06-C": "Done 2026-11-22 (PR #25 merged; manifest reproducible on Windows and Linux)",
 }
 
 def status_of(fid, idrs):
