@@ -313,6 +313,7 @@ TASK_STATUS = {
     "TSK-OPS-06-C": "Done 2026-11-22 (PR #25 merged; manifest reproducible on Windows and Linux)",
     "TSK-JOB-01-A": "Done 2026-11-22 (PR #29 merged; rolled-back request leaves no job)",
     "TSK-JOB-02-J": "Done 2026-11-22 (PR #31 merged; killed worker: job re-queued and same hash on retry)",
+    "TSK-JOB-03-A": "Done 2026-11-22 (PR #33 merged; each transition visible on the next poll)",
 }
 
 def status_of(fid, idrs):
