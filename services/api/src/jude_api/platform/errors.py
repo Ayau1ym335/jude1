@@ -3,8 +3,10 @@
     {"error": CODE, "http_status": n, "message_ru": "...", "gates": [{code, detail, link}],
      "correlation_id": "..."}
 
-- Domain code raises ``ApiError(code, gates=...)``; the code must exist in the catalogue
-  (error_catalogue.json; completed and frozen by TSK-API-02-A, IDR-05).
+- Domain code raises ``ApiError(code, gates=...)``; the code must be a catalogued ``refusal``
+  (error_catalogue.json, error/1, TSK-API-02-A; frozen at M0 exit, IDR-05). Gates may carry any
+  catalogued code, e.g. kernel reason codes of a rejected op (``kind`` kernel/job/measurement).
+  ``tools/contract/error_catalogue.py`` checks the catalogue against the FS and RTM in CI.
 - Framework errors map to NOT_FOUND / METHOD_NOT_ALLOWED / REQUEST_INVALID. Validation gates
   name the field location only; submitted values are never echoed.
 - Unhandled exceptions become 500 INTERNAL in the request middleware (it owns the correlation
@@ -57,8 +59,14 @@ class ApiError(Exception):
     gates: Sequence[Gate] = field(default_factory=tuple)
 
     def __post_init__(self) -> None:
-        if self.code not in catalogue():
+        entry = catalogue().get(self.code)
+        if entry is None:
             raise KeyError(f"error code {self.code!r} is not in the error catalogue")
+        if entry["kind"] != "refusal":
+            raise ValueError(f"{self.code} is a {entry['kind']} code, not an HTTP refusal")
+        for gate in self.gates:
+            if gate.code not in catalogue():
+                raise KeyError(f"gate code {gate.code!r} is not in the error catalogue")
 
     @property
     def http_status(self) -> int:

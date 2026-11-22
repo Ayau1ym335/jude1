@@ -43,7 +43,9 @@ def test_document_shape() -> None:
     assert len(op_ids) == len(set(op_ids))
 
 
-@pytest.mark.parametrize("code", sorted(catalogue()))
+@pytest.mark.parametrize(
+    "code", sorted(c for c, e in catalogue().items() if e["kind"] == "refusal")
+)
 def test_every_error_body_matches_the_published_schema(code: str) -> None:
     ErrorResponse.model_validate(error_body(code))
 
