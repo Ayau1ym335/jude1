@@ -96,6 +96,9 @@ services:
       JUDE_DATABASE_URL: *database-url
       JUDE_STORAGE_URL: http://storage-fake:9000
       JUDE_WORKER_HEALTH_PORT: "8001"
+      # Job limits (SEC-07): development values only; every deployment sets its own.
+      JUDE_JOB_CPU_SECONDS: "600"
+      JUDE_JOB_MEMORY_MB: "2048"
     depends_on:
       postgres: { condition: service_healthy }
       storage-fake: { condition: service_healthy }

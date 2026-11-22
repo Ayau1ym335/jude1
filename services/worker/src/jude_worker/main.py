@@ -1,8 +1,4 @@
-"""Worker process entry point.
-
-XC-FND-02 scope: process lifecycle + health endpoint only. The job loop
-(claim/lease/retry with SKIP LOCKED) arrives with TSK-JOB-*.
-"""
+"""Worker process entry point: kernel warm-up, health endpoint, job loop (FN-JOB-02)."""
 
 from collections.abc import Callable
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -10,12 +6,18 @@ import json
 import logging
 import os
 import signal
+import socket
 import threading
+import uuid
 
 import psycopg
 
 import jude_kernel
 from jude_platform.logs import configure_logging
+from jude_worker.jobs.executor import ForkExecutor, Limits
+from jude_worker.jobs.handlers import HANDLERS
+from jude_worker.jobs.loop import Worker
+from jude_worker.jobs.queue import LEASE_SECONDS
 from jude_worker.kernel_warmup import warm_up
 
 log = logging.getLogger("jude_worker")
@@ -68,6 +70,7 @@ def make_health_server(host: str, port: int, db_check: DbCheck) -> ThreadingHTTP
 
 def main() -> None:
     configure_logging("worker", distribution="jude-worker")
+    limits = Limits.from_env()  # fail fast: no default limits (SEC-07)
     warm_up()  # every numba kernel loaded before /healthz answers (X-06 §6.4)
     port = int(os.environ.get("JUDE_WORKER_HEALTH_PORT", "8001"))
     server = make_health_server("0.0.0.0", port, postgres_check)  # noqa: S104 — container-internal port
@@ -81,9 +84,24 @@ def main() -> None:
 
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
-    log.info("worker.started", extra={"port": port, "component": "idle (no job handlers yet)"})
+    worker_id = f"{socket.gethostname()}-{os.getpid()}-{uuid.uuid4().hex[:8]}"
+    jobs = threading.Thread(target=run_jobs, args=(stop, worker_id, limits), daemon=True)
+    jobs.start()
+    log.info("worker.started", extra={"port": port, "component": f"{len(HANDLERS)} job types"})
     stop.wait()
     server.shutdown()
+
+
+def run_jobs(stop: threading.Event, worker_id: str, limits: Limits) -> None:
+    """Job loop thread; on a crash the process stops so the container restarts it."""
+    url = os.environ["JUDE_DATABASE_URL"]
+    try:
+        with psycopg.connect(url) as conn, psycopg.connect(url, autocommit=True) as listen:
+            executor = ForkExecutor(limits, LEASE_SECONDS)
+            Worker(conn, worker_id, HANDLERS, executor).run_forever(stop, listen)
+    except Exception:
+        log.exception("worker.loop_crashed")
+        stop.set()
 
 
 if __name__ == "__main__":
