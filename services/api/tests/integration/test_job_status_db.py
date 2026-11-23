@@ -90,7 +90,9 @@ def api(url: str, who: uuid.UUID, cases: frozenset[str] = frozenset()) -> TestCl
             yield c
 
     app.dependency_overrides[deps.db] = db
-    app.dependency_overrides[deps.requester] = lambda: deps.Requester(user_id=who)
+    app.dependency_overrides[deps.requester] = lambda: deps.Requester(
+        user_id=who, role="technician", session_id="0" * 64, ui_session_id=None
+    )
     app.dependency_overrides[deps.case_access] = lambda: lambda w, case_id: case_id in cases
     return TestClient(app)
 

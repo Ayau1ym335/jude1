@@ -75,7 +75,7 @@ def client(url: str, clock: Clock, cfg: SecurityConfig | None = None) -> TestCli
             yield c
 
     app.dependency_overrides[deps.db] = db
-    app.dependency_overrides[routes.clock] = lambda: clock
+    app.dependency_overrides[deps.clock] = lambda: clock
     if cfg is not None:
         app.dependency_overrides[security_config] = lambda: cfg
     return TestClient(app)

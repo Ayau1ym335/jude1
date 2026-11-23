@@ -1,5 +1,7 @@
 """UT-FN-JOB-03: the job status route without a database (auth placeholder, validation)."""
 
+import uuid
+
 from fastapi.testclient import TestClient
 
 from jude_api.main import create_app
@@ -29,21 +31,22 @@ def test_until_sessions_exist_every_request_is_refused_401() -> None:
     assert resp.json()["error"] == "SESSION_INVALID"
 
 
+def who() -> deps.Requester:
+    return deps.Requester(
+        user_id=uuid.UUID(int=1), role="technician", session_id="0" * 64, ui_session_id=None
+    )
+
+
 def test_malformed_job_id_is_a_validation_error() -> None:
     app = create_app(db_check=lambda: None, readiness_checks={})
-    app.dependency_overrides[deps.requester] = lambda: deps.Requester(
-        user_id=__import__("uuid").UUID(int=1)
-    )
+    app.dependency_overrides[deps.requester] = who
     app.dependency_overrides[deps.db] = lambda: None  # validation fails before any query
     resp = TestClient(app).get(f"{JOBS_PREFIX}/not-a-uuid")
     assert resp.status_code == 422 and resp.json()["error"] == "REQUEST_INVALID"
 
 
 def test_default_case_access_denies() -> None:
-    assert (
-        deps.case_access()(deps.Requester(user_id=__import__("uuid").UUID(int=1)), "J-00000000")
-        is False
-    )
+    assert deps.case_access()(who(), "J-00000000") is False
 
 
 def test_summary_needs_the_envelope_fields() -> None:

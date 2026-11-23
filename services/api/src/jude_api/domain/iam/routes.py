@@ -1,33 +1,19 @@
 """/api/v1/auth routes (FN-IAM-01). Session validation and logout follow (FN-IAM-02/03)."""
 
-from collections.abc import Callable
-from datetime import UTC, datetime
-from typing import Annotated, Literal
+from datetime import UTC
+from typing import Literal
 import uuid
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Response
 from pydantic import BaseModel, ConfigDict, Field
 
 from jude_api.domain.iam.login import LoginSuccess, authenticate
-from jude_api.platform.deps import Db
+from jude_api.platform.deps import Clock, Config, Db
 from jude_api.platform.errors import ApiError, Gate
+from jude_api.platform.iam import SESSION_COOKIE
 from jude_api.platform.schemas import ERROR_RESPONSES, ErrorResponse
-from jude_api.platform.security_config import SecurityConfig, security_config
 
-SESSION_COOKIE = "jude_session"
 AUTH_PREFIX = "/api/v1/auth"
-
-
-def utc_now() -> datetime:
-    return datetime.now(UTC)
-
-
-def clock() -> Callable[[], datetime]:
-    return utc_now  # overridden in tests
-
-
-Clock = Annotated[Callable[[], datetime], Depends(clock)]
-Config = Annotated[SecurityConfig, Depends(security_config)]
 
 
 class LoginRequest(BaseModel):
