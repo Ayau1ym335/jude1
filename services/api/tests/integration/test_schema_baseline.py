@@ -52,6 +52,10 @@ EXPECTED_TABLES = {
     ("audit", "chain_head"),
     ("ops", "job"),
     ("ops", "idempotency_key"),
+    # 0003_iam_accounts (TSK-IAM-01-B)
+    ("governance", "user"),
+    ("governance", "login_failure"),
+    ("governance", "session"),
 }
 SCHEMAS = {"clinical", "geometry", "governance", "data", "audit", "ops"}
 

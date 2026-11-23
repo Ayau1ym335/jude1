@@ -13,6 +13,7 @@ from fastapi.responses import JSONResponse
 from fastapi.routing import APIRoute
 import psycopg
 
+from jude_api.domain.iam.routes import router as auth_router
 from jude_api.platform.errors import install_error_handlers
 from jude_api.platform.job_routes import router as jobs_router
 from jude_api.platform.middleware import Metrics, RequestContextMiddleware
@@ -81,6 +82,7 @@ def create_app(
 
     app.include_router(router)
     app.include_router(jobs_router)
+    app.include_router(auth_router)
     app.include_router(probe_router(metrics, readiness_checks))
     return app
 
