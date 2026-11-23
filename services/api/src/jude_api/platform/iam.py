@@ -14,7 +14,7 @@ Runs before every authenticated endpoint (the ``requester`` dependency in ``deps
 ones in ``SESSIONLESS`` must depend on ``requester``, or the application refuses to start.
 """
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 import hmac
@@ -23,7 +23,7 @@ import uuid
 
 from fastapi import FastAPI
 from fastapi.dependencies.models import Dependant
-from fastapi.routing import APIRoute
+from fastapi.routing import APIRoute, iter_route_contexts
 import psycopg
 
 from jude_api.platform.errors import ApiError
@@ -90,19 +90,33 @@ def _depends_on(dependant: Dependant, target: Any) -> bool:
     return any(d.call is target or _depends_on(d, target) for d in dependant.dependencies)
 
 
-def mutating_routes(app: FastAPI) -> Iterable[tuple[str, str, APIRoute]]:
-    for route in app.routes:
-        if isinstance(route, APIRoute):
-            for method in sorted((route.methods or set()) & MUTATING):
-                yield method, route.path, route
+def api_routes(app: FastAPI) -> Iterator[tuple[str, str, Dependant]]:
+    """Every (method, full path, dependant) of the app, including routes of included routers.
+
+    FastAPI >= 0.16x keeps an included router as one ``_IncludedRouter`` entry in
+    ``app.routes``. A plain walk over ``app.routes`` therefore sees none of the router routes,
+    and a deny-by-default check built on it checks nothing. ``iter_route_contexts`` (public
+    API) flattens them with the effective path and the dependant that includes router-level
+    dependencies.
+    """
+    for ctx in iter_route_contexts(app.routes):
+        if isinstance(ctx.original_route, APIRoute):
+            for method in sorted(ctx.methods or ()):
+                yield method, ctx.path or "", ctx.dependant
+
+
+def mutating_routes(app: FastAPI) -> Iterable[tuple[str, str, Dependant]]:
+    for method, path, dependant in api_routes(app):
+        if method in MUTATING:
+            yield method, path, dependant
 
 
 def assert_mutations_need_a_session(app: FastAPI, requester: Any) -> None:
     """Deny by default: a mutating route without the session (and CSRF) check cannot start."""
     missing = [
         f"{method} {path}"
-        for method, path, route in mutating_routes(app)
-        if (method, path) not in SESSIONLESS and not _depends_on(route.dependant, requester)
+        for method, path, dependant in mutating_routes(app)
+        if (method, path) not in SESSIONLESS and not _depends_on(dependant, requester)
     ]
     if missing:
         raise RuntimeError(f"mutating routes without session/CSRF check: {', '.join(missing)}")

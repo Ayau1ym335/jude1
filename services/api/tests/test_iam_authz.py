@@ -2,7 +2,7 @@
 
 from typing import Annotated
 
-from fastapi import Depends, FastAPI
+from fastapi import APIRouter, Depends, FastAPI
 import pytest
 
 from jude_api.main import create_app
@@ -60,5 +60,19 @@ def test_route_without_action_key_refuses_to_start() -> None:
     def guarded(who: Annotated[Requester, Depends(ActionCheck("FN-CAS-02"))]) -> None:
         return None
 
+    with pytest.raises(RuntimeError, match=r"GET /api/v1/_test/open"):
+        assert_every_route_authorised(app)
+
+
+def test_route_without_action_key_in_an_included_router_refuses_to_start() -> None:
+    # Regression: routes of included routers were invisible to the check (FastAPI 0.16x).
+    router = APIRouter(prefix="/api/v1/_test")
+
+    @router.get("/open")
+    def open_route() -> None:
+        return None
+
+    app = FastAPI()
+    app.include_router(router)
     with pytest.raises(RuntimeError, match=r"GET /api/v1/_test/open"):
         assert_every_route_authorised(app)
