@@ -5,8 +5,11 @@
 line, metrics, DS-24 500s); refusals use the DS-24 envelope (jude_api.platform.errors).
 """
 
-from collections.abc import Callable, Mapping
+from collections.abc import AsyncIterator, Callable, Mapping
+from contextlib import asynccontextmanager
 import os
+import threading
+from typing import Any
 
 from fastapi import APIRouter, FastAPI
 from fastapi.responses import JSONResponse
@@ -14,6 +17,7 @@ from fastapi.routing import APIRoute
 import psycopg
 
 from jude_api.domain.iam.routes import router as auth_router
+from jude_api.platform import completion, deps
 from jude_api.platform.authz import assert_every_route_authorised
 from jude_api.platform.deps import requester
 from jude_api.platform.errors import install_error_handlers
@@ -93,6 +97,31 @@ def create_app(
 
 
 def build() -> FastAPI:
-    """Entry point for uvicorn (``--factory jude_api.main:build``): logging first, then the app."""
+    """Entry point for uvicorn (``--factory jude_api.main:build``): logging first, then the app,
+    then the job completion handler (FN-JOB-04) as a background thread of the API process."""
     configure_logging("api", distribution=DISTRIBUTION)
-    return create_app()
+    app = create_app()
+
+    @asynccontextmanager
+    async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+        stop = threading.Event()
+        thread = threading.Thread(
+            target=completion.run_supervised,
+            args=(_app_connection, completion.HANDLERS, deps.utc_now, stop),
+            daemon=True,
+            name="job-completion",
+        )
+        thread.start()
+        yield
+        stop.set()
+        thread.join(5)
+
+    app.router.lifespan_context = lifespan
+    return app
+
+
+def _app_connection() -> psycopg.Connection[Any]:
+    conn = psycopg.connect(os.environ["JUDE_DATABASE_URL"], connect_timeout=DB_CONNECT_TIMEOUT_S)
+    conn.execute(f"SET ROLE {deps.APP_ROLE}")
+    conn.commit()
+    return conn
