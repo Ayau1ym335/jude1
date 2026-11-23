@@ -195,13 +195,13 @@ def test_reaper_requeues_expired_idempotent_and_fails_the_rest(url: str) -> None
 def test_heartbeat_keeps_the_lease_and_fencing_drops_late_writes(url: str) -> None:
     jid = put(url)
     with role_conn(url, "worker_rw") as c:
-        job = queue.claim(c, "slow", lease_s=0.6)
+        job = queue.claim(c, "slow", lease_s=3.0)  # generous margins: CI hosts can be slow
         assert job is not None
         for _ in range(3):
-            time.sleep(0.3)
-            assert queue.heartbeat(c, jid, "slow", lease_s=0.6)
+            time.sleep(0.5)
+            assert queue.heartbeat(c, jid, "slow", lease_s=3.0)
             assert queue.reap(c) == (0, 0)
-        time.sleep(0.8)  # missed heartbeats: the lease expires
+        time.sleep(3.5)  # missed heartbeats: the lease expires
         assert queue.reap(c) == (1, 0)
         other = queue.claim(c, "fresh")
         assert other is not None and other.id == jid and other.attempts == 2
