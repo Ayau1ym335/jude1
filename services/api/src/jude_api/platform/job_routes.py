@@ -12,13 +12,14 @@
   Russian message (NFR-05).
 """
 
-from typing import Any
+from typing import Annotated, Any
 import uuid
 
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Depends, Response
 import psycopg
 
-from jude_api.platform.deps import CaseAccess, CaseAccessCheck, CurrentRequester, Db, Requester
+from jude_api.platform.authz import ActionCheck
+from jude_api.platform.deps import CaseAccess, CaseAccessCheck, Db, Requester
 from jude_api.platform.errors import ApiError, catalogue, messages_ru
 from jude_api.platform.schemas import ERROR_RESPONSES, ErrorResponse, JobStatusResponse
 
@@ -78,7 +79,7 @@ router = APIRouter(prefix=JOBS_PREFIX, responses=ERROR_RESPONSES)
 )
 def get_job(
     job_id: uuid.UUID,
-    who: CurrentRequester,  # resolved first: unauthenticated requests never open a connection
+    who: Annotated[Requester, Depends(ActionCheck("FN-JOB-03"))],  # session checked first
     may_access: CaseAccessCheck,
     conn: Db,
     response: Response,

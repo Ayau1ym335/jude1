@@ -5,8 +5,7 @@
 - ``clock`` / ``config``: current UTC time and SD-01/SD-02 settings; overridden in tests.
 - ``requester``: the authenticated user (FN-IAM-02, ``platform.iam``). A request without the
   session cookie is refused before any database connection is opened.
-- ``case_access``: may the requester see a case? The permission matrix and case scope are
-  TSK-IAM-04-A; until then the default denies (owners still see their own jobs).
+- ``case_access``: may the requester see a case? (``platform.authz``, FN-IAM-04).
 """
 
 from collections.abc import Callable, Iterator
@@ -79,12 +78,11 @@ class CaseAccess(Protocol):
     def __call__(self, who: Requester, case_id: str) -> bool: ...
 
 
-def deny_all_cases(who: Requester, case_id: str) -> bool:
-    return False
-
-
 def case_access() -> CaseAccess:
-    return deny_all_cases  # replaced by the permission matrix in TSK-IAM-04-A
+    """Case scope from the permission matrix (FN-IAM-04); overridden in tests."""
+    from jude_api.platform import authz  # deferred: authz depends on this module
+
+    return authz.case_access
 
 
 CurrentRequester = Annotated[Requester, Depends(requester)]
