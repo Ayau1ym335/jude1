@@ -19,13 +19,13 @@ from typing import Any
 
 from fastapi import FastAPI
 from fastapi.dependencies.models import Dependant
-from fastapi.routing import APIRoute
 import psycopg
 import yaml
 
 from jude_api.platform import aud
 from jude_api.platform.deps import CurrentRequester, Db, Requester
 from jude_api.platform.errors import ApiError
+from jude_api.platform.iam import api_routes
 
 MATRIX_PATH = Path(__file__).resolve().parent / "permissions.yaml"
 CASE_READ = "FN-CAS-02"
@@ -93,14 +93,11 @@ def assert_every_route_authorised(app: FastAPI, prefix: str = "/api/v1") -> None
     """Deny by default: an /api/v1 route without an action key (and not public) cannot start."""
     m = matrix()
     problems = []
-    for route in app.routes:
-        if not isinstance(route, APIRoute) or not route.path.startswith(prefix):
+    for method, path, dependant in api_routes(app):
+        if not path.startswith(prefix) or (method, path) in m.public:
             continue
-        for method in sorted(route.methods or ()):
-            if (method, route.path) in m.public:
-                continue
-            if not _actions(route.dependant):
-                problems.append(f"{method} {route.path}")
+        if not _actions(dependant):
+            problems.append(f"{method} {path}")
     if problems:
         raise RuntimeError(f"routes without an action key: {', '.join(problems)}")
 
