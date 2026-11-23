@@ -5,7 +5,7 @@ UPDATE/DELETE (FN-AUD-06, FR-121, SEC-03). Plus grants per role and the CHECK co
 All rows are synthetic.
 """
 
-from collections.abc import Iterator, Sequence
+from collections.abc import Callable, Iterator, Sequence
 from contextlib import contextmanager
 import hashlib
 import uuid
@@ -87,6 +87,11 @@ def ok(conn: Conn, sql: str, params: Sequence[object] | None = None) -> None:
 
 
 # --- seed helpers (owner role) --------------------------------------------------------------
+
+
+@pytest.fixture(autouse=True)
+def _seed_account(migrated_url: str, seed_user: Callable[..., None]) -> None:
+    seed_user(migrated_url, USER)  # the rows below are created_by this account (migration 0005)
 
 
 def make_case(conn: Conn, case_id: str = "J-0123ABCD") -> str:

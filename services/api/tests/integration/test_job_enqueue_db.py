@@ -4,7 +4,7 @@ Completion criterion: a rolled-back request leaves no job. Runs as the applicati
 app_rw, the role the API uses for domain writes.
 """
 
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 import uuid
 
@@ -39,7 +39,8 @@ def jobs(url: str) -> list[tuple[object, ...]]:
 
 
 @pytest.fixture
-def url(migrated_url: str) -> Iterator[str]:
+def url(migrated_url: str, seed_user: Callable[..., None]) -> Iterator[str]:
+    seed_user(migrated_url, USER)
     yield migrated_url
     with psycopg.connect(migrated_url) as c:
         c.execute("DELETE FROM ops.job")

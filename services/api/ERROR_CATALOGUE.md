@@ -85,3 +85,4 @@ The user delegated these non-clinical choices to engineering. They stay draft en
 
   They are job-result codes, not HTTP refusals.
 - **Worker resource limits have no default in code** (SEC-07). `JUDE_JOB_CPU_SECONDS` and `JUDE_JOB_MEMORY_MB` are deployment settings, and the worker refuses to start without them. The memory limit is added on top of the worker's footprint at fork time, because numba and LLVM already occupy a large address space. `compose.yaml` holds development values only (600 s, 2 048 MB).
+- **Account requests reuse `REQUEST_INVALID`** (TSK-IAM-05-B, 2026-11-24). An initial password shorter than 12 characters, or a login outside `[a-z0-9][a-z0-9._@-]{0,63}` after trimming and case-folding, answers 422 `REQUEST_INVALID` with the field as gate detail. No new code was added. FN-IAM-05's own codes (`NAME_REQUIRED`, `LOGIN_TAKEN`, `LAST_ADMIN`) keep their FS meaning.

@@ -32,11 +32,21 @@ Migrations are **forward-only**: `downgrade()` raises, and a fix is a new migrat
 
 These tables have no column specification yet, so the owning task's migration creates them:
 
-- `governance`: `user`, `session`, `role_grant` (IAM), `rejection`, `report`, `template*`, `frame_definition`
+- `governance`: `role_grant` (IAM), `rejection`, `report`, `template*`, `frame_definition`. (`user`, `login_failure` and `session` came with `0003_iam_accounts`.)
 - `clinical.cohort` (conditional)
 - `ops.backup_record`, `ops.blob_verification`
 
-Columns such as `created_by` are `uuid NOT NULL` without a foreign key. The IAM migration adds the FKs to `governance.user`.
+### Actor references (`0005_user_references`, TSK-IAM-05-B)
+
+Every actor column references `governance."user"(id)`. That covers each `uuid` column named `*_by`, plus `ops.job.requested_by` and `ops.idempotency_key.user_id` (22 foreign keys). Two rules make this safe:
+- accounts are never deleted, only deactivated (SEC-19);
+- `app_rw` has no DELETE on `governance."user"`.
+
+`audit.audit_event.user_id` has **no** foreign key:
+- the audit record's integrity rests on its hash chain alone;
+- it also records actors that are not accounts (`user_id` NULL, role `system`).
+
+Test fixtures that insert rows must create the account first. The integration conftest offers `seed_user` for this.
 
 ### Enumerations without a CHECK yet
 

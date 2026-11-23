@@ -4,7 +4,7 @@ Completion criterion: status transitions are visible within one poll interval. E
 the committed row, so the very next GET after a worker commit shows the new status.
 """
 
-from collections.abc import Iterator, Mapping
+from collections.abc import Callable, Iterator, Mapping
 from contextlib import contextmanager
 from typing import Any
 import uuid
@@ -70,7 +70,8 @@ def rejected(_: Mapping[str, Any]) -> OpResult:
 
 
 @pytest.fixture
-def url(migrated_url: str) -> Iterator[str]:
+def url(migrated_url: str, seed_user: Callable[..., None]) -> Iterator[str]:
+    seed_user(migrated_url, OWNER, OTHER)
     with psycopg.connect(migrated_url) as c:
         c.execute(
             """INSERT INTO clinical."case" (case_id, status, created_by) VALUES (%s, 'active', %s)
