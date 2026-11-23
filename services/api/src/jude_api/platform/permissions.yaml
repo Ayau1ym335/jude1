@@ -72,4 +72,5 @@ actions:
 public:
   - [GET, /api/v1/health]
   - [POST, /api/v1/auth/login]
+  - [POST, /api/v1/auth/logout]  # FN-IAM-03: idempotent, any session may end itself
   - [GET, /api/v1/openapi.json]

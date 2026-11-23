@@ -32,7 +32,12 @@ from jude_api.platform.security_config import SecurityConfig
 SESSION_COOKIE = "jude_session"
 CSRF_HEADER = "X-CSRF-Token"
 MUTATING = frozenset({"POST", "PUT", "PATCH", "DELETE"})
-SESSIONLESS = frozenset({("POST", "/api/v1/auth/login")})  # no session exists yet
+SESSIONLESS = frozenset(
+    {
+        ("POST", "/api/v1/auth/login"),  # no session exists yet
+        ("POST", "/api/v1/auth/logout"),  # idempotent; checks session + CSRF itself (FN-IAM-03)
+    }
+)
 
 
 @dataclass(frozen=True)
