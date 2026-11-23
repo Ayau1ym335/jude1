@@ -11,6 +11,7 @@ import hashlib
 import uuid
 
 from alembic import command
+from alembic.script import ScriptDirectory
 import psycopg
 from psycopg import errors
 import pytest
@@ -22,6 +23,7 @@ pytestmark = pytest.mark.integration
 Conn = psycopg.Connection[tuple[object, ...]]
 
 USER = uuid.UUID("00000000-0000-4000-8000-000000000001")
+HEAD = ScriptDirectory.from_config(alembic_config("postgresql://unused")).get_current_head()
 IDENTITY = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
 
 EXPECTED_TABLES = {
@@ -126,7 +128,7 @@ def make_config(conn: Conn, version: int = 1, state: str = "active") -> int:
 
 def test_head_applied_on_empty_db(conn: Conn) -> None:
     row = conn.execute("SELECT version_num FROM alembic_version").fetchone()
-    assert row == ("0001_baseline",)
+    assert row == (HEAD,)
 
 
 def test_six_schemas(conn: Conn) -> None:
@@ -162,7 +164,7 @@ def test_second_empty_db_with_existing_roles_and_rerun_is_noop(
     upgrade(empty_db_url)
     upgrade(empty_db_url)  # already at head: no-op
     with psycopg.connect(empty_db_url) as c:
-        assert c.execute("SELECT version_num FROM alembic_version").fetchone() == ("0001_baseline",)
+        assert c.execute("SELECT version_num FROM alembic_version").fetchone() == (HEAD,)
 
 
 def test_downgrade_is_refused(migrated_url: str) -> None:
