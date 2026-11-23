@@ -25,6 +25,7 @@ dev = [
     "pytest-cov>=7.1.0",
     "jsonschema>=4.26.0",
     "types-jsonschema>=4.26.0.20261006",
+    "types-pyyaml==6.0.12.20261103",
 ]
 
 [tool.uv]

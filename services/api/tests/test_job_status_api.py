@@ -45,8 +45,9 @@ def test_malformed_job_id_is_a_validation_error() -> None:
     assert resp.status_code == 422 and resp.json()["error"] == "REQUEST_INVALID"
 
 
-def test_default_case_access_denies() -> None:
-    assert deps.case_access()(who(), "J-00000000") is False
+def test_case_access_follows_the_matrix() -> None:
+    """FN-CAS-02 (case contents) is open to both roles: single-clinic case scope."""
+    assert deps.case_access()(who(), "J-00000000") is True
 
 
 def test_summary_needs_the_envelope_fields() -> None:
