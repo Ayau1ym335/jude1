@@ -4,13 +4,13 @@ from datetime import UTC
 from typing import Literal
 import uuid
 
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Request, Response
 from pydantic import BaseModel, ConfigDict, Field
 
-from jude_api.domain.iam.login import LoginSuccess, authenticate
+from jude_api.domain.iam.login import LoginSuccess, authenticate, logout, token_hash
 from jude_api.platform.deps import Clock, Config, Db
 from jude_api.platform.errors import ApiError, Gate
-from jude_api.platform.iam import SESSION_COOKIE
+from jude_api.platform.iam import CSRF_HEADER, SESSION_COOKIE
 from jude_api.platform.schemas import ERROR_RESPONSES, ErrorResponse
 
 AUTH_PREFIX = "/api/v1/auth"
@@ -76,3 +76,23 @@ def login(
             {"id": outcome.user_id, "display_name": outcome.display_name, "role": outcome.role}
         ),
     )
+
+
+@router.post(
+    "/logout",
+    status_code=204,
+    responses={403: {"model": ErrorResponse, "description": "CSRF_INVALID (live session)"}},
+)
+def logout_route(request: Request, conn: Db) -> Response:
+    """FN-IAM-03: delete the session, emit auth.logout, expire the cookie. Idempotent (204)."""
+    token = request.cookies.get(SESSION_COOKIE)
+    outcome = "no_session"
+    if token:
+        csrf = request.headers.get(CSRF_HEADER)
+        with conn.transaction():
+            outcome = logout(conn, token_hash(token), token_hash(csrf) if csrf else None)
+    if outcome == "csrf_invalid":
+        raise ApiError("CSRF_INVALID")
+    response = Response(status_code=204)
+    response.delete_cookie(SESSION_COOKIE, path="/", secure=True, httponly=True, samesite="strict")
+    return response

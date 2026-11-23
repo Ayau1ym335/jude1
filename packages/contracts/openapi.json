@@ -442,6 +442,38 @@
         "summary": "Login"
       }
     },
+    "/api/v1/auth/logout": {
+      "post": {
+        "description": "FN-IAM-03: delete the session, emit auth.logout, expire the cookie. Idempotent (204).",
+        "operationId": "logout_route",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "CSRF_INVALID (live session)"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Error (DS-24)"
+          }
+        },
+        "summary": "Logout Route"
+      }
+    },
     "/api/v1/health": {
       "get": {
         "operationId": "health",

@@ -23,6 +23,7 @@ submitted login and the client address are never stored or logged.
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 import hashlib
+import hmac
 import secrets
 from typing import Any, Literal
 import uuid
@@ -36,6 +37,33 @@ from jude_api.platform.security_config import SecurityConfig
 
 HASHER = PasswordHasher()  # argon2id, RFC 9106 parameters of argon2-cffi
 _DUMMY_HASH = HASHER.hash(secrets.token_urlsafe(32))
+
+
+def logout(
+    conn: psycopg.Connection[Any], session_hash: str, csrf_hash: str | None
+) -> Literal["logged_out", "no_session", "csrf_invalid"]:
+    """FN-IAM-03 in the caller's transaction: delete the session and emit auth.logout.
+
+    Idempotent: an unknown (already removed or expired) session is "no_session" (answered
+    204). A live session needs its CSRF token like any state change (SEC-20).
+    """
+    row = conn.execute(
+        "SELECT s.user_id, s.csrf_hash, s.ui_session_id, u.role FROM governance.session s"
+        ' JOIN governance."user" u ON u.id = s.user_id WHERE s.id = %s FOR UPDATE OF s',
+        (session_hash,),
+    ).fetchone()
+    if row is None:
+        return "no_session"
+    user_id, stored_csrf, ui_session_id, role = row
+    if csrf_hash is None or not hmac.compare_digest(csrf_hash, stored_csrf):
+        return "csrf_invalid"
+    conn.execute("DELETE FROM governance.session WHERE id = %s", (session_hash,))
+    event = aud.AuditEvent(
+        "auth.logout", user_id, role, object_type="user", object_id=str(user_id),
+        ui_session_id=ui_session_id,
+    )  # fmt: skip
+    aud.append(conn, event)
+    return "logged_out"
 
 
 def normalise_login(login: str) -> str:
