@@ -5,7 +5,7 @@ fake kernel results through the real queue: success, deterministic rejection, re
 (three attempts, one outcome), idempotent re-run of the completion.
 """
 
-from collections.abc import Iterator, Mapping
+from collections.abc import Callable, Iterator, Mapping
 from contextlib import contextmanager
 from datetime import UTC, datetime
 import threading
@@ -44,10 +44,11 @@ def role_conn(url: str, role: str) -> Iterator[psycopg.Connection[Any]]:
 
 
 @pytest.fixture
-def url(empty_db_url: str) -> str:
+def url(empty_db_url: str, seed_user: Callable[..., None]) -> str:
     from jude_api.db.migrate import upgrade
 
     upgrade(empty_db_url)
+    seed_user(empty_db_url, USER)
     return empty_db_url
 
 

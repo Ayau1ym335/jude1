@@ -5,7 +5,7 @@ records outcomes (FN-JOB-02, role worker_rw). Completion criterion: killing the 
 re-queues the job after its lease; the retry yields the same geometry hash.
 """
 
-from collections.abc import Iterator, Mapping
+from collections.abc import Callable, Iterator, Mapping
 from contextlib import contextmanager
 import hashlib
 import os
@@ -105,7 +105,8 @@ def flaky(_: Mapping[str, Any]) -> OpResult:
 
 
 @pytest.fixture
-def url(migrated_url: str) -> Iterator[str]:
+def url(migrated_url: str, seed_user: Callable[..., None]) -> Iterator[str]:
+    seed_user(migrated_url, USER)
     yield migrated_url
     with psycopg.connect(migrated_url) as c:
         c.execute("DELETE FROM ops.job")

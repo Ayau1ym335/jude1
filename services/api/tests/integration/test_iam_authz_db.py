@@ -116,11 +116,13 @@ def test_unauthenticated_probe_is_401_not_403(url: str) -> None:
 
 def test_archived_case_is_read_only(url: str) -> None:
     with psycopg.connect(url) as c:
+        account = c.execute('SELECT min(id::text)::uuid FROM governance."user"').fetchone()
+        assert account is not None
         c.execute(
             'INSERT INTO clinical."case" (case_id, status, archived_by, archived_at, created_by)'
-            " VALUES ('J-0000AAAA', 'active', NULL, NULL, gen_random_uuid()),"
-            " ('J-0000BBBB', 'archived', gen_random_uuid(), now(), gen_random_uuid())"
-            " ON CONFLICT DO NOTHING"
+            " VALUES ('J-0000AAAA', 'active', NULL, NULL, %(u)s),"
+            " ('J-0000BBBB', 'archived', %(u)s, now(), %(u)s) ON CONFLICT DO NOTHING",
+            {"u": account[0]},
         )
     with app_conn(url) as c:
         ensure_case_writable(c, "J-0000AAAA")

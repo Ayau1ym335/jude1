@@ -5,7 +5,7 @@ to its maintenance database), e.g. started by `just test-int` or the CI service 
 Never point it at a database that holds data: the fixtures create and drop databases.
 """
 
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 import os
 from urllib.parse import urlsplit, urlunsplit
 import uuid
@@ -60,6 +60,25 @@ def empty_db_url() -> Iterator[str]:
         yield url_for_db(admin_url(), name)
     finally:
         drop_db(name)
+
+
+UNUSABLE_HASH = "$argon2id$unusable"  # satisfies the column CHECK; no password verifies
+
+
+def seed_users(url: str, *user_ids: uuid.UUID, role: str = "technician") -> None:
+    """Create accounts with these ids: every *_by column references governance."user" (0005)."""
+    with psycopg.connect(url) as c:
+        for uid in user_ids:
+            c.execute(
+                'INSERT INTO governance."user" (id, login, display_name, role, password_hash)'
+                " VALUES (%s, %s, 'Seeded test account', %s, %s) ON CONFLICT (id) DO NOTHING",
+                (uid, f"seed-{uid.hex}", role, UNUSABLE_HASH),
+            )
+
+
+@pytest.fixture(scope="session")
+def seed_user() -> Callable[..., None]:
+    return seed_users
 
 
 @pytest.fixture
