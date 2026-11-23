@@ -1,0 +1,13 @@
+{
+  "schema": "security-config/1",
+  "source": "SD-01 (login lockout) and SD-02 (idle timeout) of the security design, as stated in FN-IAM-01/02 and SEC-05/SEC-06. Change only with the security owner; tests run with other values to prove the code reads them from here.",
+  "lockout": {
+    "max_failures": 5,
+    "window_seconds": 900,
+    "lock_seconds": 900
+  },
+  "session": {
+    "idle_timeout_seconds": 1800,
+    "last_seen_write_interval_seconds": 60
+  }
+}

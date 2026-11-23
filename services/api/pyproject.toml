@@ -10,6 +10,7 @@ dependencies = [
     "jude-platform",
     "alembic>=1.20.1",
     "sqlalchemy>=2.1.9",
+    "argon2-cffi==25.1.0",
 ]
 
 [project.scripts]
