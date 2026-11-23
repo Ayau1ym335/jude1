@@ -66,3 +66,23 @@ def test_summary_needs_the_envelope_fields() -> None:
         k: env[k]
         for k in ("op_type", "op_version", "status", "reason_code", "output_names", "report")
     }
+
+
+def test_completion_loop_restarts_after_a_lost_database() -> None:
+    import threading
+
+    from jude_api.platform import completion
+
+    stop = threading.Event()
+    calls: list[int] = []
+
+    def broken_connect() -> None:
+        calls.append(1)
+        if len(calls) >= 3:
+            stop.set()
+        raise ConnectionError("database down")
+
+    from jude_api.platform.deps import utc_now
+
+    completion.run_supervised(broken_connect, {}, utc_now, stop, backoff_s=0.01)  # type: ignore[arg-type]
+    assert len(calls) == 3

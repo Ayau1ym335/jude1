@@ -19,6 +19,8 @@ from psycopg.types.json import Jsonb
 LEASE_SECONDS: Final = 60.0  # L (FN-JOB-02)
 MAX_ATTEMPTS: Final = 3  # idempotent jobs: at most 3 attempts (FN-JOB-02, EH-JOB)
 LEASE_EXPIRED: Final = "JOB_LEASE_EXPIRED"
+# Wakes the completion handler in the API (FN-JOB-04); delivered on commit only.
+FINISHED_CHANNEL: Final = "jude_job_finished"
 
 
 @dataclass(frozen=True)
@@ -78,6 +80,8 @@ def succeed(
             """,
             (Jsonb(result), job_id, worker_id),
         )
+        if cur.rowcount == 1:
+            conn.execute("SELECT pg_notify(%s, %s)", (FINISHED_CHANNEL, str(job_id)))
     return cur.rowcount == 1
 
 
@@ -97,6 +101,8 @@ def fail(
             """,
             (error_code, Jsonb(result) if result is not None else None, job_id, worker_id),
         )
+        if cur.rowcount == 1:
+            conn.execute("SELECT pg_notify(%s, %s)", (FINISHED_CHANNEL, str(job_id)))
     return cur.rowcount == 1
 
 
@@ -139,5 +145,7 @@ def reap(conn: psycopg.Connection[Any]) -> tuple[int, int]:
             """,
             {"max": MAX_ATTEMPTS, "code": LEASE_EXPIRED},
         ).fetchall()
+        if any(s == "failed" for (s,) in rows):
+            conn.execute("SELECT pg_notify(%s, %s)", (FINISHED_CHANNEL, "reaped"))
     requeued = sum(1 for (s,) in rows if s == "queued")
     return requeued, len(rows) - requeued
