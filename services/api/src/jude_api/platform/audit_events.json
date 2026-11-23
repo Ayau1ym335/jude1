@@ -1,0 +1,328 @@
+{
+  "schema": "audit-events/1",
+  "note": "Audit event types (FN-AUD-01 step 1). Every event named by FUNCTION_TECHNICAL_SPECIFICATIONS_v1.0; reserved types (AI-10) are refused by the MVP append path. CI: tools/contract/audit_events.py.",
+  "types": {
+    "account.locked": {
+      "sources": [
+        "FN-IAM-01"
+      ],
+      "reserved": false
+    },
+    "ai.dataset.exported": {
+      "sources": [
+        "AI-10 (RTM v0.4)"
+      ],
+      "reserved": true
+    },
+    "ai.model.disabled": {
+      "sources": [
+        "AI-10 (RTM v0.4)"
+      ],
+      "reserved": true
+    },
+    "ai.model.enabled": {
+      "sources": [
+        "AI-10 (RTM v0.4)"
+      ],
+      "reserved": true
+    },
+    "ai.model.registered": {
+      "sources": [
+        "AI-10 (RTM v0.4)"
+      ],
+      "reserved": true
+    },
+    "ai.suggestion.resolved": {
+      "sources": [
+        "AI-10 (RTM v0.4)"
+      ],
+      "reserved": true
+    },
+    "audit.exported": {
+      "sources": [
+        "FN-AUD-02",
+        "FN-AUD-05"
+      ],
+      "reserved": false
+    },
+    "audit.verified": {
+      "sources": [
+        "FN-AUD-03"
+      ],
+      "reserved": false
+    },
+    "auth.login": {
+      "sources": [
+        "FN-IAM-01"
+      ],
+      "reserved": false
+    },
+    "auth.login_failed": {
+      "sources": [
+        "FN-IAM-01"
+      ],
+      "reserved": false
+    },
+    "auth.logout": {
+      "sources": [
+        "FN-IAM-03"
+      ],
+      "reserved": false
+    },
+    "authz.denied": {
+      "sources": [
+        "FN-IAM-04"
+      ],
+      "reserved": false
+    },
+    "blob.integrity_failed": {
+      "sources": [
+        "FN-BLB-03"
+      ],
+      "reserved": false
+    },
+    "blob.read": {
+      "sources": [
+        "FN-AUD-02"
+      ],
+      "reserved": false
+    },
+    "case.archived": {
+      "sources": [
+        "FN-CAS-03"
+      ],
+      "reserved": false
+    },
+    "case.consent_ref_set": {
+      "sources": [
+        "FN-CAS-04"
+      ],
+      "reserved": false
+    },
+    "case.created": {
+      "sources": [
+        "FN-CAS-01"
+      ],
+      "reserved": false
+    },
+    "case.erased": {
+      "sources": [
+        "FN-CAS-08"
+      ],
+      "reserved": false
+    },
+    "case.prescription_attached": {
+      "sources": [
+        "FN-CAS-06"
+      ],
+      "reserved": false
+    },
+    "config.approval_refused": {
+      "sources": [
+        "FN-CFG-03"
+      ],
+      "reserved": false
+    },
+    "config.approved": {
+      "sources": [
+        "FN-CFG-03"
+      ],
+      "reserved": false
+    },
+    "config.published": {
+      "sources": [
+        "FN-CFG-02"
+      ],
+      "reserved": false
+    },
+    "design.approved": {
+      "sources": [
+        "FN-REV-04"
+      ],
+      "reserved": false
+    },
+    "design.created": {
+      "sources": [
+        "FN-DES-01"
+      ],
+      "reserved": false
+    },
+    "design.op_changed": {
+      "sources": [
+        "FN-DES-02"
+      ],
+      "reserved": false
+    },
+    "design.range_confirmed": {
+      "sources": [
+        "FN-DES-05"
+      ],
+      "reserved": false
+    },
+    "design.regenerated": {
+      "sources": [
+        "FN-DES-03"
+      ],
+      "reserved": false
+    },
+    "design.regeneration_failed": {
+      "sources": [
+        "FN-DES-03"
+      ],
+      "reserved": false
+    },
+    "design.rejected": {
+      "sources": [
+        "FN-REV-05"
+      ],
+      "reserved": false
+    },
+    "design.reviewed": {
+      "sources": [
+        "FN-REV-01"
+      ],
+      "reserved": false
+    },
+    "design.version_saved": {
+      "sources": [
+        "FN-DES-04"
+      ],
+      "reserved": false
+    },
+    "export.created": {
+      "sources": [
+        "FN-EXP-01"
+      ],
+      "reserved": false
+    },
+    "export.downloaded": {
+      "sources": [
+        "FN-AUD-02",
+        "FN-EXP-03"
+      ],
+      "reserved": false
+    },
+    "export.failed": {
+      "sources": [
+        "FN-EXP-02"
+      ],
+      "reserved": false
+    },
+    "export.refused": {
+      "sources": [
+        "FN-EXP-01"
+      ],
+      "reserved": false
+    },
+    "export.released": {
+      "sources": [
+        "FN-EXP-02"
+      ],
+      "reserved": false
+    },
+    "frame.confirmed": {
+      "sources": [
+        "FN-ANA-04"
+      ],
+      "reserved": false
+    },
+    "measurement.computed": {
+      "sources": [
+        "FN-MEA-01"
+      ],
+      "reserved": false
+    },
+    "prescription.read": {
+      "sources": [
+        "FN-AUD-02",
+        "FN-CAS-07"
+      ],
+      "reserved": false
+    },
+    "report.downloaded": {
+      "sources": [
+        "FN-AUD-02",
+        "FN-RPT-03"
+      ],
+      "reserved": false
+    },
+    "report.generated": {
+      "sources": [
+        "FN-RPT-01"
+      ],
+      "reserved": false
+    },
+    "scan.case_confirmed": {
+      "sources": [
+        "FN-SCN-03"
+      ],
+      "reserved": false
+    },
+    "scan.gate_evaluated": {
+      "sources": [
+        "FN-SCN-06"
+      ],
+      "reserved": false
+    },
+    "scan.gate_override": {
+      "sources": [
+        "FN-SCN-07"
+      ],
+      "reserved": false
+    },
+    "scan.metadata_changed": {
+      "sources": [
+        "FN-SCN-09"
+      ],
+      "reserved": false
+    },
+    "scan.outcome_tagged": {
+      "sources": [
+        "FN-SCN-10"
+      ],
+      "reserved": false
+    },
+    "scan.parsed": {
+      "sources": [
+        "FN-SCN-02"
+      ],
+      "reserved": false
+    },
+    "scan.secondary_use_changed": {
+      "sources": [
+        "FN-CAS-05"
+      ],
+      "reserved": false
+    },
+    "scan.unit_confirmed": {
+      "sources": [
+        "FN-SCN-04"
+      ],
+      "reserved": false
+    },
+    "scan.uploaded": {
+      "sources": [
+        "FN-SCN-01"
+      ],
+      "reserved": false
+    },
+    "user.changed": {
+      "sources": [
+        "FN-IAM-05"
+      ],
+      "reserved": false
+    },
+    "user.created": {
+      "sources": [
+        "FN-IAM-05"
+      ],
+      "reserved": false
+    },
+    "user.deactivated": {
+      "sources": [
+        "FN-IAM-05"
+      ],
+      "reserved": false
+    }
+  }
+}

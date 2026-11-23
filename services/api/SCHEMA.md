@@ -53,6 +53,13 @@ The full value set of these columns is not in the repository. Each is `text NOT 
 
 All four roles are `NOLOGIN` groups. The migration creates no login users and contains no credentials. Each deployment creates its own login users and grants them membership: the API user gets `app_rw` + `audit_append`, the worker user gets `worker_rw`.
 
+The API works as `app_rw`. The audit service (`jude_api.platform.aud`, FN-AUD-01) switches to `audit_append` only for the append itself:
+- it takes a transaction advisory lock, which serialises appends;
+- it runs `SET LOCAL ROLE audit_append` and calls `audit.append_event`;
+- it switches back to `app_rw`.
+
+Everything happens in the caller's transaction, so a rollback removes the event. Migration `0002_audit_ui_session` adds `audit_event.ui_session_id` (DATA-19, outside the hashed core) and the trailing `p_ui_session_id` parameter of `append_event`.
+
 | Role | clinical, geometry, governance, data, ops | audit |
 |---|---|---|
 | `app_rw` | SELECT, INSERT, UPDATE. DELETE only on `geometry.operation`, `geometry.landmark` and `ops.idempotency_key`. No UPDATE on the immutable tables: `data.artifact`, `geometry.landmark_history`, `geometry.measurement_value`, `geometry.validity_report`, `governance.measurement_definition`. | none |
