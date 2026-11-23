@@ -308,6 +308,7 @@ def idr_of(fid):
 
 # Recorded progress of generated TSK tasks (XC tasks carry status= in their xc()/xe() calls).
 TASK_STATUS = {
+    "TSK-IAM-04-A": "Done 2026-11-23 (PR #41 merged; 94 of 94 matrix cells; admin approve and export 403)",
     "TSK-IAM-02-A": "Done 2026-11-23 (PR #39 merged; idle 31 min gives 401; CSRF 403 on every mutating route)",
     "TSK-IAM-01-B": "Done 2026-11-23 (PR #37 merged; lockout; argon2id-only; one auth event per attempt)",
     "TSK-AUD-01-A": "Done 2026-11-23 (PR #35 merged; every event type logged once; rollback leaves no event)",
