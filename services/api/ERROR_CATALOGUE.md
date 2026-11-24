@@ -18,11 +18,14 @@ At the sign-off, `status` in `error_catalogue.json` becomes `frozen <date> (<who
 
 ## Contents: 100 codes
 
-The codes come from two sources, plus four platform codes:
+The codes come from two sources, plus six platform codes:
 
 - **Every code used by any function of FUNCTION_TECHNICAL_SPECIFICATIONS_v1.0.** That is 95 codes, the completion criterion of the task.
 - **Every code named by RTM v0.3 and v0.4** (IDR-05: RTM v0.3 names win). This adds `ZONE_CONTOUR_INVALID` (FR-183, RTM v0.4). The retired CN-11 names do not occur in the repository.
-- **Four platform codes:** `INTERNAL` (FN-API-02), and `NOT_FOUND`, `METHOD_NOT_ALLOWED`, `REQUEST_INVALID` (introduced by XC-FND-11 for framework errors).
+- **Six platform codes:**
+  - `INTERNAL` (FN-API-02);
+  - `NOT_FOUND`, `METHOD_NOT_ALLOWED`, `REQUEST_INVALID`, introduced by XC-FND-11 for framework errors;
+  - `IDEMPOTENCY_KEY_REUSED` and `IF_MATCH_REQUIRED`, introduced by TSK-API-01-A (see the decisions below).
 
 Each entry has a `kind`:
 
@@ -50,7 +53,7 @@ Any catalogued code may appear in `gates[]`. For example, approval refused with 
 
   The 16 codes are `APPROVAL_HASH_MISMATCH`, `APPROVAL_REQUIRED`, `CHECKLIST_INCOMPLETE`, `COVERAGE_BLOCKED`, `FRAME_NOT_CONFIRMED`, `GATE_NOT_PASSED`, `MEASUREMENT_SET_INVALID`, `NOT_SAVED`, `PRESCRIPTION_MISSING`, `REAPPROVAL_REQUIRED`, `REGEN_FAILED`, `REGEN_PENDING`, `STALE_SOURCE_UNCONFIRMED`, `UNIT_NOT_CONFIRMED`, `VALIDITY_FAILED` and `VERSION_NOT_DRAFT`.
 - **R2 (invalid input → 422), 1 code:** `ZONE_CONTOUR_INVALID`. A self-intersecting contour in the request is invalid input, like `PARAM_INVALID`.
-- **`platform`, 4 codes:** 500, 404, 405 and 422.
+- **`platform`, 6 codes:** 500, 404, 405, 422 (two codes) and 428.
 
 ## Which tokens are codes
 
@@ -86,3 +89,7 @@ The user delegated these non-clinical choices to engineering. They stay draft en
   They are job-result codes, not HTTP refusals.
 - **Worker resource limits have no default in code** (SEC-07). `JUDE_JOB_CPU_SECONDS` and `JUDE_JOB_MEMORY_MB` are deployment settings, and the worker refuses to start without them. The memory limit is added on top of the worker's footprint at fork time, because numba and LLVM already occupy a large address space. `compose.yaml` holds development values only (600 s, 2 048 MB).
 - **Account requests reuse `REQUEST_INVALID`** (TSK-IAM-05-B, 2026-11-24). An initial password shorter than 12 characters, or a login outside `[a-z0-9][a-z0-9._@-]{0,63}` after trimming and case-folding, answers 422 `REQUEST_INVALID` with the field as gate detail. No new code was added. FN-IAM-05's own codes (`NAME_REQUIRED`, `LOGIN_TAKEN`, `LAST_ADMIN`) keep their FS meaning.
+- **Two codes added for FN-API-01** (TSK-API-01-A, 2026-11-24). FN-API-01 names `IDEMPOTENCY_KEY_REQUIRED` and `VERSION_CONFLICT`, but its algorithm has two more outcomes, and each needs a code:
+  - **`IDEMPOTENCY_KEY_REUSED` (422):** the same key is sent with a different request (method, path or body). Replaying the stored response would answer a request the client did not make.
+  - **`IF_MATCH_REQUIRED` (428):** a versioned resource is edited without `If-Match`. A missing version is not a stale version, so it is not `VERSION_CONFLICT`.
+- **A malformed `Idempotency-Key` or `If-Match` gives `REQUEST_INVALID`** with the header as gate detail. Keys are UUID v4; the text is case-insensitive (RFC 9562) and stored in lower case.

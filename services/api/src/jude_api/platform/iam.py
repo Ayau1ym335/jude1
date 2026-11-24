@@ -86,8 +86,8 @@ def validate_session(
     )
 
 
-def _depends_on(dependant: Dependant, target: Any) -> bool:
-    return any(d.call is target or _depends_on(d, target) for d in dependant.dependencies)
+def depends_on(dependant: Dependant, target: Any) -> bool:
+    return any(d.call is target or depends_on(d, target) for d in dependant.dependencies)
 
 
 def api_routes(app: FastAPI) -> Iterator[tuple[str, str, Dependant]]:
@@ -116,7 +116,7 @@ def assert_mutations_need_a_session(app: FastAPI, requester: Any) -> None:
     missing = [
         f"{method} {path}"
         for method, path, dependant in mutating_routes(app)
-        if (method, path) not in SESSIONLESS and not _depends_on(dependant, requester)
+        if (method, path) not in SESSIONLESS and not depends_on(dependant, requester)
     ]
     if missing:
         raise RuntimeError(f"mutating routes without session/CSRF check: {', '.join(missing)}")

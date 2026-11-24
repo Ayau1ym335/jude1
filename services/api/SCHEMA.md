@@ -48,6 +48,14 @@ Every actor column references `governance."user"(id)`. That covers each `uuid` c
 
 Test fixtures that insert rows must create the account first. The integration conftest offers `seed_user` for this.
 
+### Idempotency replay (`0006_idempotency_replay`, TSK-API-01-A)
+
+`ops.idempotency_key` gains two columns:
+- `request_sha`: SHA-256 of method, path and body. The same key with another request is refused.
+- `body_bytes`: the exact response bytes, so a replay is byte-identical. jsonb reorders keys and cannot guarantee that.
+
+A CHECK ties `body_sha` to `sha256(body_bytes)`. `body` keeps the parsed JSON for queries. The rows have no expiry yet; a clean-up job (app_rw has DELETE) can follow when retention is decided.
+
 ### Enumerations without a CHECK yet
 
 The full value set of these columns is not in the repository. Each is `text NOT NULL`, and the owning task adds the CHECK:

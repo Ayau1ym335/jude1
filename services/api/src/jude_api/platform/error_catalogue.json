@@ -385,6 +385,24 @@
         "FN-API-01"
       ]
     },
+    "IDEMPOTENCY_KEY_REUSED": {
+      "http_status": 422,
+      "kind": "refusal",
+      "http_source": "platform",
+      "message_key": "error.idempotency_key_reused",
+      "sources": [
+        "FN-API-01 (TSK-API-01-A, platform)"
+      ]
+    },
+    "IF_MATCH_REQUIRED": {
+      "http_status": 428,
+      "kind": "refusal",
+      "http_source": "platform",
+      "message_key": "error.if_match_required",
+      "sources": [
+        "FN-API-01 (TSK-API-01-A, platform)"
+      ]
+    },
     "ILLEGAL_STATE": {
       "http_status": 409,
       "kind": "refusal",
