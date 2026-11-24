@@ -90,6 +90,10 @@ Everything happens in the caller's transaction, so a rollback removes the event.
 - **Hash computation stays with the caller.** IF-08 / FN-AUD-01 computes `hash = SHA-256(prev_hash ‖ JCS(core))`; the database stores it and enforces continuity.
 - **The core rows of `audit_event` cannot be changed by any role.** A trigger refuses UPDATE, DELETE and TRUNCATE with SQLSTATE `P0001`; for non-owner roles the missing grants fail first with `42501`.
 - **`audit_summary` is the erasable part.** Erasure uses the privileged purge credential of FN-CAS-08, which this migration does not create.
+- **CI check (TSK-AUD-06-C, CI-FN-AUD-06):** [`tools/contract/audit_immutability.py`](../../tools/contract/audit_immutability.py) keeps these rules from regressing.
+  - Contract stage: no `/audit*` path offers PUT, PATCH or DELETE, in `openapi.json` or in the live routes; POST only for `/api/v1/audit/verify` (FN-AUD-03, appends only). Mutate requests to the audit paths answer 403/404/405. Shipped code outside `migrations/` holds no SQL that updates, deletes, truncates, alters or re-grants an `audit.*` table.
+  - Integration stage ([test_audit_immutability_db.py](tests/integration/test_audit_immutability_db.py)): no application role, no API login and not PUBLIC has UPDATE, DELETE, TRUNCATE or column UPDATE on an `audit` table or owns one; the BEFORE UPDATE/DELETE/TRUNCATE triggers are enabled; `append_event` is the only SECURITY DEFINER function, with a pinned `search_path` and EXECUTE for `audit_append` alone.
+  - A later migration that breaks one of these fails CI. Against a deployed database: `python tools/contract/audit_immutability.py --db-url URL --app-login <api login>`.
 
 ## Invariants enforced in the database
 
