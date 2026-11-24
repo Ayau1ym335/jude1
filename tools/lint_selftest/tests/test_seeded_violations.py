@@ -312,3 +312,30 @@ GOOD_COMMIT = "feat(api): add health endpoint\n\nTask: XC-FND-02\n"
 def test_commitlint(message: str, expect: str) -> None:
     argv = node_bin("node_modules", "@commitlint", "cli", "cli.js")
     assert_gate(run(argv, stdin=message), run(argv, stdin=GOOD_COMMIT), expect)
+
+
+# --- wording / localisation lint (FN-OPS-01, VER-09) ---------------------------------------------
+
+WORDING = ROOT / "tools" / "wording" / "wording_lint.py"
+
+
+@pytest.mark.parametrize(
+    ("rel", "bad", "good", "expect"),
+    [
+        ("apps/web/src/messages/ru.json", '{"k": "Данные анонимизированы"}',
+         '{"k": "Данные без прямых идентификаторов"}', "WRD001"),
+        ("apps/web/src/features/x/P.tsx", "export const P = () => <p>Сохранить</p>;\n",
+         'export const P = () => <p>{t("save")}</p>;\n', "WRD002"),
+        ("services/api/src/jude_api/x.py", "CVAI_THRESHOLD = 3.5\n",
+         "CVAI_KEY = 'measure.cvai'\n", "WRD003"),
+    ],
+    ids=["prohibited-word", "hardcoded-ui-text", "threshold-constant"],
+)  # fmt: skip
+def test_wording_lint(tmp_path: Path, rel: str, bad: str, good: str, expect: str) -> None:
+    results = []
+    for name, text in (("bad", bad), ("good", good)):
+        root = tmp_path / name
+        (root / rel).parent.mkdir(parents=True)
+        write(root / rel, text)
+        results.append(run([PY, str(WORDING), "--root", str(root)]))
+    assert_gate(results[0], results[1], expect)

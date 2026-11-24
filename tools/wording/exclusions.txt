@@ -1,0 +1,5 @@
+# VER-09 exclusion file (FN-OPS-01, NFR-06). One glob per line, relative to the repository
+# root, followed by '#' and the reason. A line without a reason is a configuration error.
+# Only registers that must quote owner answers verbatim and quoted source titles belong here.
+#
+# (no exclusions yet)

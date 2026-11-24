@@ -1,0 +1,58 @@
+{
+  "schema": "wording-terms/1",
+  "note": "VER-09 word list (FN-OPS-01). Changing it is a reviewed edit. Every term names its documented source; 'forms' must match, 'not_forms' must not (checked by tests/test_wording_lint.py).",
+  "dec012": {
+    "status": "pending",
+    "note": "The DEC-012 list of prohibited Russian words (all inflections) is an owner decision and is not in the repository yet. Add each word as a 'stem' term with source 'DEC-012' and set status to 'provided'. Severity terms (FR-045) and improvement/worsening terms (SAF-12) in Russian also come from the owner."
+  },
+  "terms": [
+    {
+      "id": "anonymised-ru",
+      "stem": "анонимиз",
+      "source": "SEC-18, TC-SEC-18, FN-OPS-01 (flag list includes 'анонимизирован')",
+      "use_instead": "без прямых идентификаторов",
+      "forms": ["анонимизирован", "Анонимизированные", "анонимизированных", "анонимизация", "анонимизировать", "анонимизируется"],
+      "not_forms": ["аноним", "анонимный", "идентификатор"]
+    },
+    {
+      "id": "anonymised-en",
+      "stem": "anonymi",
+      "source": "SEC-18, TC-SEC-18 ('no direct identifiers', not 'anonymised')",
+      "use_instead": "no direct identifiers",
+      "forms": ["anonymised", "Anonymized", "anonymisation", "anonymization", "anonymise"],
+      "not_forms": ["anonymous", "anon"]
+    },
+    {
+      "id": "severity-en",
+      "words": ["severe", "severely", "severity", "abnormal", "abnormally", "abnormality", "abnormalities"],
+      "source": "FR-045 (no severity terms), CLAUDE.md intended-use boundary",
+      "forms": ["severe", "Severity", "abnormal", "abnormalities"],
+      "not_forms": ["several", "sever", "normal", "normally"]
+    },
+    {
+      "id": "treatment-claims-en",
+      "words": ["needs treatment", "need treatment", "corrected", "correction achieved"],
+      "source": "STK-05, FR-111, CLAUDE.md intended-use boundary (no diagnosis or outcome wording)",
+      "forms": ["needs treatment", "Needs  treatment", "corrected"],
+      "not_forms": ["correct", "correction", "treatments"]
+    }
+  ],
+  "scope": {
+    "words": [
+      "apps/web/src/**/*.json",
+      "apps/web/src/**/*.ts",
+      "apps/web/src/**/*.tsx",
+      "services/api/src/jude_api/platform/messages_ru.json",
+      "services/*/src/**/templates/**/*",
+      "packages/*/src/**/templates/**/*",
+      "docs/user/**/*"
+    ],
+    "ui_components": ["apps/web/src/**/*.tsx", "apps/web/src/**/*.jsx"],
+    "code": [
+      "services/*/src/**/*.py",
+      "packages/*/src/**/*.py",
+      "apps/web/src/**/*.ts",
+      "apps/web/src/**/*.tsx"
+    ]
+  }
+}

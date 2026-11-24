@@ -65,13 +65,15 @@ migrate-sql:
 # All coding-standard and architecture gates — same as the CI lint workflow
 lint: lint-py lint-web
 
-# Python: ruff, format check, mypy --strict, import-linter layer contracts, kernel builtins
+# Python: ruff, format check, mypy --strict, import-linter layer contracts, kernel builtins,
+# wording/localisation lint (FN-OPS-01)
 lint-py:
     uv run --frozen ruff check
     uv run --frozen ruff format --check
     uv run --frozen mypy
     uv run --frozen lint-imports --no-cache
     uv run --frozen python tools/archlint/kernel_builtins.py
+    uv run --frozen python tools/wording/wording_lint.py
 
 # Web: eslint (incl. "UI never imports kernel"), prettier check, tsc --noEmit
 lint-web:
