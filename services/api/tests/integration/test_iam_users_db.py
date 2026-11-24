@@ -76,7 +76,14 @@ def session(url: str, login: str) -> TestClient:
     r = api.post(f"{AUTH_PREFIX}/login", json={"login": login, "password": PASSWORD})
     assert r.status_code == 200, r.text
     api.headers["X-CSRF-Token"] = r.json()["csrf_token"]
+    api.event_hooks["request"] = [_fresh_idempotency_key]
     return api
+
+
+def _fresh_idempotency_key(request: Any) -> None:
+    """Each test call is a new operation (FN-API-01); replay is tested in test_idempotency_db."""
+    if request.method in {"POST", "PATCH", "PUT", "DELETE"}:
+        request.headers.setdefault("Idempotency-Key", str(uuid.uuid4()))
 
 
 def one(url: str, sql: str, params: tuple[Any, ...] = ()) -> tuple[Any, ...]:

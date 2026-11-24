@@ -529,7 +529,10 @@ export interface operations {
     create_user: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Required (428 IDEMPOTENCY_KEY_REQUIRED, checked after the session). UUID v4 chosen by the client per operation; send it again to retry (FN-API-01). */
+                "Idempotency-Key"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -557,8 +560,17 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description NAME_REQUIRED, REQUEST_INVALID */
+            /** @description NAME_REQUIRED, IDEMPOTENCY_KEY_REUSED, REQUEST_INVALID */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description IDEMPOTENCY_KEY_REQUIRED */
+            428: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -580,7 +592,10 @@ export interface operations {
     change_user: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description Required (428 IDEMPOTENCY_KEY_REQUIRED, checked after the session). UUID v4 chosen by the client per operation; send it again to retry (FN-API-01). */
+                "Idempotency-Key"?: string | null;
+            };
             path: {
                 user_id: string;
             };
@@ -612,6 +627,24 @@ export interface operations {
             };
             /** @description LAST_ADMIN */
             409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description IDEMPOTENCY_KEY_REUSED, REQUEST_INVALID */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description IDEMPOTENCY_KEY_REQUIRED */
+            428: {
                 headers: {
                     [name: string]: unknown;
                 };

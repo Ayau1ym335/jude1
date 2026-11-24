@@ -713,6 +713,26 @@
       },
       "post": {
         "operationId": "create_user",
+        "parameters": [
+          {
+            "description": "Required (428 IDEMPOTENCY_KEY_REQUIRED, checked after the session). UUID v4 chosen by the client per operation; send it again to retry (FN-API-01).",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required (428 IDEMPOTENCY_KEY_REQUIRED, checked after the session). UUID v4 chosen by the client per operation; send it again to retry (FN-API-01).",
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -752,7 +772,17 @@
                 }
               }
             },
-            "description": "NAME_REQUIRED, REQUEST_INVALID"
+            "description": "NAME_REQUIRED, IDEMPOTENCY_KEY_REUSED, REQUEST_INVALID"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "IDEMPOTENCY_KEY_REQUIRED"
           },
           "default": {
             "content": {
@@ -780,6 +810,24 @@
               "format": "uuid",
               "title": "User Id",
               "type": "string"
+            }
+          },
+          {
+            "description": "Required (428 IDEMPOTENCY_KEY_REQUIRED, checked after the session). UUID v4 chosen by the client per operation; send it again to retry (FN-API-01).",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required (428 IDEMPOTENCY_KEY_REQUIRED, checked after the session). UUID v4 chosen by the client per operation; send it again to retry (FN-API-01).",
+              "title": "Idempotency-Key"
             }
           }
         ],
@@ -823,6 +871,26 @@
               }
             },
             "description": "LAST_ADMIN"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "IDEMPOTENCY_KEY_REUSED, REQUEST_INVALID"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "IDEMPOTENCY_KEY_REQUIRED"
           },
           "default": {
             "content": {

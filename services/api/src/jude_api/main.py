@@ -23,6 +23,7 @@ from jude_api.platform.authz import assert_every_route_authorised
 from jude_api.platform.deps import requester
 from jude_api.platform.errors import install_error_handlers
 from jude_api.platform.iam import assert_mutations_need_a_session
+from jude_api.platform.idempotency import assert_mutations_are_idempotent
 from jude_api.platform.job_routes import router as jobs_router
 from jude_api.platform.middleware import Metrics, RequestContextMiddleware
 from jude_api.platform.probes import DEFAULT_CHECKS, Check, probe_router
@@ -95,6 +96,7 @@ def create_app(
     app.include_router(probe_router(metrics, readiness_checks))
     assert_mutations_need_a_session(app, requester)  # deny by default (FN-IAM-02, SEC-20)
     assert_every_route_authorised(app)  # deny by default (FN-IAM-04)
+    assert_mutations_are_idempotent(app)  # exactly-once mutations (FN-API-01, NFR-07)
     return app
 
 

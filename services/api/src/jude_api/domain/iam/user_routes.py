@@ -1,7 +1,8 @@
 """/api/v1/users (FN-IAM-05): list, create, change role or active. There is no DELETE (SEC-19).
 
 Clinic admin only (permission matrix, action key FN-IAM-05). The responses never contain the
-password or its hash.
+password or its hash. POST and PATCH need an Idempotency-Key (FN-API-01): a retry replays the
+first response and creates no second account or audit event.
 """
 
 from datetime import datetime
@@ -14,6 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from jude_api.domain.iam import users
 from jude_api.platform.authz import ActionCheck
 from jude_api.platform.deps import Clock, Db, Requester
+from jude_api.platform.idempotency import IDEMPOTENT_RESPONSES, IdempotentRequest
 from jude_api.platform.schemas import ERROR_RESPONSES, ErrorResponse
 
 USERS_PREFIX = "/api/v1/users"
@@ -68,30 +70,47 @@ def list_users(who: Admin, conn: Db, response: Response) -> list[dict[str, Any]]
     response_model=User,
     status_code=201,
     responses={
+        **IDEMPOTENT_RESPONSES,
         409: {"model": ErrorResponse, "description": "LOGIN_TAKEN"},
-        422: {"model": ErrorResponse, "description": "NAME_REQUIRED, REQUEST_INVALID"},
+        422: {
+            "model": ErrorResponse,
+            "description": "NAME_REQUIRED, IDEMPOTENCY_KEY_REUSED, REQUEST_INVALID",
+        },
     },
 )
-def create_user(body: CreateUser, who: Admin, conn: Db) -> dict[str, Any]:
-    with conn.transaction():
-        return users.create_user(
+def create_user(body: CreateUser, who: Admin, idem: IdempotentRequest, conn: Db) -> Response:
+    return idem.run(
+        conn,
+        lambda: users.create_user(
             conn, _actor(who), display_name=body.display_name, login=body.login,
             role=body.role, password=body.password,
-        )  # fmt: skip
+        ),
+        response_model=User,
+        status_code=201,
+    )  # fmt: skip
 
 
 @router.patch(
     "/{user_id}",
     response_model=User,
     responses={
+        **IDEMPOTENT_RESPONSES,
         404: {"model": ErrorResponse, "description": "Unknown account"},
         409: {"model": ErrorResponse, "description": "LAST_ADMIN"},
     },
 )
 def change_user(
-    user_id: uuid.UUID, body: ChangeUser, who: Admin, conn: Db, clock: Clock
-) -> dict[str, Any]:
-    with conn.transaction():
-        return users.update_user(
+    user_id: uuid.UUID,
+    body: ChangeUser,
+    who: Admin,
+    idem: IdempotentRequest,
+    conn: Db,
+    clock: Clock,
+) -> Response:
+    return idem.run(
+        conn,
+        lambda: users.update_user(
             conn, _actor(who), user_id, role=body.role, active=body.active, now=clock()
-        )
+        ),
+        response_model=User,
+    )
