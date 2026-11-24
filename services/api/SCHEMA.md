@@ -48,6 +48,19 @@ Every actor column references `governance."user"(id)`. That covers each `uuid` c
 
 Test fixtures that insert rows must create the account first. The integration conftest offers `seed_user` for this.
 
+### Design version states (`0007_design_version_states`, TSK-REV-06-A)
+
+`jude_api.domain.rev.states` is the single authority for status changes (FN-REV-06). The database is the backstop:
+- **CHECK** over the eight statuses: `draft`, `saved`, `reviewed_pass`, `reviewed_fail`, `approved`, `rejected`, `exported`, `superseded`.
+- **Trigger `geometry.design_version_guard`:**
+  - a version is inserted as `draft` only;
+  - a status change must be an allowed pair (the same pairs as the Python table; a unit test compares them);
+  - outside `draft`, every column except `status` is frozen (INV-03).
+- **CHECK** that a version outside `draft` and `superseded` has `params_sha` and `geometry_sha`.
+- **One open draft per design** (partial unique index). An edit of a non-draft creates draft n+1 with parent n (FR-091).
+
+Violations raise SQLSTATE `P0001` with the prefix `ILLEGAL_STATE`.
+
 ### Idempotency replay (`0006_idempotency_replay`, TSK-API-01-A)
 
 `ops.idempotency_key` gains two columns:
@@ -63,7 +76,6 @@ The full value set of these columns is not in the repository. Each is `text NOT 
 | Column | Value set lives in | Owning task |
 |---|---|---|
 | `geometry.scan.status` | — | FN-SCN |
-| `geometry.design_version.status` | 07 §8.1 | FN-REV-06 |
 | `governance.config_version.state` | — | FN-CFG |
 | `geometry.measurement_value.provenance_class` | DATA-13 | — |
 

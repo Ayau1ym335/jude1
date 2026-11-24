@@ -386,10 +386,12 @@ def make_saved_version(conn: Conn) -> tuple[object, ...]:
     version = conn.execute(
         """INSERT INTO geometry.design_version (design_id, number, status, scan_sha, frame_id,
                config_version, params_sha, geometry_sha, created_by)
-           VALUES (%s, 1, 'saved', %s, %s, %s, %s, %s, %s) RETURNING id""",
+           VALUES (%s, 1, 'draft', %s, %s, %s, %s, %s, %s) RETURNING id""",
         (design[0], sha("scan"), frame_id, cfg, sha("params"), sha("geom"), USER),
     ).fetchone()
     assert version is not None
+    # versions are born as drafts (0007); saving is a transition
+    conn.execute("UPDATE geometry.design_version SET status = 'saved' WHERE id = %s", (version[0],))
     return (version[0], sha("geom"), sha("params"), sha("scan"), ms[0], sha("rx"), cfg, USER)
 
 
