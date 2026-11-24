@@ -28,7 +28,6 @@ run_pytest() {  # <marker expression> [extra pytest args...]
 
 case "$STAGE" in
   lint)
-    # Wording/localisation lint (FN-OPS-01) joins here with TSK-OPS-01-C.
     if seeded; then
       seed_file="packages/kernel/src/jude_kernel/_ci_seed.py"
       printf 'import os\n\nSEEDED = os.sep\n' > "$seed_file"   # violates kernel purity
@@ -39,6 +38,9 @@ case "$STAGE" in
     uv run --frozen mypy
     uv run --frozen lint-imports --no-cache
     uv run --frozen python tools/archlint/kernel_builtins.py
+    # Wording/localisation lint (FN-OPS-01, VER-09): prohibited words, hard-coded UI text,
+    # index threshold constants.
+    uv run --frozen python tools/wording/wording_lint.py --junit "$REPORTS/wording.xml"
     pnpm --filter @jude/web lint
     pnpm --filter @jude/web format:check
     pnpm --filter @jude/web typecheck
