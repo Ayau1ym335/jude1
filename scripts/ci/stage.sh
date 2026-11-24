@@ -69,6 +69,9 @@ case "$STAGE" in
     uv run --frozen python tools/contract/error_catalogue.py ${base:+--base-ref "$base"}
     # 2c. Audit event catalogue (TSK-AUD-01-A): every FS event type catalogued.
     uv run --frozen python tools/contract/audit_events.py
+    # 2d. Audit immutability (TSK-AUD-06-C, FN-AUD-06): no API/route/code path changes the log.
+    #     The database side runs in the integration stage (test_audit_immutability_db.py).
+    uv run --frozen python tools/contract/audit_immutability.py
     # 3. The TypeScript client regenerates to the committed bytes.
     pnpm --filter @jude/contracts generate
     git diff --exit-code -- packages/contracts/src/schema.d.ts       || { echo "contract: src/schema.d.ts is stale; run pnpm --filter @jude/contracts generate" >&2; exit 1; }
