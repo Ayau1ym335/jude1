@@ -308,6 +308,7 @@ def idr_of(fid):
 
 # Recorded progress of generated TSK tasks (XC tasks carry status= in their xc()/xe() calls).
 TASK_STATUS = {
+    "TSK-REV-06-A": "Done 2026-11-24 (PR #56 merged; edit after approval gives unapproved draft n+1 and the old approval is unchanged)",
     "TSK-BLB-01-A": "Done 2026-11-24 (PR #54 merged; put twice gives same SHA and one object; Supabase adapter with XC-FND-08)",
     "TSK-API-01-A": "Done 2026-11-24 (PR #52 merged; replay identical and no second audit event; 50/50 dropped-client trials persisted)",
     "TSK-AUD-06-C": "Done 2026-11-24 (PR #50 merged; no audit mutate path in contract/routes/code; app role UPDATE gives 42501; seeded violations fail)",
