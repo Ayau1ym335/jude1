@@ -74,6 +74,12 @@ jobs:
         with:
           version: ${{ env.UV_VERSION }}
       - run: uv sync --locked
+      # Web component tests run in this stage too (TSK-IAM-01-U).
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - run: npm install -g --no-fund --no-audit pnpm@${{ env.PNPM_VERSION }}
+      - run: pnpm install --frozen-lockfile
       - name: Seed (demonstration PRs only)
         run: if [ -f .github/ci-seed ]; then echo "JUDE_CI_SEED=$(tr -d '[:space:]' < .github/ci-seed)" >> "$GITHUB_ENV"; fi
       - name: Stage unit

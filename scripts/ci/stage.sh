@@ -52,6 +52,8 @@ case "$STAGE" in
     run_pytest "not ($NON_UNIT)" \
       --cov=jude_kernel --cov=jude_api --cov=jude_worker --cov=jude_storage_fake \
       --cov-report=term --cov-report="xml:$REPORTS/coverage.xml"
+    # Web component tests (CT-*, vitest + jsdom), from TSK-IAM-01-U on.
+    pnpm --filter @jude/web exec vitest run --reporter=default --reporter=junit       --outputFile.junit="$PWD/$REPORTS/web-unit.xml"
     ;;
   determinism)  # T9 golden hashes + 100-run determinism join with TSK-OPS-04-C
     run_pytest "determinism"
