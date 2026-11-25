@@ -963,6 +963,15 @@
         "FN-CFG-01"
       ]
     },
+    "TRANSFORM_NOT_RIGID": {
+      "http_status": null,
+      "kind": "kernel",
+      "http_source": "not an HTTP refusal (OpResult reason_code)",
+      "message_key": "error.transform_not_rigid",
+      "sources": [
+        "FN-KFR-03"
+      ]
+    },
     "UNIT_NOT_CONFIRMED": {
       "http_status": 409,
       "kind": "refusal",
