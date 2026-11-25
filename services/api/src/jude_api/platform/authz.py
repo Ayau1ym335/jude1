@@ -56,7 +56,7 @@ def matrix() -> Matrix:
         cells = frozenset(entry["allow"])
         if not cells <= set(roles):
             raise ValueError(f"permissions.yaml: {action} allows unknown roles")
-        if entry["basis"] not in ("fs", "fr-130", "engineering"):
+        if entry["basis"] not in ("fs", "fr-130", "owner", "engineering"):
             raise ValueError(f"permissions.yaml: {action} has no valid basis")
         allow[action], basis[action] = cells, entry["basis"]
     public = frozenset((m.upper(), p) for m, p in doc["public"])
