@@ -1,5 +1,12 @@
 {
   "app.title": "Jude",
   "home.heading": "Jude",
-  "home.devNotice": "Среда разработки. Только синтетические данные."
+  "home.devNotice": "Среда разработки. Только синтетические данные.",
+  "login.title": "Вход",
+  "login.login": "Логин",
+  "login.password": "Пароль",
+  "login.submit": "Войти",
+  "login.submitting": "Вход…",
+  "login.lockedUntil": "Вход будет снова доступен после",
+  "login.unavailable": "Сервер недоступен. Повторите попытку позже."
 }
