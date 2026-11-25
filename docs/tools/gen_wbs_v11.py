@@ -308,6 +308,7 @@ def idr_of(fid):
 
 # Recorded progress of generated TSK tasks (XC tasks carry status= in their xc()/xe() calls).
 TASK_STATUS = {
+    "TSK-OPS-02-C": "Merged 2026-11-25 (PR #75); GPL in a shipped lockfile fails CI; allow-list Proposed pending EXT-07 legal review",
     "TSK-IAM-03-U": "Done 2026-11-25 (PR #73 merged; sign-out clears the token only on success)",
     "TSK-IAM-01-U": "Done 2026-11-25 (PR #71 merged; sign-in screen with component tests in the unit stage)",
     "TSK-KFR-03-K": "Merged 2026-11-25 (PR #68); Done after TSK-KFR-03-V",
