@@ -143,6 +143,32 @@ def test_resource_based_ui_passes(good: str) -> None:
     assert W.hardcoded_strings("P.tsx", good) == []
 
 
+@pytest.mark.parametrize(
+    "code",
+    [
+        "const [p, setP] = useState<string | null>(null);\n  async function f(e: E<F>) {}",
+        'render(<LoginForm client={make("http://x")} onLoggedIn={f} />);\n  return { a };',
+        'async function g(u: ReturnType<typeof x>, password = "s") {}',
+        "const rows = list.map((r) => <Row key={r.id} />).filter(Boolean);",
+    ],
+)
+def test_typescript_around_jsx_is_not_text(code: str) -> None:
+    assert W.hardcoded_strings("P.tsx", code) == []
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "<p><br />Текст</p>",
+        '<div style={{ color: "red" }}>Текст</div>',
+        "<>Текст</>",
+        '<Button variant="primary" onClick={() => go(1)}>Сохранить</Button>',
+    ],
+)
+def test_jsx_text_in_every_tag_shape_is_found(text: str) -> None:
+    assert [h.rule for h in W.hardcoded_strings("P.tsx", text)] == ["WRD002"]
+
+
 def test_hardcoded_hit_names_the_line() -> None:
     hits = W.hardcoded_strings(
         "P.tsx", "export const P = () => (\n  <div>\n    Привет\n  </div>\n);\n"

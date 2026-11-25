@@ -1,5 +1,7 @@
 # VER-09 exclusion file (FN-OPS-01, NFR-06). One glob per line, relative to the repository
 # root, followed by '#' and the reason. A line without a reason is a configuration error.
-# Only registers that must quote owner answers verbatim and quoted source titles belong here.
+# Belong here: registers that must quote owner answers verbatim, quoted source titles, and test
+# files (they are not UI; they assert on message keys and on the API's own messages).
 #
-# (no exclusions yet)
+apps/web/src/**/*.test.tsx  # component tests are not UI: they assert on t() keys and API messages
+apps/web/src/**/*.test.ts  # unit tests of UI code are not UI
