@@ -6,9 +6,12 @@
 #   fr-130       - the FR-130 area of the role (technician: import, cleanup, landmarks,
 #                  measurement, design, templates, approval, export; clinic admin: cases,
 #                  users, reports, log view, archive; the admin has no approval or export right)
-#   engineering  - not settled by FS / FR-130; least-privilege default chosen by engineering
-#                  (2026-11-23). To be confirmed by the product owner; changing a cell is a
-#                  reviewed edit of this file.
+#   owner        - not settled by FS / FR-130; least-privilege default chosen by engineering
+#                  (2026-11-23) and confirmed by the product owner (repository owner) on
+#                  2026-11-25
+#   engineering  - not settled by FS / FR-130; an engineering default not yet confirmed by the
+#                  product owner (none at the moment)
+# Changing a cell is a reviewed edit of this file.
 schema: permissions/1
 roles: [technician, clinic_admin]
 
@@ -22,20 +25,20 @@ actions:
   # --- configuration (technician-owned, DEC-020) -------------------------------------------
   FN-CFG-01: {name: Edit configuration draft, allow: [technician], basis: fs}
   FN-CFG-02: {name: Publish configuration version, allow: [technician], basis: fs}
-  FN-CFG-03: {name: Approve controlled configuration change, allow: [technician], basis: engineering}
+  FN-CFG-03: {name: Approve controlled configuration change, allow: [technician], basis: owner}
   FN-CFG-05: {name: Manage measurement definitions, allow: [technician], basis: fs}
   FN-CFG-06: {name: Manage landmark/frame definitions, allow: [technician], basis: fs}
   FN-CFG-08: {name: Real-patient-data gate, allow: [technician], basis: fs}
   # --- jobs --------------------------------------------------------------------------------
-  FN-JOB-03: {name: Report job status, allow: [technician, clinic_admin], basis: engineering}
+  FN-JOB-03: {name: Report job status, allow: [technician, clinic_admin], basis: owner}
   # --- cases -------------------------------------------------------------------------------
   FN-CAS-01: {name: Create case, allow: [clinic_admin], basis: fs}
   FN-CAS-02: {name: List cases and show case contents, allow: [technician, clinic_admin], basis: fs}
   FN-CAS-03: {name: Archive case or object, allow: [clinic_admin], basis: fs}
   FN-CAS-04: {name: Record consent reference, allow: [clinic_admin], basis: fs}
   FN-CAS-05: {name: Set secondary-use permission per scan, allow: [clinic_admin], basis: fs}
-  FN-CAS-06: {name: Attach prescription document, allow: [clinic_admin], basis: engineering}
-  FN-CAS-07: {name: View or download prescription document, allow: [technician, clinic_admin], basis: engineering}
+  FN-CAS-06: {name: Attach prescription document, allow: [clinic_admin], basis: owner}
+  FN-CAS-07: {name: View or download prescription document, allow: [technician, clinic_admin], basis: owner}
   # --- scans -------------------------------------------------------------------------------
   FN-SCN-01: {name: Upload scan file, allow: [technician], basis: fr-130}
   FN-SCN-03: {name: Confirm scan-to-case association, allow: [technician], basis: fr-130}
@@ -44,14 +47,14 @@ actions:
   FN-SCN-09: {name: Record and lock scan metadata, allow: [technician], basis: fr-130}
   FN-SCN-10: {name: Tag scan outcome, allow: [technician], basis: fr-130}
   FN-SCN-11: {name: Manage cleanup operations, allow: [technician], basis: fr-130}
-  FN-SCN-12: {name: Download original scan, allow: [technician], basis: engineering}
+  FN-SCN-12: {name: Download original scan, allow: [technician], basis: owner}
   # --- anatomy, measurement ----------------------------------------------------------------
   FN-ANA-01: {name: Create landmark set, allow: [technician], basis: fr-130}
   FN-ANA-02: {name: Place, move or delete a landmark, allow: [technician], basis: fr-130}
   FN-ANA-04: {name: Confirm frame and run coverage check, allow: [technician], basis: fr-130}
   FN-MEA-01: {name: Compute measurement set, allow: [technician], basis: fr-130}
-  FN-MEA-02: {name: Present measurement values, allow: [technician], basis: engineering}
-  FN-MEA-04: {name: Measurement history, allow: [technician], basis: engineering}
+  FN-MEA-02: {name: Present measurement values, allow: [technician], basis: owner}
+  FN-MEA-04: {name: Measurement history, allow: [technician], basis: owner}
   # --- design, review ----------------------------------------------------------------------
   FN-DES-01: {name: Create design, allow: [technician], basis: fr-130}
   FN-DES-02: {name: Edit the modification list, allow: [technician], basis: fr-130}
@@ -59,14 +62,14 @@ actions:
   FN-DES-05: {name: Out-of-range confirmation, allow: [technician], basis: fr-130}
   FN-DES-07: {name: Templates save apply version, allow: [technician], basis: fs}
   FN-REV-01: {name: Run review job, allow: [technician], basis: fr-130}
-  FN-REV-02: {name: Show deviation map and point query, allow: [technician], basis: engineering}
+  FN-REV-02: {name: Show deviation map and point query, allow: [technician], basis: owner}
   FN-REV-04: {name: Approve design version, allow: [technician], basis: fs}
   FN-REV-05: {name: Reject design version, allow: [technician], basis: fr-130}
   # --- export, reports ---------------------------------------------------------------------
   FN-EXP-01: {name: Request export, allow: [technician], basis: fs}
   FN-EXP-03: {name: Download released export, allow: [technician], basis: fr-130}
-  FN-RPT-01: {name: Generate case report PDF, allow: [technician, clinic_admin], basis: engineering}
-  FN-RPT-03: {name: Download report, allow: [technician, clinic_admin], basis: engineering}
+  FN-RPT-01: {name: Generate case report PDF, allow: [technician, clinic_admin], basis: owner}
+  FN-RPT-03: {name: Download report, allow: [technician, clinic_admin], basis: owner}
 
 # Routes reachable without a session (no action key): FN-IAM-01 and the health probe.
 public:
