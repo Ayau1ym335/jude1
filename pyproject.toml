@@ -61,6 +61,7 @@ testpaths = [
     "tools/contract/tests",
     "tools/fixtures/tests",
     "tools/wording/tests",
+    "tools/licences/tests",
 ]
 # Seeded-violation self-test needs the JS toolchain; run it explicitly: pytest -m lint_selftest
 # Run explicitly: pytest -m integration (needs JUDE_TEST_ADMIN_URL; `just test-int` starts a server)
@@ -103,6 +104,7 @@ select = ["E", "F", "W", "I", "B", "UP", "N", "S", "RUF"]
 "tools/ci_selftest/**" = ["S101"]
 # Russian word lists and Cyrillic test text are the point of the wording lint (FN-OPS-01).
 "tools/wording/**" = ["RUF001", "RUF002", "RUF003"]
+"tools/licences/**" = ["S603"]  # runs uv / pnpm with fixed argv to read the lockfiles
 "tools/wording/tests/**" = ["S101", "S314", "RUF001", "RUF002", "RUF003"]  # parses its own JUnit report
 # Experiment harnesses run in throwaway, network-less containers: /tmp is their tmpfs and
 # subprocess re-invokes the probe itself with fixed argv. Never shipped.
@@ -133,6 +135,7 @@ files = [
     "tools/storage_fake/tests",
     "tools/archlint",
     "tools/wording",
+    "tools/licences",
     "tools/lint_selftest/tests",
     "tools/ci_selftest/tests",
     "tools/contract",
