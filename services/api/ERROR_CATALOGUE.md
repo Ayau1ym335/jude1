@@ -8,17 +8,23 @@ This document describes the error catalogue of the API: which codes exist, which
 
 ## Status
 
-**Draft.** IDR-05 freezes the catalogue at the M0 exit after the engineering lead signs it off. Until then, codes may still be added or reworded. Sign-off covers:
+**Frozen 2026-11-25.** The engineering lead (the repository owner, Ayau1ym335) signed the catalogue off at the M0 exit, as IDR-05 requires. The sign-off covers:
 
 - the HTTP statuses assigned by rule (R1, R2 below);
 - the platform codes;
 - the Russian messages.
 
-At the sign-off, `status` in `error_catalogue.json` becomes `frozen <date> (<who>)`. From then on, the CI check also enforces stability against the base commit: no code is removed or renamed, and no `http_status` or `kind` changes. A new meaning gets a new code; adding codes stays possible. While the catalogue is a draft, entries can still be corrected.
+`status` in `error_catalogue.json` now reads `frozen 2026-11-25 (…)`. From here on, the CI check also enforces stability against the base commit:
+- no code is removed or renamed;
+- no `http_status` or `kind` changes.
 
-## Contents: 100 codes
+A new meaning gets a new code, and adding codes stays possible. A Russian message may still be reworded, because it is not part of a code's identity.
 
-The codes come from two sources, plus six platform codes:
+At the freeze the catalogue held 107 codes; the decisions recorded below are part of what was signed off.
+
+## Contents: 107 codes
+
+The codes come from two sources, plus platform codes and codes added by later tasks:
 
 - **Every code used by any function of FUNCTION_TECHNICAL_SPECIFICATIONS_v1.0.** That is 95 codes, the completion criterion of the task.
 - **Every code named by RTM v0.3 and v0.4** (IDR-05: RTM v0.3 names win). This adds `ZONE_CONTOUR_INVALID` (FR-183, RTM v0.4). The retired CN-11 names do not occur in the repository.
@@ -26,16 +32,20 @@ The codes come from two sources, plus six platform codes:
   - `INTERNAL` (FN-API-02);
   - `NOT_FOUND`, `METHOD_NOT_ALLOWED`, `REQUEST_INVALID`, introduced by XC-FND-11 for framework errors;
   - `IDEMPOTENCY_KEY_REUSED` and `IF_MATCH_REQUIRED`, introduced by TSK-API-01-A (see the decisions below).
+- **Three job-result codes** of TSK-JOB-02-J: `JOB_HANDLER_ERROR`, `JOB_LEASE_EXPIRED`, `JOB_TYPE_UNKNOWN`.
+- **Two codes of kernel tasks:** `EXTENSION_MISMATCH` (warning, TSK-KIO-01-K) and `TRANSFORM_NOT_RIGID` (kernel, TSK-KFR-03-K).
+
+That is 95 + 1 + 6 + 3 + 2 = 107.
 
 Each entry has a `kind`:
 
 | kind | Count | How it reaches the user | `http_status` |
 |---|---|---|---|
-| `refusal` | 74 | Top-level DS-24 error of a refused request; `ApiError` accepts only these | 4xx/5xx |
-| `kernel` | 14 | `reason_code` of a rejected op (OpResult, EH-KRN); shown in job results and as `gates[]` entries | none |
-| `job` | 5 | Reason of a failed job (EH-JOB) | none |
+| `refusal` | 76 | Top-level DS-24 error of a refused request; `ApiError` accepts only these | 4xx/5xx |
+| `kernel` | 15 | `reason_code` of a rejected op (OpResult, EH-KRN); shown in job results and as `gates[]` entries | none |
+| `job` | 8 | Reason of a failed job (EH-JOB) | none |
 | `measurement` | 3 | Reason of a `NOT_COMPUTED` measurement | none |
-| `warning` | 3 | Non-blocking notice; the action proceeds | none |
+| `warning` | 4 | Non-blocking notice; the action proceeds | none |
 | `startup` | 1 | The service refuses to start (`CONFIG_TEST_VALUE_IN_PROD`) | none |
 
 Any catalogued code may appear in `gates[]`. For example, approval refused with `VALIDITY_FAILED` can list the kernel codes behind it.
@@ -79,7 +89,7 @@ A new token in either document fails CI until it is catalogued or added to `NON_
 
 ## Decisions taken (engineering, 2026-11-22)
 
-The user delegated these non-clinical choices to engineering. They stay draft entries until the freeze.
+The user delegated these non-clinical choices to engineering. They were signed off with the freeze on 2026-11-25.
 
 - **`JOB_HANDLER_ERROR`, `JOB_LEASE_EXPIRED` and `JOB_TYPE_UNKNOWN` are kept as `job` codes** (TSK-JOB-02-J). FN-JOB-02 names only `JOB_RESOURCE_LIMIT`, but its algorithm has three more outcomes, each of which needs a code:
   - an infrastructure error after the last attempt;
