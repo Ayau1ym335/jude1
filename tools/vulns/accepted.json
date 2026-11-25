@@ -1,0 +1,5 @@
+{
+  "schema": "vuln-acceptance/1",
+  "note": "Recorded risk acceptances (FN-OPS-03, SD-04). Each entry: advisory id or alias, ecosystem, package, a named approver, reason, recorded and expires (ISO dates). An expired acceptance no longer counts. Changing this file is a reviewed edit.",
+  "accepted": []
+}

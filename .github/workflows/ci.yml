@@ -61,6 +61,11 @@ jobs:
           else
             pnpm exec commitlint --from "$BEFORE" --to "$AFTER" --verbose
           fi
+      # FN-OPS-03 "scan on every build": informational here; the release gate is the nightly
+      # security stage (SD-04). A finding shows in the log and in reports/vulns.json.
+      - name: Vulnerability scan (informational)
+        continue-on-error: true
+        run: uv run --frozen python tools/vulns/vuln_scan.py --report reports/vulns.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:

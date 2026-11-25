@@ -97,6 +97,8 @@ case "$STAGE" in
     ;;
   security)     # TSK-OPS-02-C licences/SOUP, TSK-OPS-03-C CVSS >= 7.0 scan, TSK-OPS-12-C
     run_pytest "security"
+    # Release gate: no shipped package with an unaccepted CVSS >= 7.0 advisory (FN-OPS-03, SD-04).
+    uv run --frozen python tools/vulns/vuln_scan.py --report "$REPORTS/vulns.json"
     ;;
   e2e)          # TSK-OPS-08-C: Playwright UC-02..UC-10 on the browser matrix
     run_pytest "e2e"
