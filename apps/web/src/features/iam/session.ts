@@ -73,3 +73,36 @@ export async function login(
   }
   return { ok: false, code: "UNAVAILABLE", message: null, lockedUntil: null };
 }
+
+// FN-IAM-03 log out (TSK-IAM-03-U; SEC-06).
+//
+// - The CSRF token goes with the request, as with any state change (SEC-20).
+// - 204, also when there was no live session (the API is idempotent): the token is forgotten,
+//   and the API has already expired the cookie.
+// - A refusal (403 CSRF_INVALID: the session is still live but this tab lost its token) or an
+//   unreachable server: the server session is still live, so nothing is forgotten and the user
+//   is told. The UI never reports a sign-out that did not happen.
+export type LogoutResult =
+  | { ok: true }
+  | { ok: false; code: string; message: string }
+  | { ok: false; code: "UNAVAILABLE"; message: null };
+
+export async function logout(client: JudeClient): Promise<LogoutResult> {
+  const token = csrfToken();
+  try {
+    const { response, error } = await client.POST("/api/v1/auth/logout", {
+      headers: token ? { "X-CSRF-Token": token } : {},
+    });
+    if (response.status === 204) {
+      forgetSession();
+      return { ok: true };
+    }
+    if (error && typeof error === "object" && "error" in error) {
+      const refusal = error as ErrorResponse;
+      return { ok: false, code: refusal.error, message: refusal.message_ru };
+    }
+  } catch {
+    // network failure or a non-JSON answer from a proxy
+  }
+  return { ok: false, code: "UNAVAILABLE", message: null };
+}
