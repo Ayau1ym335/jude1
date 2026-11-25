@@ -7,6 +7,10 @@ x-python-service: &python-service
   read_only: true
   tmpfs: [/tmp]
   security_opt: ["no-new-privileges:true"]
+  # IDR-07 / XC-FND-09: no Linux capabilities and a process cap (fork bombs), on top of the
+  # read-only root, non-root user and Docker's default seccomp profile.
+  cap_drop: [ALL]
+  pids_limit: 256
   restart: unless-stopped
 
 x-python-build: &python-build
