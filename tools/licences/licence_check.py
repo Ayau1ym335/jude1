@@ -5,7 +5,8 @@ Ship only allow-listed licences, and generate the SOUP list (05 §4.4).
 **What is shipped.**
 - Python: the locked, non-dev dependency closure of each shipped image package (``jude-api``,
   ``jude-worker``), from ``uv export --no-dev``. The images install exactly this with
-  ``uv sync --no-dev --package``. Dev and oracle groups (trimesh, CGAL, ... are oracle-only,
+  ``uv sync --no-dev --package``. Lockfile environment markers are evaluated for the image
+  target (linux/amd64, CPython 3.12, IDR-09), so e.g. Windows-only tzdata is not shipped. Dev and oracle groups (trimesh, CGAL, ... are oracle-only,
   TD-03) are not shipped.
 - npm: the production closure of ``@jude/web`` (``pnpm licenses list --prod``).
 
@@ -49,7 +50,9 @@ import shlex
 import shutil
 import subprocess
 import sys
-from typing import Any
+from typing import Any, Final
+
+from packaging.markers import Marker
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -210,6 +213,31 @@ def _run(cmd: Sequence[str]) -> str:
     return proc.stdout.decode("utf-8")
 
 
+# The shipped images: linux/amd64, CPython 3.12 (IDR-09). Environment markers of the universal
+# lockfile are evaluated for this target, not for the machine running the check.
+IMAGE_TARGET: Final = {
+    "sys_platform": "linux", "platform_system": "Linux", "platform_machine": "x86_64",
+    "os_name": "posix", "implementation_name": "cpython",
+    "platform_python_implementation": "CPython", "python_version": "3.12",
+    "python_full_version": "3.12.0",
+}  # fmt: skip
+
+
+def parse_export(text: str) -> list[tuple[str, str]]:
+    """(name, version) of every requirement of ``uv export`` that applies to the image target."""
+    found = []
+    for raw in text.splitlines():
+        spec, _, marker = raw.partition(";")
+        spec = spec.strip()
+        if not spec or spec.startswith(("#", "-")) or "==" not in spec:
+            continue
+        if marker.strip() and not Marker(marker.strip()).evaluate(dict(IMAGE_TARGET)):
+            continue  # e.g. tzdata ; sys_platform == 'win32' is not in a linux image
+        name, version = (s.strip() for s in spec.split("==", 1))
+        found.append((name, version))
+    return found
+
+
 def python_packages() -> Iterator[Package]:
     for component in SHIPPED_PYTHON:
         text = _run(
@@ -226,11 +254,7 @@ def python_packages() -> Iterator[Package]:
                 "requirements.txt",
             ]
         )
-        for line in text.splitlines():
-            line = line.split(";")[0].strip()
-            if not line or line.startswith(("#", "-")) or "==" not in line:
-                continue
-            name, version = (s.strip() for s in line.split("==", 1))
+        for name, version in parse_export(text):
             try:
                 meta = md.metadata(name)
             except md.PackageNotFoundError as exc:
