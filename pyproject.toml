@@ -62,6 +62,7 @@ testpaths = [
     "tools/fixtures/tests",
     "tools/wording/tests",
     "tools/licences/tests",
+    "tools/vulns/tests",
 ]
 # Seeded-violation self-test needs the JS toolchain; run it explicitly: pytest -m lint_selftest
 # Run explicitly: pytest -m integration (needs JUDE_TEST_ADMIN_URL; `just test-int` starts a server)
@@ -136,6 +137,7 @@ files = [
     "tools/archlint",
     "tools/wording",
     "tools/licences",
+    "tools/vulns",
     "tools/lint_selftest/tests",
     "tools/ci_selftest/tests",
     "tools/contract",

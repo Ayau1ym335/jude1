@@ -20,7 +20,7 @@
 | smoke | ci / `smoke` | every PR, push to main | merge | `docker compose up` + every health endpoint 200 | XC-FND-11 (readiness) |
 | ci-selftest | ci / `ci-selftest` | every PR, push to main | merge | 25 seeded lint violations (XC-FND-04) and a seeded failure in each stage | — |
 | oracle | nightly / `oracle` | nightly 02:17 UTC, dispatch, tags `v*` | release | gate only (`-m oracle`) | TSK-OPS-07-C (oracle container) |
-| security | nightly / `security` | nightly, dispatch, tags | release | gate only (`-m security`) | TSK-OPS-02-C (licence allow-list, SOUP), TSK-OPS-03-C (CVSS ≥ 7.0, SD-04), TSK-OPS-12-C |
+| security | nightly / `security` | nightly, dispatch, tags | release | `-m security` tests; vulnerability gate over the shipped closures: no unaccepted advisory with CVSS ≥ 7.0 (SD-04, OSV.dev, `tools/vulns/vuln_scan.py`, `reports/vulns.json`, acceptances in `tools/vulns/accepted.json` with a named approver and expiry; TSK-OPS-03-C). Every PR also runs the scan informationally in `lint`. The licence allow-list runs merge-blocking in `lint` (TSK-OPS-02-C). | TSK-OPS-12-C |
 | e2e | nightly / `e2e` | nightly, dispatch, tags | release | gate only (`-m e2e`) | TSK-OPS-08-C (Playwright UC-02…UC-10) |
 | performance | nightly / `performance` | nightly, dispatch, tags | report only (`continue-on-error`) | gate only (`-m performance`) | XC-EXP-BM01 (BM-01 trend); budgets from XC-PLT-03 |
 

@@ -36,6 +36,13 @@ jobs:
         with:
           version: ${{ env.UV_VERSION }}
       - run: uv sync --locked
+      # The security stage scans the web's npm closure too (FN-OPS-03).
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        if: matrix.stage == 'security'
+        with:
+          node-version-file: .nvmrc
+      - if: matrix.stage == 'security'
+        run: npm install -g --no-fund --no-audit pnpm@12.21.0 && pnpm install --frozen-lockfile
       - name: Stage ${{ matrix.stage }}
         run: bash scripts/ci/stage.sh ${{ matrix.stage }}
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
