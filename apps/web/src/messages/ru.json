@@ -8,5 +8,7 @@
   "login.submit": "Войти",
   "login.submitting": "Вход…",
   "login.lockedUntil": "Вход будет снова доступен после",
-  "login.unavailable": "Сервер недоступен. Повторите попытку позже."
+  "login.unavailable": "Сервер недоступен. Повторите попытку позже.",
+  "logout.submit": "Выйти",
+  "logout.submitting": "Выход…"
 }
