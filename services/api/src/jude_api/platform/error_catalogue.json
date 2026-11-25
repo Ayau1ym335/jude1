@@ -263,6 +263,15 @@
         "SEC-16 (RTM)"
       ]
     },
+    "EXTENSION_MISMATCH": {
+      "http_status": null,
+      "kind": "warning",
+      "http_source": "not an HTTP refusal",
+      "message_key": "error.extension_mismatch",
+      "sources": [
+        "FN-KIO-01 (notice 'extension mismatch')"
+      ]
+    },
     "FACE_LIMIT": {
       "http_status": 413,
       "kind": "refusal",

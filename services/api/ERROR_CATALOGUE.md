@@ -93,3 +93,4 @@ The user delegated these non-clinical choices to engineering. They stay draft en
   - **`IDEMPOTENCY_KEY_REUSED` (422):** the same key is sent with a different request (method, path or body). Replaying the stored response would answer a request the client did not make.
   - **`IF_MATCH_REQUIRED` (428):** a versioned resource is edited without `If-Match`. A missing version is not a stale version, so it is not `VERSION_CONFLICT`.
 - **A malformed `Idempotency-Key` or `If-Match` gives `REQUEST_INVALID`** with the header as gate detail. Keys are UUID v4; the text is case-insensitive (RFC 9562) and stored in lower case.
+- **`EXTENSION_MISMATCH` (kind `warning`, no HTTP status)** was added for FN-KIO-01 (TSK-KIO-01-K, 2026-11-25). The FS names the notice "extension mismatch" but gives no code. It is raised when the extension names another format family than the content (stl / obj / ply). It never changes the detected format and never refuses the file (FR-010).
