@@ -148,7 +148,12 @@ def prohibited_words(rel: str, text: str, terms: list[Term]) -> list[Hit]:
 
 _BLOCK_COMMENT = re.compile(r"/\*.*?\*/", re.DOTALL)
 _LINE_COMMENT = re.compile(r"(?m)(?<![:\"'])//.*$")
-_TEXT_NODE = re.compile(rf"(<[A-Za-z/][^<>]*>)([^<>{{}}]*[{LETTER}][^<>{{}}]*)(?=<|{{)")
+# A JSX tag: a name, then attributes in JSX syntax (name, name="..", name='..', name={..} with
+# one level of nested braces), then > or />. TypeScript generics such as useState<string | null>
+# do not fit this grammar, so the code after them is never mistaken for JSX text.
+_ATTR_VALUE = r"""(?:"[^"]*"|'[^']*'|\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\})"""
+_JSX_TAG = rf"<(?:/?[A-Za-z][\w.:-]*(?:\s+[A-Za-z_:][\w:.-]*(?:\s*=\s*{_ATTR_VALUE})?)*\s*/?)?>"
+_TEXT_NODE = re.compile(rf"({_JSX_TAG})([^<>{{}}]*[{LETTER}][^<>{{}}]*)(?=<|{{)")
 _ATTRIBUTE = re.compile(
     rf"\b(title|alt|placeholder|aria-label|label)\s*=\s*([\"'])([^\"']*[{LETTER}][^\"']*)\2"
 )
@@ -158,11 +163,25 @@ def _blank(m: re.Match[str]) -> str:
     return re.sub(r"[^\n]", " ", m.group(0))  # keep offsets and line numbers
 
 
+def _looks_like_code(candidate: str) -> bool:
+    """TypeScript after a tag-like token, not JSX text: statement or argument punctuation.
+
+    UI text in a component practically never contains ';' or '=', nor starts with ')', ']',
+    ',' or '.'; code after a self-closing element (``<X />);``) or after a type argument
+    (``ReturnType<typeof x>, p = 1``) always does. A rare text like that is missed, never
+    falsely reported.
+    """
+    stripped = candidate.lstrip()
+    return ";" in candidate or "=" in candidate or stripped[:1] in {")", "]", ",", "."}
+
+
 def hardcoded_strings(rel: str, text: str) -> list[Hit]:
     code = _LINE_COMMENT.sub(_blank, _BLOCK_COMMENT.sub(_blank, text))
     lines = text.splitlines()
     hits = []
     for m in _TEXT_NODE.finditer(code):
+        if _looks_like_code(m.group(2)):
+            continue
         n = line_of(code, m.start(2) + len(m.group(2)) - len(m.group(2).lstrip()))
         detail = f"hard-coded JSX text {m.group(2).strip()!r}; use the message resources"
         hits.append(Hit("WRD002", rel, n, lines[n - 1], detail))
