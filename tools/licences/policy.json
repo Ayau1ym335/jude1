@@ -1,0 +1,53 @@
+{
+  "schema": "licence-policy/1",
+  "status": "Proposed (ADR-011 + TD-23, engineering lead); pending the EXT-07 legal review (TQ-24 / OQ-G6) before pilot. Changing this file is a reviewed edit.",
+  "allowed": [
+    "MIT",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "Apache-2.0",
+    "ISC",
+    "MPL-2.0",
+    "Zlib",
+    "LGPL-2.1-only",
+    "LGPL-2.1-or-later",
+    "LGPL-3.0-only",
+    "LGPL-3.0-or-later",
+    "Unlicense",
+    "0BSD",
+    "CC0-1.0",
+    "PSF-2.0"
+  ],
+  "allowed_notes": {
+    "ADR-011": "MIT, BSD, Apache, ISC, MPL-2.0, Zlib, LGPL (dynamic linking only: Python imports and shared libraries are dynamic)",
+    "TD-23": "Unlicense / public domain (predicates), 0BSD and CC0-1.0 (numpy components), PSF-2.0 (CPython runtime); GPL / AGPL stay out of shipped images (oracle-test job only)"
+  },
+  "allowed_with_exceptions": ["LLVM-exception"],
+  "package_exceptions": [
+    {
+      "ecosystem": "pypi",
+      "name": "cffi",
+      "licence": "MIT-0",
+      "reason": "MIT without the attribution clause (strictly more permissive than MIT); required by argon2-cffi-bindings for password hashing (SEC-05).",
+      "decided": "per-package exception, user decision 2026-11-25 (TSK-OPS-02-C)",
+      "status": "pending EXT-07"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "caniuse-lite",
+      "licence": "CC-BY-4.0",
+      "reason": "Browser-support data table used by Next.js tooling; a data licence that requires attribution (listed in the SOUP list).",
+      "decided": "per-package exception, user decision 2026-11-25 (TSK-OPS-02-C)",
+      "status": "pending EXT-07"
+    }
+  ],
+  "licence_overrides": [
+    {
+      "ecosystem": "pypi",
+      "name": "numba",
+      "declared": "BSD",
+      "licence": "BSD-2-Clause",
+      "source": "numba-*.dist-info/licenses/LICENSE (two-condition BSD text). Vendored code (LICENSES.third-party: MIT, BSD, PSF stack, CUDA headers) is part of the EXT-07 review."
+    }
+  ]
+}

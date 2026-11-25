@@ -41,6 +41,8 @@ case "$STAGE" in
     # Wording/localisation lint (FN-OPS-01, VER-09): prohibited words, hard-coded UI text,
     # index threshold constants.
     uv run --frozen python tools/wording/wording_lint.py --junit "$REPORTS/wording.xml"
+    # Licence allow-list over the shipped lockfile closures + SOUP list (FN-OPS-02, SEC-09).
+    uv run --frozen python tools/licences/licence_check.py --soup "$REPORTS/soup.csv"
     pnpm --filter @jude/web lint
     pnpm --filter @jude/web format:check
     pnpm --filter @jude/web typecheck

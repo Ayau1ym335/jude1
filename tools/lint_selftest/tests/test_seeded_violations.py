@@ -339,3 +339,25 @@ def test_wording_lint(tmp_path: Path, rel: str, bad: str, good: str, expect: str
         write(root / rel, text)
         results.append(run([PY, str(WORDING), "--root", str(root)]))
     assert_gate(results[0], results[1], expect)
+
+
+# --- licence allow-list (FN-OPS-02, SEC-09) -------------------------------------------------------
+
+LICENCES = ROOT / "tools" / "licences" / "licence_check.py"
+
+
+def test_licence_check_gpl_added_to_the_real_lockfile_inventory(tmp_path: Path) -> None:
+    """Completion criterion of TSK-OPS-02-C on the real lockfiles: a GPL package fails CI."""
+    real = tmp_path / "inventory.json"
+    collected = run([PY, str(LICENCES), "--dump-inventory", str(real)])
+    assert collected.returncode == 0, collected.stderr
+    packages = json.loads(real.read_text(encoding="utf-8"))
+    assert any(p["ecosystem"] == "pypi" for p in packages)
+    assert any(p["ecosystem"] == "npm" for p in packages)
+    seeded = tmp_path / "seeded.json"
+    gpl = {"ecosystem": "pypi", "component": "jude-api", "name": "copyleft-lib",
+           "version": "1.0", "licence": "GPL-3.0-only", "supplier": ""}  # fmt: skip
+    seeded.write_text(json.dumps([*packages, gpl]), encoding="utf-8")
+    bad = run([PY, str(LICENCES), "--inventory", str(seeded)])
+    good = run([PY, str(LICENCES), "--inventory", str(real)])
+    assert_gate(bad, good, "LIC001 pypi:copyleft-lib==1.0")
