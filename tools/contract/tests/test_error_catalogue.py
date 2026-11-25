@@ -113,7 +113,7 @@ def test_drafts_before_error_1_do_not_bind() -> None:
 
 
 def test_only_a_frozen_base_binds(monkeypatch: pytest.MonkeyPatch) -> None:
-    draft = _catalogue()
+    draft = dict(_catalogue(), status="draft: frozen at M0 exit after engineering-lead sign-off")
     frozen = dict(draft, status="frozen 2026-12-01 (engineering lead, IDR-05)")
 
     class Proc:

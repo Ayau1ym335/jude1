@@ -1,6 +1,6 @@
 {
   "schema": "error/1",
-  "status": "draft: frozen at M0 exit after engineering-lead sign-off (IDR-05)",
+  "status": "frozen 2026-11-25 (engineering lead sign-off by the repository owner, Ayau1ym335; IDR-05)",
   "note": "Every code used by FUNCTION_TECHNICAL_SPECIFICATIONS_v1.0 and RTM v0.3/v0.4 (IDR-05; CN-11 names retired). kind: refusal = top-level DS-24 error with http_status; kernel = OpResult reason_code; job = job failure reason; measurement = NOT_COMPUTED reason; warning = non-blocking; startup = service refuses to start. http_source: FS = stated in the specification; R1/R2 = assigned by rule (see ERROR_CATALOGUE.md).",
   "codes": {
     "ACCOUNT_LOCKED": {
