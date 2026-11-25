@@ -4,9 +4,10 @@ A registry is an immutable value built once from OpSpecs; there is no mutable gl
 registration (kernel purity, IF-03). Only functions defined inside ``jude_kernel`` can be
 registered, so the runner never executes code from a layer that may do I/O.
 
-Parameter validation against ``params_schema`` (PARAM_NOT_SET / PARAM_INVALID, the
-"no defaults" schema rule) is TSK-KRP-04-K; the runner takes the validator as an explicit
-argument so an op can never run unvalidated by accident.
+Parameter validation against ``params_schema`` (PARAM_NOT_SET / PARAM_INVALID) and the schema
+rules (no defaults, unknown keys rejected, everything required) live in
+``jude_kernel.k08_replay.op_params`` (FN-KRP-04). The runner takes the validator as an explicit
+argument (``validate=validate_params``), so an op can never run unvalidated by accident.
 """
 
 from collections.abc import Callable, Iterable, Mapping

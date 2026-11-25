@@ -1,0 +1,4 @@
+{
+  "note": "Registered op versions and the SHA-256 of their canonical params schema (FN-KRP-04). A version never leaves and never changes; a new op version is added here in the same change. Checked by test_k08_op_params.py.",
+  "ops": []
+}

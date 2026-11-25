@@ -6,6 +6,7 @@ requires-python = "==3.12.*"
 dependencies = [
     "numpy==2.5.4",
     "numba==0.68.1",
+    "jsonschema==4.26.0",  # LIB-JSONSCHEMA (MIT, R-MVP): op parameter schemas (FN-KRP-04)
 ]
 
 # Kernel-only additions to the root ruff config. import-linter covers module imports;

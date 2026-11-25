@@ -511,12 +511,14 @@ name = "jude-kernel"
 version = "0.0.0"
 source = { editable = "packages/kernel" }
 dependencies = [
+    { name = "jsonschema" },
     { name = "numba" },
     { name = "numpy" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "jsonschema", specifier = "==4.26.0" },
     { name = "numba", specifier = "==0.68.1" },
     { name = "numpy", specifier = "==2.5.4" },
 ]
