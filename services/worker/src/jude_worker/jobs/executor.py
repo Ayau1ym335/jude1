@@ -1,7 +1,8 @@
 """Running a job handler (FN-JOB-02 step 3; SEC-07, SAF-09).
 
-``ForkExecutor`` (production, Linux): the handler runs in a forked child with CPU-time and
-memory limits (setrlimit), so a runaway job cannot take the worker down. While the child runs,
+``ForkExecutor`` (production, Linux): the handler runs in a forked child confined by
+``sandbox.confine`` (XC-FND-09): CPU-time and memory limits, no file writes, no network, no
+exec (seccomp), so a runaway or hostile job cannot take the worker down. While the child runs,
 the parent calls ``tick`` every lease/3 to extend the lease; if the lease is lost, the child is
 killed and the outcome dropped. A child killed by its CPU limit or out of memory gives
 ``resource_limit`` -> JOB_RESOURCE_LIMIT (no retry; the last valid geometry is untouched
@@ -96,16 +97,16 @@ class ForkExecutor:  # pragma: no cover - exercised on Linux (CI unit stage, wor
         self, handler: Handler, payload: Mapping[str, Any], correlation_id: str, tick: Tick
     ) -> Outcome:
         import multiprocessing as mp
-        import resource
+
+        from jude_worker.jobs.sandbox import confine
 
         ctx = mp.get_context("fork")
         recv, send = ctx.Pipe(duplex=False)
         limits = self.limits
 
         def child() -> None:
-            resource.setrlimit(resource.RLIMIT_CPU, (limits.cpu_seconds, limits.cpu_seconds + 1))
             cap = _vm_size_bytes() + limits.memory_mb * 1024 * 1024
-            resource.setrlimit(resource.RLIMIT_AS, (cap, cap))
+            confine(limits.cpu_seconds, cap)  # XC-FND-09: rlimits + no network/exec/writes
             try:
                 send.send(outcome_of(handler(payload), correlation_id))
             except MemoryError:
