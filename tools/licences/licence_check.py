@@ -6,8 +6,8 @@ Ship only allow-listed licences, and generate the SOUP list (05 §4.4).
 - Python: the locked, non-dev dependency closure of each shipped image package (``jude-api``,
   ``jude-worker``), from ``uv export --no-dev``. The images install exactly this with
   ``uv sync --no-dev --package``. Lockfile environment markers are evaluated for the image
-  target (linux/amd64, CPython 3.12, IDR-09), so e.g. Windows-only tzdata is not shipped. Dev and oracle groups (trimesh, CGAL, ... are oracle-only,
-  TD-03) are not shipped.
+  target (linux/amd64, CPython 3.12, IDR-09), so e.g. Windows-only tzdata is not shipped.
+  Dev and oracle groups (trimesh, CGAL, ... are oracle-only, TD-03) are not shipped.
 - npm: the production closure of ``@jude/web`` (``pnpm licenses list --prod``).
 
 **Licence of a package.** Python takes the ``License-Expression`` (PEP 639), else the
