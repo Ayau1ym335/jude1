@@ -1,11 +1,11 @@
 """Compile or load every numba kernel once (X-06 §6.4: the worker warms up before it is ready).
 
-Each numba module contributes its own ``warm_up``; add new modules (BVH, XC-SHR-02) here.
+Each numba module contributes its own ``warm_up``; every new numba module is added here.
 """
 
-from jude_kernel.shared import predicates
+from jude_kernel.shared import bvh, predicates
 
-MODULES = (predicates,)
+MODULES = (predicates, bvh)
 
 
 def warm_up() -> list[str]:
