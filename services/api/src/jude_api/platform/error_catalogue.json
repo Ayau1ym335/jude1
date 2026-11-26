@@ -602,6 +602,7 @@
       "http_source": "FS",
       "message_key": "error.non_finite_coordinates",
       "sources": [
+        "FN-KIO-02",
         "FN-KIO-05",
         "FN-SCN-02"
       ]
