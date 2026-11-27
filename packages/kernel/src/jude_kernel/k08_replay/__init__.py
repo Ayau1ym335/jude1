@@ -20,14 +20,31 @@ from jude_kernel.k08_replay.op_params import (
     validate_params,
 )
 from jude_kernel.k08_replay.params_hash import PARAMS_SCHEMA, parameter_document, params_sha256
+from jude_kernel.k08_replay.replay import (
+    BLOB_MISSING,
+    LoggedOp,
+    ReplayResult,
+    Stage,
+    StepReport,
+    StepStatus,
+    cache_key,
+    replay,
+)
 
 __all__ = [
+    "BLOB_MISSING",
     "GEOMETRY_MAGIC",
     "OP_UNKNOWN",
     "PARAMS_SCHEMA",
     "PARAM_INVALID",
     "PARAM_NOT_SET",
+    "LoggedOp",
     "ParamCheck",
+    "ReplayResult",
+    "Stage",
+    "StepReport",
+    "StepStatus",
+    "cache_key",
     "canonical_geometry_bytes",
     "check_request",
     "es_number",
@@ -39,6 +56,7 @@ __all__ = [
     "parse_json",
     "registry_fingerprint",
     "registry_problems",
+    "replay",
     "schema_problems",
     "validate_against",
     "validate_params",
