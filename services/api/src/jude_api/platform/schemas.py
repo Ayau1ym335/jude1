@@ -11,6 +11,15 @@ import uuid
 
 from pydantic import BaseModel, ConfigDict, Field
 
+StepTarget = Literal[
+    "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11", "S12",
+    "SIGN_IN", "ADMIN", "CURRENT",
+]  # fmt: skip
+STEP_DESCRIPTION = (
+    "Where the user resolves the code (FN-UIX-03): a WF-MVP-01 step S1..S12, SIGN_IN, ADMIN, "
+    "or CURRENT (the current screen)"
+)
+
 
 class Gate(BaseModel):
     """One failed gate or field (DS-24 ``gates[]``)."""
@@ -19,6 +28,8 @@ class Gate(BaseModel):
     code: str
     detail: str | None = None
     link: str | None = None
+    message_ru: str = Field(description="Russian message for code (NFR-05)")
+    step: StepTarget = Field(description=STEP_DESCRIPTION)
 
 
 class ErrorResponse(BaseModel):
@@ -28,6 +39,7 @@ class ErrorResponse(BaseModel):
     error: str = Field(description="Error catalogue code (error/1, IDR-05)")
     http_status: int
     message_ru: str = Field(description="User-facing message, Russian (NFR-05)")
+    step: StepTarget = Field(description=STEP_DESCRIPTION)
     gates: list[Gate]
     correlation_id: str | None = Field(
         description="Same value as the X-Correlation-ID response header (XC-FND-11)"
@@ -76,6 +88,10 @@ class JobStatusResponse(BaseModel):
     result: JobResultSummary | None
     error_code: str | None = Field(description="Error catalogue code when status is failed")
     message_ru: str | None = Field(description="Russian message for error_code (NFR-05)")
+    step: StepTarget | None = Field(
+        description="Where the user resolves error_code, or the rejected op's reason_code "
+        "(FN-UIX-03); null when neither is set"
+    )
     correlation_id: str | None
     created_at: datetime
     finished_at: datetime | None

@@ -133,6 +133,9 @@ def test_completion_criterion_lockout_after_five_failures(url: str) -> None:
     sixth = attempt(api, PASSWORD)
     assert (sixth.status_code, sixth.json()["error"]) == (423, "ACCOUNT_LOCKED")
     assert sixth.json()["gates"][0]["detail"] == (locked_at + timedelta(minutes=15)).isoformat()
+    # IT-FN-UIX-03: the gate carries its Russian message and the step that resolves it
+    assert (sixth.json()["step"], sixth.json()["gates"][0]["step"]) == ("SIGN_IN", "SIGN_IN")
+    assert sixth.json()["gates"][0]["message_ru"] == sixth.json()["message_ru"]
     clock.now = locked_at + timedelta(minutes=15, seconds=1)  # lock expired
     assert attempt(api, PASSWORD).status_code == 200
     types = [t for t, *_ in audit(url)]

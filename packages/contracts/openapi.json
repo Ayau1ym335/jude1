@@ -109,12 +109,35 @@
             "description": "User-facing message, Russian (NFR-05)",
             "title": "Message Ru",
             "type": "string"
+          },
+          "step": {
+            "description": "Where the user resolves the code (FN-UIX-03): a WF-MVP-01 step S1..S12, SIGN_IN, ADMIN, or CURRENT (the current screen)",
+            "enum": [
+              "S1",
+              "S2",
+              "S3",
+              "S4",
+              "S5",
+              "S6",
+              "S7",
+              "S8",
+              "S9",
+              "S10",
+              "S11",
+              "S12",
+              "SIGN_IN",
+              "ADMIN",
+              "CURRENT"
+            ],
+            "title": "Step",
+            "type": "string"
           }
         },
         "required": [
           "error",
           "http_status",
           "message_ru",
+          "step",
           "gates",
           "correlation_id"
         ],
@@ -150,10 +173,39 @@
               }
             ],
             "title": "Link"
+          },
+          "message_ru": {
+            "description": "Russian message for code (NFR-05)",
+            "title": "Message Ru",
+            "type": "string"
+          },
+          "step": {
+            "description": "Where the user resolves the code (FN-UIX-03): a WF-MVP-01 step S1..S12, SIGN_IN, ADMIN, or CURRENT (the current screen)",
+            "enum": [
+              "S1",
+              "S2",
+              "S3",
+              "S4",
+              "S5",
+              "S6",
+              "S7",
+              "S8",
+              "S9",
+              "S10",
+              "S11",
+              "S12",
+              "SIGN_IN",
+              "ADMIN",
+              "CURRENT"
+            ],
+            "title": "Step",
+            "type": "string"
           }
         },
         "required": [
-          "code"
+          "code",
+          "message_ru",
+          "step"
         ],
         "title": "Gate",
         "type": "object"
@@ -358,6 +410,35 @@
             "title": "Status",
             "type": "string"
           },
+          "step": {
+            "anyOf": [
+              {
+                "enum": [
+                  "S1",
+                  "S2",
+                  "S3",
+                  "S4",
+                  "S5",
+                  "S6",
+                  "S7",
+                  "S8",
+                  "S9",
+                  "S10",
+                  "S11",
+                  "S12",
+                  "SIGN_IN",
+                  "ADMIN",
+                  "CURRENT"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Where the user resolves error_code, or the rejected op's reason_code (FN-UIX-03); null when neither is set",
+            "title": "Step"
+          },
           "type": {
             "title": "Type",
             "type": "string"
@@ -372,6 +453,7 @@
           "result",
           "error_code",
           "message_ru",
+          "step",
           "correlation_id",
           "created_at",
           "finished_at"
