@@ -162,6 +162,12 @@ export interface components {
              * @description User-facing message, Russian (NFR-05)
              */
             message_ru: string;
+            /**
+             * Step
+             * @description Where the user resolves the code (FN-UIX-03): a WF-MVP-01 step S1..S12, SIGN_IN, ADMIN, or CURRENT (the current screen)
+             * @enum {string}
+             */
+            step: "S1" | "S2" | "S3" | "S4" | "S5" | "S6" | "S7" | "S8" | "S9" | "S10" | "S11" | "S12" | "SIGN_IN" | "ADMIN" | "CURRENT";
         };
         /**
          * Gate
@@ -174,6 +180,17 @@ export interface components {
             detail?: string | null;
             /** Link */
             link?: string | null;
+            /**
+             * Message Ru
+             * @description Russian message for code (NFR-05)
+             */
+            message_ru: string;
+            /**
+             * Step
+             * @description Where the user resolves the code (FN-UIX-03): a WF-MVP-01 step S1..S12, SIGN_IN, ADMIN, or CURRENT (the current screen)
+             * @enum {string}
+             */
+            step: "S1" | "S2" | "S3" | "S4" | "S5" | "S6" | "S7" | "S8" | "S9" | "S10" | "S11" | "S12" | "SIGN_IN" | "ADMIN" | "CURRENT";
         };
         /** HealthChecks */
         HealthChecks: {
@@ -262,6 +279,11 @@ export interface components {
              * @enum {string}
              */
             status: "queued" | "running" | "succeeded" | "failed";
+            /**
+             * Step
+             * @description Where the user resolves error_code, or the rejected op's reason_code (FN-UIX-03); null when neither is set
+             */
+            step: ("S1" | "S2" | "S3" | "S4" | "S5" | "S6" | "S7" | "S8" | "S9" | "S10" | "S11" | "S12" | "SIGN_IN" | "ADMIN" | "CURRENT") | null;
             /** Type */
             type: string;
         };

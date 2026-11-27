@@ -50,6 +50,17 @@ Each entry has a `kind`:
 
 Any catalogued code may appear in `gates[]`. For example, approval refused with `VALIDITY_FAILED` can list the kernel codes behind it.
 
+## Target steps (FN-UIX-03)
+
+Every code also has a target step in `jude_api/domain/uix/gate_steps.json` (gate-steps/1). The target step is where the user resolves the code:
+
+- `S1`…`S12`: the WF-MVP-01 steps (MVP_SCOPE §1);
+- `SIGN_IN`: sign-in;
+- `ADMIN`: administration (users, configuration);
+- `CURRENT`: the current screen (a field to fix, a reload or a retry).
+
+The DS-24 envelope carries the target as `step`, both at top level and on each `gates[]` entry. Each `gates[]` entry also carries its own `message_ru`. The job status (FN-JOB-03) carries `step` for its `error_code`. A new code needs a target step, and its Russian label is `step.<TARGET>` in `messages_ru.json`. `tests/test_uix_steps.py` enforces both.
+
 ## HTTP statuses
 
 - **`FS`, 53 codes:** the status is stated in the specification, for example `409 GATE_BLOCKED` or `CATEGORY_REQUIRED (422)`.

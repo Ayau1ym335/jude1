@@ -9,7 +9,8 @@
   change made by the worker is visible on the next poll (completion criterion).
 - The result is the kernel summary from the job-result/1 envelope (status, reason code,
   report, output names), never geometry. A failed job carries its catalogue code and the
-  Russian message (NFR-05).
+  Russian message (NFR-05) and the step that resolves the code (FN-UIX-03), so the view can
+  link to it when the job ends.
 """
 
 from typing import Annotated, Any
@@ -18,6 +19,7 @@ import uuid
 from fastapi import APIRouter, Depends, Response
 import psycopg
 
+from jude_api.domain.uix.steps import target_step
 from jude_api.platform.authz import ActionCheck
 from jude_api.platform.deps import CaseAccess, CaseAccessCheck, Db, Requester
 from jude_api.platform.errors import ApiError, catalogue, messages_ru
@@ -63,6 +65,7 @@ def job_status(
         "result": _summary(result),
         "error_code": error_code,
         "message_ru": messages_ru()[entry["message_key"]] if entry else None,
+        "step": target_step(error_code) if entry else None,
         "correlation_id": (payload or {}).get("correlation_id"),
         "created_at": created,
         "finished_at": finished,

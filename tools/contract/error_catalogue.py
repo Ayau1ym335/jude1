@@ -117,7 +117,7 @@ def consistency(catalogue: dict[str, Any], messages: dict[str, str]) -> list[str
         if not e.get("sources"):
             problems.append(f"{code}: no source (FS function, RTM requirement or task)")
     keys = {e.get("message_key") for e in codes.values()}
-    for key in sorted(set(messages) - keys):
+    for key in sorted({k for k in messages if k.startswith("error.")} - keys):
         problems.append(f"message {key} has no code")
     return problems
 

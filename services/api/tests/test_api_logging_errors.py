@@ -143,7 +143,7 @@ def test_error_bodies_follow_ds24_and_echo_no_input(logs: io.StringIO) -> None:
     client = _app()
     bad = client.post("/api/v1/_test/echo/x", json={"clinic_ref": NAME * 10, "count": IIN + "x"})
     body = bad.json()
-    assert set(body) == {"error", "http_status", "message_ru", "gates", "correlation_id"}
+    assert set(body) == {"error", "http_status", "message_ru", "step", "gates", "correlation_id"}
     assert body["error"] == "REQUEST_INVALID" and body["http_status"] == 422
     assert {g["detail"] for g in body["gates"]} == {"body.clinic_ref", "body.count"}
     assert NAME not in bad.text and IIN not in bad.text
@@ -154,7 +154,8 @@ def test_error_bodies_follow_ds24_and_echo_no_input(logs: io.StringIO) -> None:
     assert boom.json()["correlation_id"] == boom.headers["X-Correlation-ID"]
 
     refused = client.get("/api/v1/_test/refuse").json()
-    assert refused["gates"] == [{"code": "NOT_FOUND", "detail": "case", "link": None}]
+    gate = {"code": "NOT_FOUND", "detail": "case", "link": None}
+    assert refused["gates"] == [gate | {"message_ru": refused["message_ru"], "step": "CURRENT"}]
     assert refused["message_ru"]
 
 

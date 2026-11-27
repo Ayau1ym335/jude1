@@ -1,7 +1,7 @@
 """EH-API: every refusal and failure leaves the API as a DS-24 ErrorResponse (XC-FND-11).
 
-    {"error": CODE, "http_status": n, "message_ru": "...", "gates": [{code, detail, link}],
-     "correlation_id": "..."}
+    {"error": CODE, "http_status": n, "message_ru": "...", "step": TARGET,
+     "gates": [{code, detail, link, message_ru, step}], "correlation_id": "..."}
 
 - Domain code raises ``ApiError(code, gates=...)``; the code must be a catalogued ``refusal``
   (error_catalogue.json, error/1, TSK-API-02-A; frozen at M0 exit, IDR-05). Gates may carry any
@@ -11,7 +11,9 @@
   name the field location only; submitted values are never echoed.
 - Unhandled exceptions become 500 INTERNAL in the request middleware (it owns the correlation
   context); details stay out of the response and out of the log text.
-Message text comes from the Russian resource file by key (NFR-05).
+Message text comes from the Russian resource file by key (NFR-05). ``step`` is the workflow
+step that resolves the code (FN-UIX-03, ``jude_api.domain.uix``), so the UI can render each gate
+as a message plus a link to its step without knowing domain rules.
 """
 
 from collections.abc import Mapping, Sequence
@@ -26,6 +28,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from jude_api.domain.uix.steps import target_step
 from jude_platform import correlation
 
 HERE = Path(__file__).resolve().parent
@@ -73,13 +76,29 @@ class ApiError(Exception):
         return int(catalogue()[self.code]["http_status"])
 
 
+def message_of(code: str) -> str:
+    """The Russian message of a catalogued code (NFR-05)."""
+    return messages_ru()[catalogue()[code]["message_key"]]
+
+
+def gate_body(gate: Gate) -> dict[str, Any]:
+    return {
+        "code": gate.code,
+        "detail": gate.detail,
+        "link": gate.link,
+        "message_ru": message_of(gate.code),
+        "step": target_step(gate.code),
+    }
+
+
 def error_body(code: str, gates: Sequence[Gate] = ()) -> dict[str, Any]:
     entry = catalogue()[code]
     return {
         "error": code,
         "http_status": int(entry["http_status"]),
         "message_ru": messages_ru()[entry["message_key"]],
-        "gates": [{"code": g.code, "detail": g.detail, "link": g.link} for g in gates],
+        "step": target_step(code),
+        "gates": [gate_body(g) for g in gates],
         "correlation_id": correlation.current(),
     }
 

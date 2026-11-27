@@ -134,6 +134,7 @@ def test_success_shows_the_kernel_summary_and_correlation_id(url: str) -> None:
     }
     assert body["correlation_id"] == "ui-action-11112222"
     assert body["error_code"] is None and body["message_ru"] is None and body["progress"] is None
+    assert body["step"] is None
 
 
 def test_failed_job_shows_code_and_russian_message(url: str) -> None:
@@ -143,6 +144,7 @@ def test_failed_job_shows_code_and_russian_message(url: str) -> None:
     body = api(url, OWNER).get(f"{JOBS_PREFIX}/{jid}").json()
     assert body["status"] == "failed" and body["error_code"] == "SELF_INTERSECTION_CREATED"
     assert body["message_ru"] and body["result"]["reason_code"] == "SELF_INTERSECTION_CREATED"
+    assert body["step"] == "S8"  # IT-FN-UIX-03: the view links to the design step on completion
 
 
 def test_unknown_and_invisible_jobs_are_indistinguishable_404(url: str) -> None:
