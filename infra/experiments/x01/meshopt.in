@@ -1,0 +1,3 @@
+# meshoptimizer publishes source releases only (alpha, no wheels). Built in a separate stage
+# for this experiment only; the X-08 rule for shipped images is wheels only.
+meshoptimizer==0.2.30a0

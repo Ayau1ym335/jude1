@@ -1,0 +1,59 @@
+# XC-EXP-01 (X-01, TD-03, TD-11, TQ-05, TQ-07): determinism and tie handling of candidate
+# libraries. Builds the experiment image once, saves it as an artifact (the second host loads
+# the very same image), runs 100 fresh processes plus the agreement/tie run on a GitHub-hosted
+# runner. Manual, or on PRs that touch the experiment.
+name: x01-library-determinism
+
+on:
+  pull_request:
+    paths:
+      - "infra/experiments/x01/**"
+      - ".github/workflows/x01.yml"
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: "Fresh processes"
+        default: "100"
+
+permissions:
+  contents: read
+
+jobs:
+  x01:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.10.6"
+      - name: Generate the large phantoms (over 1.1 MB they are pinned by hash, not committed)
+        run: |
+          uv run --frozen jude-fixtures build
+          uv run --frozen jude-fixtures check
+      - name: Build experiment image
+        run: docker build --platform linux/amd64 -f infra/experiments/x01/Dockerfile -t jude-x01:exp .
+      - name: Save image (for the second host), in 50 MB parts with checksums
+        run: |
+          mkdir -p out/image
+          docker save jude-x01:exp | gzip -1 | split -b 50m -d -a 2 - out/image/x01-image.tar.gz.part-
+          docker image inspect --format '{{.Id}}' jude-x01:exp > out/image/x01-image-id.txt
+          (cd out/image && sha256sum x01-image.tar.gz.part-* > SHA256SUMS)
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: x01-image
+          path: out/image
+          retention-days: 30
+          compression-level: 0
+      - name: Run X-01
+        env:
+          RUNS: ${{ inputs.runs || '100' }}
+        run: bash infra/experiments/x01/run.sh jude-x01:exp out/ci "$RUNS"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: x01-ci
+          path: out/ci
+          retention-days: 90
