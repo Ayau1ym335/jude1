@@ -1,0 +1,98 @@
+{
+ "groups": {
+  "closest/libigl/ellipsoid_asym_s6": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "closest/libigl/icosphere_s4_r75": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "closest/libigl/icosphere_s6_r75": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "closest/libigl/torus_R60_r20": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "closest/open3d/ellipsoid_asym_s6": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "closest/open3d/icosphere_s4_r75": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "closest/open3d/icosphere_s6_r75": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "closest/open3d/torus_R60_r20": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "closest/own/ellipsoid_asym_s6": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "closest/own/icosphere_s4_r75": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "closest/own/icosphere_s6_r75": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "closest/own/torus_R60_r20": {
+   "face": true,
+   "point": true,
+   "sqdist": true
+  },
+  "lod/fast_simplification/ellipsoid_asym_s6": {
+   "F": true,
+   "V": true
+  },
+  "lod/fast_simplification/icosphere_s4_r75": {
+   "F": true,
+   "V": true
+  },
+  "lod/fast_simplification/icosphere_s6_r75": {
+   "F": true,
+   "V": true
+  },
+  "lod/fast_simplification/torus_R60_r20": {
+   "F": true,
+   "V": true
+  },
+  "lod/meshoptimizer/ellipsoid_asym_s6": {
+   "F": true,
+   "V": true
+  },
+  "lod/meshoptimizer/icosphere_s4_r75": {
+   "F": true,
+   "V": true
+  },
+  "lod/meshoptimizer/icosphere_s6_r75": {
+   "F": true,
+   "V": true
+  },
+  "lod/meshoptimizer/torus_R60_r20": {
+   "F": true,
+   "V": true
+  }
+ },
+ "groups_identical": 20,
+ "groups_total": 20
+}

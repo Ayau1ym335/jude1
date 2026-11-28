@@ -1,0 +1,7 @@
+{
+  "ci_image_id": "sha256:2b5cc866dd22f0048ee426ca45cb67275a924f3ca1bfa9dd37462ffdf78519b7",
+  "config_digest_in_saved_tar": "sha256:2b5cc866dd22f0048ee426ca45cb67275a924f3ca1bfa9dd37462ffdf78519b7",
+  "local_image_id_reported": "sha256:1aa37b5a22d9b377f6c745082c30f4359c9b4171f5654b547613c2bd056f86be",
+  "layers": 16,
+  "layer_diff_ids_identical": true
+}
