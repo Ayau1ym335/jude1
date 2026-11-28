@@ -26,19 +26,25 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.10.6"
+      - name: Generate the large phantoms (over 1.1 MB they are pinned by hash, not committed)
+        run: |
+          uv run --frozen jude-fixtures build
+          uv run --frozen jude-fixtures check
       - name: Build experiment image
         run: docker build --platform linux/amd64 -f infra/experiments/x01/Dockerfile -t jude-x01:exp .
-      - name: Save image (for the second host)
+      - name: Save image (for the second host), in 50 MB parts with checksums
         run: |
-          mkdir -p out
-          docker save jude-x01:exp | gzip -1 > out/x01-image.tar.gz
-          docker image inspect --format '{{.Id}}' jude-x01:exp > out/x01-image-id.txt
+          mkdir -p out/image
+          docker save jude-x01:exp | gzip -1 | split -b 50m -d -a 2 - out/image/x01-image.tar.gz.part-
+          docker image inspect --format '{{.Id}}' jude-x01:exp > out/image/x01-image-id.txt
+          (cd out/image && sha256sum x01-image.tar.gz.part-* > SHA256SUMS)
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: x01-image
-          path: |
-            out/x01-image.tar.gz
-            out/x01-image-id.txt
+          path: out/image
           retention-days: 30
           compression-level: 0
       - name: Run X-01
