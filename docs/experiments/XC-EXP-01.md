@@ -6,7 +6,7 @@
 | Requirements | VER-07 (determinism, TD-19 / ADR-010), NFR-03 |
 | Date | 2026-11-28 |
 | Scope | Python 3.12 · linux/amd64 · closest point: own BVH (XC-SHR-02) vs libigl vs Open3D · display LOD: fast-simplification vs meshoptimizer · smoothing: own windowed-sinc only (VTK excluded by IDR-11) |
-| Status | **Proposed.** Recommendation §6 waits for the engineering lead's signature (§7). |
+| Status | **Accepted.** The engineering lead signed recommendation §6 on 2026-11-28 (§7). |
 
 ## 1. Question
 
@@ -166,7 +166,16 @@ The table shows the second call. The first call is within a few per cent of it, 
 
 | Role | Name | Date | Decision |
 |---|---|---|---|
-| Engineering lead | | | ☐ Accept §6 ☐ Accept with changes ☐ Reject |
+| Engineering lead | Ayau | 2026-11-28 | ☑ Accept §6 ☐ Accept with changes ☐ Reject |
+
+**Form of approval:** a written statement in the implementation session on 2026-11-28: "accept". No changes to §6 were requested.
+
+**Effect:**
+- **TQ-05 is closed.** The own numba BVH (XC-SHR-02) is the kernel's spatial index for every hashed or recorded query. libigl stays a CI oracle only. Open3D is not adopted.
+- **TQ-07 is closed.** fast-simplification 0.2.0 produces the display LOD (FN-KOP-04). meshoptimizer is not adopted while it has no wheels.
+- **TD-03 and TD-11** carry these choices into the SOUP list at XC-EXP-LOCK.
+- **Where the rest lands:** §6.4 (BVH performance) goes to BM-01. §6.5 (the numba cache on a read-only root) goes to the worker image task that ships the cache. §6.6 (smoothing) goes to FN-KOP-12.
+- **Design documents:** updating TECHNICAL_DECISIONS and TECHNICAL_OPEN_QUESTIONS to the new status is document-owner work (XC-FND-10).
 
 ## 8. Reproduce
 
