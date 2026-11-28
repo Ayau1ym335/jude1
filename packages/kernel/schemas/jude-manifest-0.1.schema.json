@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jude.invalid/schemas/jude-manifest-0.1.schema.json",
+  "title": "Jude export manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "approval",
+    "case_id",
+    "created_at_utc",
+    "design_version",
+    "files",
+    "frame",
+    "index_values",
+    "intended_use_statement",
+    "operations",
+    "reimport_check",
+    "schema",
+    "software",
+    "source_scan_sha256",
+    "template_ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "jude-manifest/0.1"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "design_version": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "number"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "number": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "format",
+          "name",
+          "sha256",
+          "size_bytes",
+          "units"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "format": {
+            "const": "stl-binary"
+          },
+          "units": {
+            "const": "mm"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 84
+          }
+        }
+      }
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "config_version",
+        "definition_ref",
+        "matrix",
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "const": "F_export"
+        },
+        "matrix": {
+          "type": "array",
+          "minItems": 16,
+          "maxItems": 16,
+          "items": {
+            "type": "number"
+          }
+        },
+        "definition_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "config_version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "source_scan_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "category",
+          "effect",
+          "name",
+          "op_version",
+          "params",
+          "seq",
+          "type"
+        ],
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "op_version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "category": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "params": {
+            "type": "object"
+          },
+          "effect": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "device_inner_surface",
+              "positive_surface"
+            ],
+            "properties": {
+              "positive_surface": {
+                "enum": [
+                  "outward",
+                  "inward",
+                  "unchanged"
+                ]
+              },
+              "device_inner_surface": {
+                "enum": [
+                  "more space",
+                  "less space",
+                  "unchanged"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "template_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approval_id",
+        "approved_at_utc",
+        "geometry_sha256",
+        "params_sha256"
+      ],
+      "properties": {
+        "approval_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "geometry_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "params_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "approved_at_utc": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,6})?Z$"
+        }
+      }
+    },
+    "reimport_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_vertex_deviation_mm",
+        "passed",
+        "tolerance_mm",
+        "triangle_count_equal"
+      ],
+      "properties": {
+        "passed": {
+          "type": "boolean"
+        },
+        "triangle_count_equal": {
+          "type": "boolean"
+        },
+        "max_vertex_deviation_mm": {
+          "type": "number",
+          "minimum": 0
+        },
+        "tolerance_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "index_values": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "definition_id",
+          "definition_version",
+          "name",
+          "unit",
+          "value"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "definition_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "definition_version": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "software": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "build",
+        "kernel_version"
+      ],
+      "properties": {
+        "build": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kernel_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "created_at_utc": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,6})?Z$"
+    },
+    "intended_use_statement": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
