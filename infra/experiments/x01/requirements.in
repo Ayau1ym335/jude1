@@ -1,0 +1,9 @@
+# XC-EXP-01 (X-01): candidate libraries for closest point (TQ-05) and display LOD (TQ-07),
+# next to the own kernel (numpy/numba/jsonschema at the shipped versions).
+# open3d-cpu: the CPU-only build of Open3D (no CUDA); the GPU build pulls the same Python deps.
+numpy==2.5.4
+numba==0.68.1
+jsonschema==4.26.0
+libigl==2.6.3
+open3d-cpu==0.20.0
+fast-simplification==0.2.0
